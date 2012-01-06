@@ -2,6 +2,8 @@
 package com.exphc.FreeTrade;
 
 import java.util.logging.Logger;
+import java.util.regex.*;
+
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
@@ -35,6 +37,7 @@ public class FreeTrade extends JavaPlugin {
         } else {
             // TODO: get player from name as first argument
             sender.sendMessage("this command can only be run by a player");
+            //return false;
         }
 
         if (args.length < 2) {
@@ -48,6 +51,16 @@ public class FreeTrade extends JavaPlugin {
         } else {
             givingString = args[1];
         }
+
+        Pattern p = Pattern.compile("^(\\d*)(#?)(\\p{Alpha}+)(!?)$");
+        Matcher m = p.matcher(wantedString);
+        while(m.find()) {
+            sender.sendMessage("quantity = " + m.group(1));
+            sender.sendMessage("isStacks = " + m.group(2));
+            sender.sendMessage("name = " + m.group(3));
+            sender.sendMessage("isExact = " + m.group(4));
+        }
+
         
         Material wanted, giving;
 
@@ -76,6 +89,7 @@ public class FreeTrade extends JavaPlugin {
 
         return false;
     }
+
 }
 
 
