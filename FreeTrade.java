@@ -30,11 +30,6 @@ public class FreeTrade extends JavaPlugin {
             return showOutstanding(sender);
         }
 
-        // /want help
-        if (args[0].equalsIgnoreCase("help")) {
-            return showHelp(sender);
-        }
-            
         if (sender instanceof Player) {
             player = (Player)sender;
         } else {
@@ -60,13 +55,6 @@ public class FreeTrade extends JavaPlugin {
 
     public boolean showOutstanding(CommandSender sender) {
         sender.sendMessage("TODO: show open orders");
-
-        return false;
-    }
-
-    public boolean showHelp(CommandSender sender) {
-        sender.sendMessage("TODO: show help");
-        // TODO: hook into built-in bukkit help? /help?
 
         return false;
     }
