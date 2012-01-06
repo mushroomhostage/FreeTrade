@@ -3,6 +3,7 @@ package com.exphc.FreeTrade;
 
 import java.util.logging.Logger;
 import java.util.regex.*;
+import java.util.ArrayList;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.command.*;
@@ -75,13 +76,19 @@ class Order
 
 public class FreeTrade extends JavaPlugin {
     Logger log = Logger.getLogger("Minecraft");
+    ArrayList<Order> orders;
 
     public void onEnable() {
         log.info("FreeTrade enabled");
+
+        // TODO: load from file
+        orders = new ArrayList<Order>();
     }
 
     public void onDisable() {
         log.info("FreeTrade disabled");
+
+        // TODO: save to file
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
@@ -121,11 +128,17 @@ public class FreeTrade extends JavaPlugin {
 
         sender.sendMessage(order.toString());
 
+        orders.add(order);
+
         return true;
     }
 
     public boolean showOutstanding(CommandSender sender) {
         sender.sendMessage("TODO: show open orders");
+
+        for (int i = 0; i < orders.size(); i++) {
+            sender.sendMessage(i + ". " + orders.get(i));
+        }
 
         return false;
     }
