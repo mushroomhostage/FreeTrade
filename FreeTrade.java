@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
+import org.bukkit.*;
 
 public class FreeTrade extends JavaPlugin {
     Logger log = Logger.getLogger("Minecraft");
@@ -19,7 +20,6 @@ public class FreeTrade extends JavaPlugin {
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         Player player;
-        String wanted, giving;
 
         if (!cmd.getName().equalsIgnoreCase("want")) {
             return false;
@@ -41,14 +41,32 @@ public class FreeTrade extends JavaPlugin {
             return false;
         }
 
-        wanted = args[0];
+        String wantedString, givingString;
+        wantedString = args[0];
         if (args[1].equalsIgnoreCase("for")) {
-            giving = args[2];
+            givingString = args[2];
         } else {
-            giving = args[1];
+            givingString = args[1];
+        }
+        
+        Material wanted, giving;
+
+        // TODO: really need better material matching names, shorthands
+        // diamond_pickaxe, too long. diamondpick, dpick, would be better.
+        // iron_ingot, want just iron or i. shortest match: cobblestone, cobble. common: diamond, d. plural.
+        wanted = Material.matchMaterial(wantedString);
+        if (wanted == null) {
+            sender.sendMessage("Invalid item wanted: " + wantedString);
+            return false;
         }
 
-        sender.sendMessage("you want " + wanted + " for " + giving);
+        giving = Material.matchMaterial(givingString);
+        if (giving == null) {
+            sender.sendMessage("Invalid item giving: " + givingString);
+            return false;
+        }
+
+        sender.sendMessage("you want " + wanted.toString() + " for " + giving.toString());
 
         return true;
     }
