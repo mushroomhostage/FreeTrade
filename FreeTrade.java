@@ -74,21 +74,40 @@ class Order
     }
 }
 
+class Market
+{
+    ArrayList<Order> orders;
+
+    public Market() {
+        // TODO: load from file, save to file
+        orders = new ArrayList<Order>();
+    }
+
+    public boolean showOutstanding(CommandSender sender) {
+        sender.sendMessage("TODO: show open orders");
+
+        for (int i = 0; i < orders.size(); i++) {
+            sender.sendMessage(i + ". " + orders.get(i));
+        }
+
+        return false;
+    }
+
+    public void placeOrder(Order order) {
+        orders.add(order);
+    }
+}
+
 public class FreeTrade extends JavaPlugin {
     Logger log = Logger.getLogger("Minecraft");
-    ArrayList<Order> orders;
+    Market market = new Market();
 
     public void onEnable() {
         log.info("FreeTrade enabled");
-
-        // TODO: load from file
-        orders = new ArrayList<Order>();
     }
 
     public void onDisable() {
         log.info("FreeTrade disabled");
-
-        // TODO: save to file
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
@@ -100,7 +119,7 @@ public class FreeTrade extends JavaPlugin {
 
         // /want
         if (args.length == 0) {
-            return showOutstanding(sender);
+            return market.showOutstanding(sender);
         }
 
         if (sender instanceof Player) {
@@ -128,21 +147,10 @@ public class FreeTrade extends JavaPlugin {
 
         sender.sendMessage(order.toString());
 
-        orders.add(order);
+        market.placeOrder(order);
 
         return true;
     }
-
-    public boolean showOutstanding(CommandSender sender) {
-        sender.sendMessage("TODO: show open orders");
-
-        for (int i = 0; i < orders.size(); i++) {
-            sender.sendMessage(i + ". " + orders.get(i));
-        }
-
-        return false;
-    }
-
 }
 
 
