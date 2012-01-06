@@ -12,18 +12,15 @@ import org.bukkit.*;
 class ItemSpec
 {
     int quantity;
-    boolean exact;
     Material material;
 
     public ItemSpec(String s) {
-        Pattern p = Pattern.compile("^(\\d*)(#?)(\\p{Alpha}+)(!?)$");
+        Pattern p = Pattern.compile("^(\\d*)([# -]?)(\\p{Alpha}+)$");
         Matcher m = p.matcher(s);
         while(m.find()) {
             String quantityString = m.group(1);
             String isStackString = m.group(2);
             String nameString = m.group(3);
-            String isExactString = m.group(4);
-
 
             quantity = Integer.parseInt(quantityString);
             if (quantity < 0) {
@@ -38,17 +35,14 @@ class ItemSpec
                 // TODO: exception?
             }
 
-            if (isStackString.length() != 0) {
+            if (isStackString.equals("#")) {
                 quantity *= material.getMaxStackSize();
             }
-
-            exact = isExactString.length() != 0;
-
         }
     }
 
     public String toString() {
-        return quantity + " " + material + (exact ? " (exact) " : "");
+        return quantity + " " + material;
     }
 }
 
@@ -56,15 +50,26 @@ class Order
 {
     Player player;
     ItemSpec want, give;
+    boolean exact;
 
     public Order(Player p, String wantString, String giveString) {
         player = p;
+
+        if (wantString.contains("!")) {
+            exact = true;
+            wantString = wantString.replace("!", "");
+        }
+        if (giveString.contains("!")) {
+            exact = true;
+            giveString = giveString.replace("!", "");
+        }
+
         want = new ItemSpec(wantString);
         give = new ItemSpec(giveString);
     }
 
     public String toString() {
-        return player + " wants " + want + " for " + give;
+        return player + " wants " + want + " for " + give + (exact ? " (exact)" : "");
     }
 }
 
