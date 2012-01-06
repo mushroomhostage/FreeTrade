@@ -9,6 +9,49 @@ import org.bukkit.command.*;
 import org.bukkit.entity.*;
 import org.bukkit.*;
 
+class ItemSpec
+{
+    int quantity;
+    boolean exact;
+    Material material;
+
+    public ItemSpec(String s) {
+        Pattern p = Pattern.compile("^(\\d*)(#?)(\\p{Alpha}+)(!?)$");
+        Matcher m = p.matcher(s);
+        while(m.find()) {
+            String quantityString = m.group(1);
+            String isStackString = m.group(2);
+            String nameString = m.group(3);
+            String isExactString = m.group(4);
+
+
+            quantity = Integer.parseInt(quantityString);
+            if (quantity < 0) {
+                quantity = 1;
+            }
+
+            // TODO: really need better material matching names, shorthands
+            // diamond_pickaxe, too long. diamondpick, dpick, would be better.
+            // iron_ingot, want just iron or i. shortest match: cobblestone, cobble. common: diamond, d. plural.
+            material = Material.matchMaterial(nameString);
+            if (material == null) {
+                // TODO: exception?
+            }
+
+            if (isStackString.length() != 0) {
+                quantity *= material.getMaxStackSize();
+            }
+
+            exact = isExactString.length() != 0;
+
+        }
+    }
+
+    public String toString() {
+        return quantity + " " + material + (exact ? " (exact) " : "");
+    }
+}
+
 public class FreeTrade extends JavaPlugin {
     Logger log = Logger.getLogger("Minecraft");
 
@@ -52,32 +95,8 @@ public class FreeTrade extends JavaPlugin {
             givingString = args[1];
         }
 
-        Pattern p = Pattern.compile("^(\\d*)(#?)(\\p{Alpha}+)(!?)$");
-        Matcher m = p.matcher(wantedString);
-        while(m.find()) {
-            sender.sendMessage("quantity = " + m.group(1));
-            sender.sendMessage("isStacks = " + m.group(2));
-            sender.sendMessage("name = " + m.group(3));
-            sender.sendMessage("isExact = " + m.group(4));
-        }
-
-        
-        Material wanted, giving;
-
-        // TODO: really need better material matching names, shorthands
-        // diamond_pickaxe, too long. diamondpick, dpick, would be better.
-        // iron_ingot, want just iron or i. shortest match: cobblestone, cobble. common: diamond, d. plural.
-        wanted = Material.matchMaterial(wantedString);
-        if (wanted == null) {
-            sender.sendMessage("Invalid item wanted: " + wantedString);
-            return false;
-        }
-
-        giving = Material.matchMaterial(givingString);
-        if (giving == null) {
-            sender.sendMessage("Invalid item giving: " + givingString);
-            return false;
-        }
+        ItemSpec wanted = new ItemSpec(wantedString);
+        ItemSpec giving = new ItemSpec(givingString);
 
         sender.sendMessage("you want " + wanted.toString() + " for " + giving.toString());
 
