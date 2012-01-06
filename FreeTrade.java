@@ -52,6 +52,22 @@ class ItemSpec
     }
 }
 
+class Order
+{
+    Player player;
+    ItemSpec want, give;
+
+    public Order(Player p, String wantString, String giveString) {
+        player = p;
+        want = new ItemSpec(wantString);
+        give = new ItemSpec(giveString);
+    }
+
+    public String toString() {
+        return player + " wants " + want + " for " + give;
+    }
+}
+
 public class FreeTrade extends JavaPlugin {
     Logger log = Logger.getLogger("Minecraft");
 
@@ -80,6 +96,7 @@ public class FreeTrade extends JavaPlugin {
         } else {
             // TODO: get player from name as first argument
             sender.sendMessage("this command can only be run by a player");
+            player = null;
             //return false;
         }
 
@@ -87,18 +104,17 @@ public class FreeTrade extends JavaPlugin {
             return false;
         }
 
-        String wantedString, givingString;
-        wantedString = args[0];
+        String wantString, giveString;
+        wantString = args[0];
         if (args[1].equalsIgnoreCase("for")) {
-            givingString = args[2];
+            giveString = args[2];
         } else {
-            givingString = args[1];
+            giveString = args[1];
         }
 
-        ItemSpec wanted = new ItemSpec(wantedString);
-        ItemSpec giving = new ItemSpec(givingString);
+        Order order = new Order(player, wantString, giveString);
 
-        sender.sendMessage("you want " + wanted.toString() + " for " + giving.toString());
+        sender.sendMessage(order.toString());
 
         return true;
     }
