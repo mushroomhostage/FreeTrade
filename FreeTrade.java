@@ -25,11 +25,25 @@ public class FreeTrade extends JavaPlugin {
             return false;
         }
 
+        // /want
+        if (args.length == 0) {
+            return showOutstanding(sender);
+        }
+
+        // /want help
+        if (args[0].equalsIgnoreCase("help")) {
+            return showHelp(sender);
+        }
+            
         if (sender instanceof Player) {
             player = (Player)sender;
         } else {
             // TODO: get player from name as first argument
             sender.sendMessage("this command can only be run by a player");
+        }
+
+        if (args.length < 2) {
+            return false;
         }
 
         wanted = args[0];
@@ -42,6 +56,19 @@ public class FreeTrade extends JavaPlugin {
         sender.sendMessage("you want " + wanted + " for " + giving);
 
         return true;
+    }
+
+    public boolean showOutstanding(CommandSender sender) {
+        sender.sendMessage("TODO: show open orders");
+
+        return false;
+    }
+
+    public boolean showHelp(CommandSender sender) {
+        sender.sendMessage("TODO: show help");
+        // TODO: hook into built-in bukkit help? /help?
+
+        return false;
     }
 }
 
