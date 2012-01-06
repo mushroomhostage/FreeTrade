@@ -112,20 +112,20 @@ class Market
             // TODO: durability, enchantment checks
             if (newOrder.give.material == oldOrder.want.material &&
                 newOrder.want.material == oldOrder.give.material) { 
-
     
-                // TODO: quantity check
+                // TODO: quantity check, generalize to other "betterness"
+                if (newOrder.give.quantity >= oldOrder.want.quantity) {
 
-                // They got what they want
-                log.info(newOrder.player.getDisplayName() + " received " + newOrder.want + " from " + oldOrder.player.getDisplayName());
-                log.info(oldOrder.player.getDisplayName() + " received " + oldOrder.want + " from " + newOrder.player.getDisplayName());
+                    // They got what they want
+                    log.info(newOrder.player.getDisplayName() + " received " + newOrder.want + " from " + oldOrder.player.getDisplayName());
+                    log.info(oldOrder.player.getDisplayName() + " received " + newOrder.give + " from " + newOrder.player.getDisplayName());
 
-                // TODO: actually exchange
-                //newOrder.player.remove(ItemStack)..
+                    // TODO: actually exchange
+                    //newOrder.player.remove(ItemStack)..
 
-                // TODO: remove oldOrder from orders
-
-                return true;
+                    // TODO: remove oldOrder from orders, if complete, or add partial if incomplete
+                    return true;
+                }
             }
         }
 
