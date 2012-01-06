@@ -70,13 +70,14 @@ class Order
     }
 
     public String toString() {
-        return player + " wants " + want + " for " + give + (exact ? " (exact)" : "");
+        return player.getDisplayName() + " wants " + want + " for " + give + (exact ? " (exact)" : "");
     }
 }
 
 class Market
 {
     ArrayList<Order> orders;
+    Logger log = Logger.getLogger("Minecraft");
 
     public Market() {
         // TODO: load from file, save to file
@@ -94,7 +95,41 @@ class Market
     }
 
     public void placeOrder(Order order) {
+        if (matchOrder(order)) {
+            // Executed
+            return;
+        }
+
+        // Add to outstanding to match with future order 
         orders.add(order);
+    }
+
+    public boolean matchOrder(Order newOrder) {
+        for (int i = 0; i < orders.size(); i++) {
+            Order oldOrder = orders.get(i);
+
+            // Are they giving what anyone else wants?
+            // TODO: durability, enchantment checks
+            if (newOrder.give.material == oldOrder.want.material &&
+                newOrder.want.material == oldOrder.give.material) { 
+
+    
+                // TODO: quantity check
+
+                // They got what they want
+                log.info(newOrder.player.getDisplayName() + " received " + newOrder.want + " from " + oldOrder.player.getDisplayName());
+                log.info(oldOrder.player.getDisplayName() + " received " + oldOrder.want + " from " + newOrder.player.getDisplayName());
+
+                // TODO: actually exchange
+                //newOrder.player.remove(ItemStack)..
+
+                // TODO: remove oldOrder from orders
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 
@@ -112,6 +147,7 @@ public class FreeTrade extends JavaPlugin {
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         Player player;
+        int n = 0;
 
         if (!cmd.getName().equalsIgnoreCase("want")) {
             return false;
@@ -125,22 +161,25 @@ public class FreeTrade extends JavaPlugin {
         if (sender instanceof Player) {
             player = (Player)sender;
         } else {
-            // TODO: get player from name as first argument
-            sender.sendMessage("this command can only be run by a player");
-            player = null;
-            //return false;
+            // Get player name from first argument
+            player = Bukkit.getServer().getPlayer(args[0]);
+            if (player == null) {
+                sender.sendMessage("no such player");
+                return false;
+            }
+            n++;
         }
 
-        if (args.length < 2) {
+        if (args.length < 2+n) {
             return false;
         }
 
         String wantString, giveString;
-        wantString = args[0];
-        if (args[1].equalsIgnoreCase("for")) {
-            giveString = args[2];
+        wantString = args[n];
+        if (args[n+1].equalsIgnoreCase("for")) {
+            giveString = args[n+2];
         } else {
-            giveString = args[1];
+            giveString = args[n+1];
         }
 
         Order order = new Order(player, wantString, giveString);
