@@ -108,8 +108,12 @@ class ItemQuery
         throw new UsageException("Unrecognized item specification: " + s);
     }
 
-    public static void dmgMeansSubtype(Material m) {
-        switch (typeId) {
+    // Return whether the "damage"(durability) value is overloaded to mean
+    // a different kind of material, instead of actual damage on a tool
+    public static boolean dmgMeansSubtype(Material m) {
+        // TODO: should this check be inverted, just checking for tools and returning true instead?
+        switch (m) {
+        // Blocks
         case SAPLING:
         case LEAVES:
         case LOG:
@@ -118,10 +122,65 @@ class ItemQuery
         case STEP:
         case SMOOTH_BRICK:
 
+        // Items
         case COAL:
         case INK_SACK:
         case POTION:
-        //case SPAWNER_EGG:     // TODO: w49
+        case MAP:           // for some reason not indicated on http://www.minecraftwiki.net/wiki/Data_values
+        case MONSTER_EGGS:
+
+        // Materials not legitimately acquirable in inventory, but here for completeness
+        // (refer to Material enum, entries with MaterialData classes)
+        // See http://www.minecraftwiki.net/wiki/Data_values#Data for their data value usage
+
+        // Note that environmental data (age,orientation,etc.) on IDs used as both blocks
+        // but not required for items does NOT cause true to be returned here.
+        case WATER:                // item: WATER_BUCKET
+        case STATIONARY_WATER:
+        case LAVA:                 // item: LAVA_BUCKET
+        case STATIONARY_LAVA:
+        //case DISPENSER:          // orientation, but not relevant to item
+        case BED_BLOCK:            // item: BED
+        //case POWERED_RAIL:       // whether powered, but not relevant to item
+        //case DETECTOR_RAIL:      // whether detecting, but not relevant to item
+        case PISTON_STICKY_BASE:
+        case LONG_GRASS:           // TODO: http://www.minecraftwiki.net/wiki/Data_values#Tall_Grass, can enchanted tool acquire?
+        case PISTON_BASE:
+        case PISTON_EXTENSION:
+        //case TORCH:               // orientation, but not relevant to item
+        //case WOOD_STAIRS:         // orientation, but not relevant to item   
+        case REDSTONE_WIRE:         // item: REDSTONE
+        case CROPS:                 // item: SEEDS
+        case SOIL:                  // TODO: can silk touch acquire farmland?
+        //case FURNANCE:            // orientation, but not relevant to item
+        //case BURNING_FURNANCE:    // TODO: supposedly silk touch can acquire?
+        case SIGN_POST:             // item: SIGN
+        case WOODEN_DOOR:           // item: WOOD_DOOR (confusing!)
+        //case LADDER:              // orientation, but not relevant to item
+        //case RAILS:               // orientation, but not relevant to item 
+        //case COBBLESTONE_STAIRS:  // orientation, but not relevant to item
+        case WALL_SIGN:             // item: SIGN
+        //case LEVER:               // orientation & state, but not relevant to item
+        //case STONE_PLATE:         // state, but not relevant to item
+        case IRON_DOOR_BLOCK:       // item: IRON_DOOR
+        //case WOOD_PLATE:          // state, but not relevant to item
+        case REDSTONE_TORCH_OFF:  
+        //case REDSTONE_TORCH_ON:   // orientation, but not relevant to item
+        //case STONE_BUTTON:        // state, but not relevant to item
+        //case CACTUS:              // age, but not relevant to item
+        case SUGAR_CANE_BLOCK:      // item: 338
+        //case PUMPKIN:             // orientation, but not relevant to item
+        //case JACK_O_LATERN:       // orientation, but not relevant to item
+        case CAKE_BLOCK:            // item: CAKE
+        case DIODE_BLOCK_OFF:       // item: DIODE
+        case DIODE_BLOCK_ON:        // item: DIODE
+        //case TRAP_DOOR:           // orientation, but not relevant to type
+        //case ENDER_PORTAL_FRAME:    // TODO: has data, but no class in Bukkit? there are others
+            return true;
+
+        default:
+            return false;
+        }
     }
 }
 
