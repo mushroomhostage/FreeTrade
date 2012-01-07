@@ -11,6 +11,8 @@ import org.bukkit.plugin.*;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
+import org.bukkit.configuration.*;
+import org.bukkit.configuration.file.*;
 import org.bukkit.*;
 
 import info.somethingodd.bukkit.OddItem.OddItem;
@@ -320,12 +322,13 @@ class EnchantQuery
         }
     }
 
-    static Enchantment oneFromName(String n) {
-        switch (name)
-        {
-        // Armor
-        case "protection": 
-            return PROTECTION_ENVIRONMENTAL;
+    static Enchantment oneFromName(String name) {
+        YamlConfiguration c = new YamlConfiguration();
+        try {
+            c.loadFromString("enchantments:\n"+
+"- PROTECTION_ENVIRONMENTAL: protection");
+        }
+        /*
         case "fire-protection":
         case "fireprotection": 
         case "fire":
@@ -389,9 +392,19 @@ class EnchantQuery
             return LOOT_BONUS_BLOCKS;
         default:
             return null;
+        }*/
+
+        } catch (InvalidConfigurationException e) {
+            log.severe("Error reading enchantment names: " + e);
         }
+
+        List<Map<String, Object>> mapList = c.getMapList("enchantments");
+
+        log.info("Foo="+c.get("foo"));
+
     }
 
+/*
     static int levelFromString(String s) {
         switch (s)
         {
@@ -404,7 +417,7 @@ class EnchantQuery
         default:
             return Integer.parseInt(s);
         }
-    }
+    }*/
 }
 
 class Order
@@ -595,40 +608,11 @@ public class FreeTrade extends JavaPlugin {
     Market market = new Market();
 
     public void onEnable() {
-        loadConfig();
-
         log.info(getDescription().getName() + " enabled");
     }
 
     public void onDisable() {
         log.info(getDescription().getName() + " disabled");
-    }
-
-    private void loadConfig() {
-        String filename = getDataFolder() + System.getProperty("file.separator") + "FreeTrade.yml";
-        File file = new File(filename);
-        
-        if (!file.exists()) {
-            if (!saveConfig(file)) {
-                throw new Exception("Couldn't save configuration file");
-            }
-
-        }
-    }
-
-    private void saveConfig(File file) {
-        FileWriter writer;
-
-        if (!file.getParentFile().exists()) {
-            file.getParentFile().mkdir();
-        }
-        try {
-            writer = new FileWriter(file);
-        } catch (IOException e) {
-            log.severe("Couldn't save config file: " + e.getMessage());
-            Bukkit.getServer().getPluginManager.disablePlugin(this);
-            return false;
-        }
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
