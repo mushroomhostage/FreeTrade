@@ -48,9 +48,13 @@ class Order
             String isStackString = m.group(2);
             String nameString = m.group(3);
 
-            quantity = Integer.parseInt(quantityString);
-            if (quantity < 0) {
+            if (quantityString.equals("")) {
                 quantity = 1;
+            } else {
+                quantity = Integer.parseInt(quantityString);
+                if (quantity < 0) {
+                    throw new UsageException("Invalid quantity: " + quantity);
+                }
             }
 
             // TODO: really need better material matching names, shorthands
@@ -68,7 +72,20 @@ class Order
             return new ItemStack(material, quantity); // TODO: damage, data, enchantments
         }
 
-        return null;
+        throw new UsageException("Unrecognized item specification: " + s);
+    }
+}
+
+class UsageException extends RuntimeException
+{
+    public String message;
+
+    public UsageException(String msg) {
+        message = msg;
+    }
+
+    public String toString() {
+        return "UsageException: " + message;
     }
 }
 
