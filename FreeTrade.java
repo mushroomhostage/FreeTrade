@@ -4,6 +4,7 @@ package com.exphc.FreeTrade;
 import java.util.logging.Logger;
 import java.util.regex.*;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.*;
@@ -17,7 +18,7 @@ import info.somethingodd.bukkit.OddItem.OddItem;
 class ItemQuery
 {
     ItemStack itemStack;
-    Logger log = Logger.getLogger("Minecraft");
+    static Logger log = Logger.getLogger("Minecraft");
 
     public ItemQuery(String s) {
         Pattern p = Pattern.compile("^(\\d*)([# -]?)([^/]+)/?([\\d%]*)/?([^/]*)$");
@@ -97,7 +98,11 @@ class ItemQuery
                 itemStack.setDurability(dmg);
                 log.info("Set dmg="+dmg);
             } else {
-                itemStack.setDurability(maxDurability);
+                // If they didn't specify a durability, but they want a durable item, assume max value
+                // TODO: only assume max for wants. For gives, need to use value from inventory! Underspecified
+                if (isDurable(itemStack.getType())) {
+                    itemStack.setDurability(maxDurability);
+                }
             }
 
             itemStack.setAmount(quantity);
@@ -229,18 +234,48 @@ class ItemQuery
 
 
     public static String nameStack(ItemStack itemStack) {
-        String name;
+        String name, extra;
         Material m = itemStack.getType();
-        
-        name = itemStack.getAmount() + "-" + itemStack.getType().toString();
+       
+        // If all else fails, use generic name from Bukkit
+        name = itemStack.getType().toString();
 
         if (isDurable(m)) {
-            name += "/" + Math.round(itemStack.getDurability() * 100.0 / m.getMaxDurability()) + "%";
+            extra = "/" + Math.round(itemStack.getDurability() * 100.0 / m.getMaxDurability()) + "%";
+        } else {
+            extra = "";
         }
 
-        // TODO: get name from dmg if dmgMeansSubtype()
-        // TODO: if not, show dmg value
-        return name;
+        // Find canonical name of item
+        // TODO: better way? OddItem can have uncommon aliases we might pick..
+        if (Bukkit.getServer().getPluginManager().getPlugin("OddItem") != null) {
+            List<String> names;
+
+            // Compatibility note:
+            // OddItem 0.8.1 only has String method:
+            //  getAliases(java.lang.String) in info.somethingodd.bukkit.OddItem.OddItem cannot be applied to (org.bukkit.inventory.ItemStack)
+            //names = OddItem.getAliases(itemStack);
+            String codeName;
+            if (isDurable(m)) {
+                // durable items don't have unique names for each durability
+                codeName = itemStack.getTypeId() + ";0";
+            } else {
+                // durability here actually is overloaded to mean a different item
+                codeName = itemStack.getTypeId() + ";" + itemStack.getDurability();
+            }
+            try {
+                names = OddItem.getAliases(codeName);
+                name = names.get(names.size() - 1);
+            } catch (Exception e) {
+                log.info("OddItem doesn't know about " + codeName + ", using " + name);
+            }
+        } else {
+            log.info("OddItem not found, no more specific name available for " + name + ";" + itemStack.getDurability());
+        }
+
+        // TODO: enchantments
+
+        return itemStack.getAmount() + "-" + name + extra;
     }
 }
 
