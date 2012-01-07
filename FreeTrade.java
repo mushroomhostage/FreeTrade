@@ -193,9 +193,9 @@ class ItemQuery
 
     public static boolean isTool(Material m) {
         switch (m) {
-        case WOOD_PICKAXE:  case STONE_PICKAXE: case IRON_PICKAXE:  case DIAMOND_PICKAXE:
-        case WOOD_AXE:      case STONE_AXE:     case IRON_AXE:      case DIAMOND_AXE:
-        case WOOD_SPADE:    case STONE_SPADE:   case IRON_SPADE:    case DIAMOND_SPADE:
+        case WOOD_PICKAXE:  case STONE_PICKAXE: case IRON_PICKAXE:  case GOLD_PICKAXE:  case DIAMOND_PICKAXE:
+        case WOOD_AXE:      case STONE_AXE:     case IRON_AXE:      case GOLD_AXE:      case DIAMOND_AXE:
+        case WOOD_SPADE:    case STONE_SPADE:   case IRON_SPADE:    case GOLD_SPADE:    case DIAMOND_SPADE:
         case FISHING_ROD:
             return true;
         default:
@@ -205,7 +205,7 @@ class ItemQuery
 
     public static boolean isWeapon(Material m) {
         switch (m) {
-        case WOOD_SWORD:    case STONE_SWORD:   case IRON_SWORD:    case DIAMOND_SWORD:
+        case WOOD_SWORD:    case STONE_SWORD:   case IRON_SWORD:    case GOLD_SWORD: case DIAMOND_SWORD:
         case BOW:
             return true;
         default:
