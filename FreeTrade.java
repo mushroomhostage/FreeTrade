@@ -73,8 +73,8 @@ class ItemQuery
 
             // Damage value aka durability
             // TODO: only for tools? not overloaded 'subtypes'
+            short maxDurability = itemStack.getType().getMaxDurability();
             if (dmgString != null && !dmgString.equals("")) {
-                short maxDurability = itemStack.getType().getMaxDurability();
                 short dmg;
 
                 if (dmgString.endsWith("%")) {
@@ -96,6 +96,8 @@ class ItemQuery
 
                 itemStack.setDurability(dmg);
                 log.info("Set dmg="+dmg);
+            } else {
+                itemStack.setDurability(maxDurability);
             }
 
             itemStack.setAmount(quantity);
@@ -109,9 +111,7 @@ class ItemQuery
     }
 
     // Return whether an item degrades when used
-    public static boolean isDurable(ItemStack itemStack) {
-        Material m = itemStack.getType();
-
+    public static boolean isDurable(Material m) {
         return isTool(m) || isWeapon(m) || isArmor(m);
     }
 
@@ -230,8 +230,13 @@ class ItemQuery
 
     public static String nameStack(ItemStack itemStack) {
         String name;
+        Material m = itemStack.getType();
         
         name = itemStack.getAmount() + "-" + itemStack.getType().toString();
+
+        if (isDurable(m)) {
+            name += "/" + Math.round(itemStack.getDurability() * 100.0 / m.getMaxDurability()) + "%";
+        }
 
         // TODO: get name from dmg if dmgMeansSubtype()
         // TODO: if not, show dmg value
