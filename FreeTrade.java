@@ -8,49 +8,13 @@ import java.util.ArrayList;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
+import org.bukkit.inventory.*;
 import org.bukkit.*;
-
-class ItemSpec
-{
-    int quantity;
-    Material material;
-
-    public ItemSpec(String s) {
-        Pattern p = Pattern.compile("^(\\d*)([# -]?)(\\p{Alpha}+)$");
-        Matcher m = p.matcher(s);
-        while(m.find()) {
-            String quantityString = m.group(1);
-            String isStackString = m.group(2);
-            String nameString = m.group(3);
-
-            quantity = Integer.parseInt(quantityString);
-            if (quantity < 0) {
-                quantity = 1;
-            }
-
-            // TODO: really need better material matching names, shorthands
-            // diamond_pickaxe, too long. diamondpick, dpick, would be better.
-            // iron_ingot, want just iron or i. shortest match: cobblestone, cobble. common: diamond, d. plural.
-            material = Material.matchMaterial(nameString);
-            if (material == null) {
-                // TODO: exception?
-            }
-
-            if (isStackString.equals("#")) {
-                quantity *= material.getMaxStackSize();
-            }
-        }
-    }
-
-    public String toString() {
-        return quantity + " " + material;
-    }
-}
 
 class Order
 {
     Player player;
-    ItemSpec want, give;
+    ItemStack want, give;
     boolean exact;
 
     public Order(Player p, String wantString, String giveString) {
@@ -65,12 +29,46 @@ class Order
             giveString = giveString.replace("!", "");
         }
 
-        want = new ItemSpec(wantString);
-        give = new ItemSpec(giveString);
+        want = parseItemString(wantString);
+        give = parseItemString(giveString);
     }
 
     public String toString() {
         return player.getDisplayName() + " wants " + want + " for " + give + (exact ? " (exact)" : "");
+    }
+
+
+    public ItemStack parseItemString(String s) {  // TODO: Use OddItem, or other unified aliasing plugin
+        Pattern p = Pattern.compile("^(\\d*)([# -]?)(\\p{Alpha}+)$");
+        Matcher m = p.matcher(s);
+        int quantity;
+
+        while(m.find()) {
+            String quantityString = m.group(1);
+            String isStackString = m.group(2);
+            String nameString = m.group(3);
+
+            quantity = Integer.parseInt(quantityString);
+            if (quantity < 0) {
+                quantity = 1;
+            }
+
+            // TODO: really need better material matching names, shorthands
+            // diamond_pickaxe, too long. diamondpick, dpick, would be better.
+            // iron_ingot, want just iron or i. shortest match: cobblestone, cobble. common: diamond, d. plural.
+            Material material = Material.matchMaterial(nameString);
+            if (material == null) {
+                // TODO: exception?
+            }
+
+            if (isStackString.equals("#")) {
+                quantity *= material.getMaxStackSize();
+            }
+
+            return new ItemStack(material, quantity); // TODO: damage, data, enchantments
+        }
+
+        return null;
     }
 }
 
@@ -110,11 +108,11 @@ class Market
 
             // Are they giving what anyone else wants?
             // TODO: durability, enchantment checks
-            if (newOrder.give.material == oldOrder.want.material &&
-                newOrder.want.material == oldOrder.give.material) { 
+            if (newOrder.give.getType() == oldOrder.want.getType() &&
+                newOrder.want.getType() == oldOrder.give.getType()) { 
     
                 // TODO: quantity check, generalize to other "betterness"
-                if (newOrder.give.quantity >= oldOrder.want.quantity) {
+                if (newOrder.give.getAmount() >= oldOrder.want.getAmount()) {
 
                     // They got what they want
                     log.info(newOrder.player.getDisplayName() + " received " + newOrder.want + " from " + oldOrder.player.getDisplayName());
@@ -169,6 +167,8 @@ public class FreeTrade extends JavaPlugin {
             }
             n++;
         }
+
+        player.getInventory().addItem(new ItemStack(1, 100));
 
         if (args.length < 2+n) {
             return false;
