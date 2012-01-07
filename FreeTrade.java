@@ -76,26 +76,24 @@ class ItemQuery
             // User specifies how much they want left, 100% = unused tool
             short maxDamage = itemStack.getType().getMaxDurability();
             if (dmgString != null && !dmgString.equals("")) {
-                short usesLeft;
+                short damage;
 
                 if (dmgString.endsWith("%")) {
                     String percentageString = dmgString.substring(0, dmgString.length() - 1);
                     double percentage = Double.parseDouble(percentageString);
 
-                    usesLeft = (short)(percentage / 100.0 * maxDamage);
+                    damage = (short)(maxDamage - (short)(percentage / 100.0 * maxDamage));
                 } else {
-                    usesLeft = (short)Integer.parseInt(dmgString);
+                    damage = (short)(maxDamage - (short)Integer.parseInt(dmgString));
                 }
 
-                if (usesLeft > maxDamage) {
-                    usesLeft = maxDamage;
+                if (damage > maxDamage) {
+                    damage = maxDamage;     // TODO: same as maxDamage-1? works, but breaks right after use
                 }
 
-                if (usesLeft < 0) {
-                    usesLeft = 0;   // TODO: same as 1? works, but breaks right after use
+                if (damage < 0) {
+                    damage = 0;   
                 }
-
-                short damage = (short)(maxDamage - usesLeft);
 
                 itemStack.setDurability(damage);
                 log.info("Set dmg="+damage);
