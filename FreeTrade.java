@@ -33,6 +33,13 @@ class Order
         give = parseItemString(giveString);
     }
 
+    public Order(Player p, ItemStack w, ItemStack g, boolean e) {
+        player = p;
+        want = w;
+        give = g;
+        exact = e;
+    }
+
     public String toString() {
         return player.getDisplayName() + " wants " + want + " for " + give + (exact ? " (exact)" : "");
     }
@@ -100,11 +107,13 @@ class Market
     }
 
     public boolean showOutstanding(CommandSender sender) {
-        sender.sendMessage("TODO: show open orders");
+        sender.sendMessage("Open orders:");
 
         for (int i = 0; i < orders.size(); i++) {
             sender.sendMessage(i + ". " + orders.get(i));
         }
+
+        sender.sendMessage("To add or fulfill an order:");
 
         return false;
     }
@@ -115,7 +124,9 @@ class Market
             return;
         }
 
-        // Add to outstanding to match with future order 
+        // Not fulfilled; add to outstanding to match with future order 
+        // Broadcast to all players so they know someone wants something, then add
+        Bukkit.getServer().broadcastMessage("Wanted: " + order);
         orders.add(order);
     }
 
@@ -124,27 +135,49 @@ class Market
             Order oldOrder = orders.get(i);
 
             // Are they giving what anyone else wants?
-            // TODO: durability, enchantment checks
             if (newOrder.give.getType() == oldOrder.want.getType() &&
                 newOrder.want.getType() == oldOrder.give.getType()) { 
+
+                double newRatio = (double)newOrder.give.getAmount() / newOrder.want.getAmount();
+                double oldRatio = (double)oldOrder.want.getAmount() / oldOrder.give.getAmount();
     
                 // TODO: quantity check, generalize to other "betterness"
-                if (newOrder.give.getAmount() >= oldOrder.want.getAmount()) {
+                // TODO: durability, enchantment checks
+                // Offering a better or equal deal?
+                log.info("ratio " + newRatio + " >= " + oldRatio);
+                if (newRatio >= oldRatio) { 
+                    // Is there enough?
+                    if (oldOrder.give.getAmount() >= newOrder.want.getAmount()) {
 
-                    // They get what they want!
-                    newOrder.player.getInventory().addItem(newOrder.want);
-                    oldOrder.player.getInventory().remove(oldOrder.give);
-                    log.info(newOrder.player.getDisplayName() + " received " + newOrder.want + " from " + oldOrder.player.getDisplayName());
 
-                    log.info(oldOrder.player.getDisplayName() + " received " + newOrder.give + " from " + newOrder.player.getDisplayName());
-                    oldOrder.player.getInventory().addItem(oldOrder.want);
-                    newOrder.player.getInventory().remove(newOrder.give);
+                        // They get what they want!
+                        newOrder.player.getInventory().addItem(newOrder.want);
+                        oldOrder.player.getInventory().remove(oldOrder.give); // TODO: ensure contains()
+                        Bukkit.getServer().broadcastMessage(newOrder.player.getDisplayName() + " received " + newOrder.want + " from " + oldOrder.player.getDisplayName());
 
-                    // TODO: actually exchange
-                    //newOrder.player.remove(ItemStack)..
+                        Bukkit.getServer().broadcastMessage(oldOrder.player.getDisplayName() + " received " + newOrder.give + " from " + newOrder.player.getDisplayName());
+                        oldOrder.player.getInventory().addItem(oldOrder.want);
+                        newOrder.player.getInventory().remove(newOrder.give);
 
-                    // TODO: remove oldOrder from orders, if complete, or add partial if incomplete
-                    return true;
+                        // TODO: remove oldOrder from orders, if complete, or add partial if incomplete
+
+                        int remainingWant = oldOrder.want.getAmount() - newOrder.give.getAmount();
+                        int remainingGive = oldOrder.give.getAmount() - newOrder.want.getAmount();
+
+                        if (remainingWant <= 0) {
+                            // This order is finished, old player got everything they wanted
+                            // Note: remainingWant can be negative if they got more than they bargained for
+                            // (other player offered a better deal than expected). Either way, done deal.
+                            orders.remove(oldOrder);
+                            log.info("Closed order " + oldOrder);
+                        } else {
+                            oldOrder.want.setAmount(remainingWant);
+                            oldOrder.give.setAmount(remainingGive);
+
+                            Bukkit.getServer().broadcastMessage("Updated order: " + oldOrder);
+                        }
+                        return true;
+                    }
                 }
             }
         }
@@ -204,7 +237,6 @@ public class FreeTrade extends JavaPlugin {
         Order order = new Order(player, wantString, giveString);
 
         sender.sendMessage(order.toString());
-
         market.placeOrder(order);
 
         return true;
