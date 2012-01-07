@@ -88,15 +88,14 @@ class ItemQuery
                 }
 
                 if (damage > maxDamage) {
-                    damage = maxDamage;     // TODO: same as maxDamage-1? works, but breaks right after use
+                    damage = maxDamage;     // Breaks right after one use
                 }
 
                 if (damage < 0) {
-                    damage = 0;   
+                    damage = 0;             // Completely unused
                 }
 
                 itemStack.setDurability(damage);
-                log.info("Set dmg="+damage);
             } else {
                 // If they didn't specify a durability, but they want a durable item, assume no damage (0)
                 // TODO: only assume 0 for wants. For gives, need to use value from inventory! Underspecified
@@ -380,54 +379,56 @@ class Market
             Order oldOrder = orders.get(i);
 
             // Are they giving what anyone else wants?
-            if (newOrder.give.getType() == oldOrder.want.getType() &&
-                newOrder.want.getType() == oldOrder.give.getType()) { 
-
-                double newRatio = (double)newOrder.give.getAmount() / newOrder.want.getAmount();
-                double oldRatio = (double)oldOrder.want.getAmount() / oldOrder.give.getAmount();
-    
-                // TODO: quantity check, generalize to other "betterness"
-                // TODO: durability, enchantment checks
-                // Offering a better or equal deal?
-                log.info("ratio " + newRatio + " >= " + oldRatio);
-                if (newRatio >= oldRatio) { 
-                    // Is there enough?
-                    if (oldOrder.give.getAmount() >= newOrder.want.getAmount()) {
-
-
-                        // They get what they want!
-                        newOrder.player.getInventory().addItem(newOrder.want);
-                        oldOrder.player.getInventory().remove(oldOrder.give); // TODO: ensure contains()
-                        Bukkit.getServer().broadcastMessage(newOrder.player.getDisplayName() + " received " + 
-                            ItemQuery.nameStack(newOrder.want) + " from " + oldOrder.player.getDisplayName());
-                        Bukkit.getServer().broadcastMessage(oldOrder.player.getDisplayName() + " received " + 
-                            ItemQuery.nameStack(newOrder.give) + " from " + newOrder.player.getDisplayName());
-                        oldOrder.player.getInventory().addItem(oldOrder.want);
-                        newOrder.player.getInventory().remove(newOrder.give);
-
-                        // TODO: remove oldOrder from orders, if complete, or add partial if incomplete
-
-                        int remainingWant = oldOrder.want.getAmount() - newOrder.give.getAmount();
-                        int remainingGive = oldOrder.give.getAmount() - newOrder.want.getAmount();
-
-                        if (remainingWant <= 0) {
-                            // This order is finished, old player got everything they wanted
-                            // Note: remainingWant can be negative if they got more than they bargained for
-                            // (other player offered a better deal than expected). Either way, done deal.
-                            orders.remove(oldOrder);
-                            log.info("Closed order " + oldOrder);
-                        } else {
-                            oldOrder.want.setAmount(remainingWant);
-                            oldOrder.give.setAmount(remainingGive);
-
-                            Bukkit.getServer().broadcastMessage("Updated order: " + oldOrder);
-                        }
-                        return true;
-                    }
-                }
+            if (!(newOrder.give.getType() == oldOrder.want.getType() &&
+                newOrder.want.getType() == oldOrder.give.getType())) { 
+                continue;
             }
-        }
 
+            double newRatio = (double)newOrder.give.getAmount() / newOrder.want.getAmount();
+            double oldRatio = (double)oldOrder.want.getAmount() / oldOrder.give.getAmount();
+
+            // TODO: quantity check, generalize to other "betterness"
+            // TODO: durability, enchantment checks
+            // Offering a better or equal deal?
+            log.info("ratio " + newRatio + " >= " + oldRatio);
+            if (!(newRatio >= oldRatio)) { 
+                continue;
+            }
+
+            // Is there enough?
+            if (!(oldOrder.give.getAmount() >= newOrder.want.getAmount())) {
+                continue;
+            }
+
+            // They get what they want!
+            newOrder.player.getInventory().addItem(newOrder.want);
+            oldOrder.player.getInventory().remove(oldOrder.give); // TODO: ensure contains()
+            Bukkit.getServer().broadcastMessage(newOrder.player.getDisplayName() + " received " + 
+                ItemQuery.nameStack(newOrder.want) + " from " + oldOrder.player.getDisplayName());
+            Bukkit.getServer().broadcastMessage(oldOrder.player.getDisplayName() + " received " + 
+                ItemQuery.nameStack(newOrder.give) + " from " + newOrder.player.getDisplayName());
+            oldOrder.player.getInventory().addItem(oldOrder.want);
+            newOrder.player.getInventory().remove(newOrder.give);
+
+            // TODO: remove oldOrder from orders, if complete, or add partial if incomplete
+
+            int remainingWant = oldOrder.want.getAmount() - newOrder.give.getAmount();
+            int remainingGive = oldOrder.give.getAmount() - newOrder.want.getAmount();
+
+            if (remainingWant <= 0) {
+                // This order is finished, old player got everything they wanted
+                // Note: remainingWant can be negative if they got more than they bargained for
+                // (other player offered a better deal than expected). Either way, done deal.
+                orders.remove(oldOrder);
+                log.info("Closed order " + oldOrder);
+            } else {
+                oldOrder.want.setAmount(remainingWant);
+                oldOrder.give.setAmount(remainingGive);
+
+                Bukkit.getServer().broadcastMessage("Updated order: " + oldOrder);
+            }
+            return true;
+        }
         return false;
     }
 }
