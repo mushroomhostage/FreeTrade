@@ -5,14 +5,14 @@ import java.util.logging.Logger;
 import java.util.regex.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.*;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
-import org.bukkit.configuration.*;
-import org.bukkit.configuration.file.*;
+import org.bukkit.enchantments.*;
 import org.bukkit.*;
 
 import info.somethingodd.bukkit.OddItem.OddItem;
@@ -322,102 +322,65 @@ class EnchantQuery
         }
     }
 
-    static Enchantment oneFromName(String name) {
-        YamlConfiguration c = new YamlConfiguration();
-        try {
-            c.loadFromString("enchantments:\n"+
-"- PROTECTION_ENVIRONMENTAL: protection");
-        }
-        /*
-        case "fire-protection":
-        case "fireprotection": 
-        case "fire":
-            return PROTECTION_FIRE;
-        case "feather-falling":
-        case "featherfalling":
-        case "feather":
-        case "falling":
-        case "fall":
-            return PROTECTION_FALL;
-        case "blast-protection":
-        case "blastprotection":
-        case "blast":
-            return PROTECTION_BLAST;
-        case "projectile-protection":
-        case "projectileprotection":
-        case "projectile":
-            return PROTECTION_PROJECTILE;
-        case "respiration":
-        case "oxygen":
-            return OXYGEN;
-        case "aqua-affinity":
-        case "aquaaffinity":
-        case "aqua":
-        case "waterworker":
-            return WATER_WORKER;
+    static Enchantment enchFromBaseName(String n) {
+        // TODO: something like OddItem for enchantment names! hideous, this
+        // Armor
+        if (n == "protection") {
+            return Enchantment.PROTECTION_ENVIRONMENTAL;
+        } else if (n == "fire-protection" || n == "fireprotection" || n == "fire") {
+            return Enchantment.PROTECTION_FIRE;
+        } else if (n == "feather-falling" || n == "featherfalling" || n == "feather" || n == "falling" || n == "fall") {
+            return Enchantment.PROTECTION_FALL;
+        } else if (n == "blast-protection" || n == "blastprotection" || n == "blast" || n == "explosion-protection") {
+            return Enchantment.PROTECTION_EXPLOSIONS;
+        } else if (n == "projectile-protection" || n == "projectileprotection" || n == "projectile") {
+            return Enchantment.PROTECTION_PROJECTILE;
+        } else if (n == "respiration" || n == "oxygen") {
+            return Enchantment.OXYGEN; 
+        } else if (n == "aqua-affinity" || n == "aquaaffinity" || n == "aqua" || n == "waterworker") {
+            return Enchantment.WATER_WORKER;
         // Weapons
-        case "sharpness":
-        case "damage-all":
-            return DAMAGE_ALL;
-        case "smite":
-        case "damage-undead":
-            return DAMAGE_UNDEAD;
-        case "bane-of-anthropods":
-        case "bane":
-        case "anthropods":
-            return DAMAGE_ANTHROPODS;
-        case "knockback":
-            return KNOCKBACK;
-        case "fire-aspect":
-        case "fireaspect":
-        case "fire":
-            return FIRE_ASPECT;
-        case "looting":
-        case "loot":
-        case "loot-bonus-mobs":
-            return LOOT_BONUS_MOBS;
+        } else if (n == "sharpness" || n == "damage-all") {
+            return Enchantment.DAMAGE_ALL;
+        } else if (n == "smite" || n == "damage-undead") {
+            return Enchantment.DAMAGE_UNDEAD;
+        } else if (n == "bane-of-arthropods" || n == "bane" || n == "arthropods") {
+            return Enchantment.DAMAGE_ARTHROPODS;
+        } else if (n == "knockback") {
+            return Enchantment.KNOCKBACK; 
+        } else if (n == "fire-aspect" || n == "fireaspect" || n == "fire") {
+            return Enchantment.FIRE_ASPECT;
+        } else if (n == "looting" || n == "loot" || n == "loot-bonus-mobs") {
+            return Enchantment.LOOT_BONUS_MOBS;
         // Tools
-        case "efficiency":
-        case "dig-speed":
-            return DIG_SPEED;
-        case "silk-touch":
-        case "silktouch":
-        case "silk":
-            return SILK_TOUCH;
-        case "unbreaking":
-        case "durability":
-            return DURABILITY;
-        case "fortune":
-        case "loot-bonus-blocks":
-            return LOOT_BONUS_BLOCKS;
-        default:
-            return null;
-        }*/
-
-        } catch (InvalidConfigurationException e) {
-            log.severe("Error reading enchantment names: " + e);
+        } else if (n == "efficiency" || n == "dig-speed") {
+            return Enchantment.DIG_SPEED;
+        } else if (n == "silk-touch" || n == "silktouch" || n == "silk") {
+            return Enchantment.SILK_TOUCH;
+        } else if (n == "unbreaking" || n == "durability") {
+            return Enchantment.DURABILITY;
+        } else if (n == "fortune" || n == "loot-bonus-blocks") {
+            return Enchantment.LOOT_BONUS_BLOCKS;
+        } else {
+            throw new UsageException("No such enchantment name: " + n);
         }
-
-        List<Map<String, Object>> mapList = c.getMapList("enchantments");
-
-        log.info("Foo="+c.get("foo"));
-
     }
 
-/*
     static int levelFromString(String s) {
-        switch (s)
-        {
-        case "": return 1;
-        case "I": return 1;
-        case "II": return 2;
-        case "III": return 3;
-        case "IV": return 4;
-        case "V": return 5;
-        default:
+        if (s == "" || s == "I") {
+            return 1;
+        } else if (s == "II") { 
+            return 2;
+        } else if (s == "III") {
+            return 3;
+        } else if (s == "IV") {
+            return 4;
+        } else if (s == "V") {
+            return 5;
+        } else {
             return Integer.parseInt(s);
         }
-    }*/
+    }
 }
 
 class Order
