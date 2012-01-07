@@ -66,8 +66,36 @@ class ItemQuery
                 throw new UsageException("Unrecognized item name: " + nameString);
             }
 
+            // 10# = 10 stacks
             if (isStackString.equals("#")) {
                 quantity *= Math.abs(itemStack.getType().getMaxStackSize());
+            }
+
+            // Damage value aka durability
+            // TODO: only for tools? not overloaded 'subtypes'
+            if (dmgString != null && !dmgString.equals("")) {
+                short maxDurability = itemStack.getType().getMaxDurability();
+                short dmg;
+
+                if (dmgString.endsWith("%")) {
+                    String percentageString = dmgString.substring(0, dmgString.length() - 1);
+                    double percentage = Double.parseDouble(percentageString);
+
+                    dmg = (short)(percentage / 100.0 * maxDurability);
+                } else {
+                    dmg = (short)Integer.parseInt(dmgString);
+                }
+
+                if (dmg > maxDurability) {
+                    dmg = maxDurability;
+                }
+
+                if (dmg < 1) {
+                    dmg = 1;
+                }
+
+                itemStack.setDurability(dmg);
+                log.info("Set dmg="+dmg);
             }
 
             itemStack.setAmount(quantity);
