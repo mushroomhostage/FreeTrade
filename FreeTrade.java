@@ -131,9 +131,14 @@ class Market
                 // TODO: quantity check, generalize to other "betterness"
                 if (newOrder.give.getAmount() >= oldOrder.want.getAmount()) {
 
-                    // They got what they want
+                    // They get what they want!
+                    newOrder.player.getInventory().addItem(newOrder.want);
+                    oldOrder.player.getInventory().remove(oldOrder.give);
                     log.info(newOrder.player.getDisplayName() + " received " + newOrder.want + " from " + oldOrder.player.getDisplayName());
+
                     log.info(oldOrder.player.getDisplayName() + " received " + newOrder.give + " from " + newOrder.player.getDisplayName());
+                    oldOrder.player.getInventory().addItem(oldOrder.want);
+                    newOrder.player.getInventory().remove(newOrder.give);
 
                     // TODO: actually exchange
                     //newOrder.player.remove(ItemStack)..
@@ -184,9 +189,6 @@ public class FreeTrade extends JavaPlugin {
             }
             n++;
         }
-
-        player.getInventory().addItem(new ItemStack(1, 100));
-
         if (args.length < 2+n) {
             return false;
         }
