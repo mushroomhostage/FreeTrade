@@ -22,6 +22,7 @@ items:
     - smoothrock
     - smoothstone
     - stone
+    - s
     '2':
     - grass
     '3':
@@ -71,14 +72,17 @@ items:
     - oak
     - oaklog
     - oakwood
+    - l
     17;1:
     - pine
     - pinelog
     - pinewood
+    - p
     17;2:
     - birch
     - birchlog
     - birchwood
+    - b
     18;0:
     - leaf
     - leaves
@@ -96,6 +100,7 @@ items:
     - sponge
     '20':
     - glass
+    - gl
     '21':
     - lapislazuliore
     - lapisore
@@ -110,6 +115,7 @@ items:
     '24':
     - sandstone
     - sstone
+    - ss
     '25':
     - musicblock
     - noteblock
@@ -147,6 +153,7 @@ items:
     - whitecloth
     - whitewool
     - wool
+    - w
     35;1:
     - orangecloth
     - orangewool
@@ -201,6 +208,7 @@ items:
     '37':
     - dandelion
     - yellowflower
+    - flower
     '38':
     - redflower
     - rose
@@ -212,10 +220,12 @@ items:
     - gblock
     - gold
     - goldblock
+    - gb
     '42':
     - iblock
     - iron
     - ironblock
+    - ib
     43;0:
     - doubleslab
     - doublestep
@@ -267,6 +277,8 @@ items:
     - mossycobblestone
     '49':
     - obsidian
+    - ob
+    - o
     '50':
     - torch
     '51':
@@ -490,6 +502,7 @@ items:
     - ipickaxe
     - ironpick
     - ironpickaxe
+    - ip
     '258':
     - iaxe
     - ironaxe
@@ -504,20 +517,24 @@ items:
     - bow
     '262':
     - arrow
+    - a
     263;0:
     - coal
     263;1:
     - charcoal
     '264':
     - diamond
+    - d
     '265':
     - iingot
     - ironbar
     - ironingot
+    - i
     '266':
     - gingot
     - goldbar
     - goldingot
+    - g
     '267':
     - ironsword
     - isword
@@ -535,6 +552,7 @@ items:
     - woodpickaxe
     - wpick
     - wpickaxe
+    - wp
     '271':
     - waxe
     - woodaxe
@@ -550,12 +568,14 @@ items:
     - spickaxe
     - stonepick
     - stonepickaxe
+    - sp
     '275':
     - saxe
     - stoneaxe
     '276':
     - diamondsword
     - dsword
+    - ds
     '277':
     - diamondshovel
     - dshovel
@@ -564,6 +584,7 @@ items:
     - diamondpickaxe
     - dpick
     - dpickaxe
+    - dp
     '279':
     - daxe
     - diamondaxe
@@ -579,6 +600,7 @@ items:
     '283':
     - goldsword
     - gsword
+    - gs
     '284':
     - goldshovel
     - gshovel
@@ -587,6 +609,7 @@ items:
     - goldpickaxe
     - gpick
     - gpickaxe
+    - gp
     '286':
     - gaxe
     - goldaxe
@@ -769,6 +792,7 @@ items:
     '335':
     - mbucket
     - milkbucket
+    - milk
     '336':
     - brick
     '337':
@@ -906,6 +930,7 @@ items:
     '360':
     - melonslice
     - mslice
+    - m
     '361':
     - pseed
     - pseeds
@@ -931,14 +956,19 @@ items:
     - rottenflesh
     '368':
     - enderpearl
+    - e
     '369':
     - blazerod
+    - brod
     '370':
     - ghasttear
+    - tear
     '371':
     - goldnugget
     '372':
     - netherwart
+    - wart
+    - nw
     '2256':
     - thirteen
     - yellowdisc
