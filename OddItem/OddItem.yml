@@ -974,97 +974,99 @@ items:
     373;16:
     - awkwardpotion
     - awkwardpot
-    - apot
     - awkward
     373;32:
     - thickpotion
     - thickpot
-    - tpot
     - thick
     373;64:
     - mundanepotionextended
+    - mundanepotx
     373;8192:
     - mundanepotion
     - mundanepot
-    - mpot
     - mundane
     373;8193:
     - regenerationpotion
-    - regenerationpot
-    - regenpotion
     - regenpot
-    - rpot
-    - regeneration
     - regen
     373;8257:
     - regenerationpotionextended
-    - regenerationpotextended
-    - regenpotionextended
-    - regenpotextended
     - regenpotx
     - regenx
     373;8225:
+    - regenerationpotionII
     - regenpotII
     - regenpot2
     - regenII
     - regen2
     373;8258:
+    - swiftnesspotion
     - swiftnesspot
     - swiftness
     373;8195:
+    - fireresistancepotion
     - fireresistancepot
     - fireresistance
     - firepot
     373;8259:
+    - healingpotion
     - healingpot
     - healpot
-    - healing
     - heal
     373;8229:
+    - healingpotionII
     - healingpotII
     - healingpot2
-    - healpotII
-    - healpot2
     - heal2
     - healII
     373;8201:
+    - strengthpotion
     - strengthpot
     - strength
     373;8265:
+    - strengthpotionextended
     - strengthpotx
     - strengthx
     373;8233:
+    - strengthpotionII
     - strengthpot2
     - strengthpotII
     - strength2
     - strengthII
     373;8196:
+    - poisonpotion
     - poisonpot
     - poison
     373;8260:
-    - poisonpotextended
+    - poisonpotionextended
     - poisonpotx
     - poisonx
     373;8228:
+    - poisonpotionII
     - poisonpot2
     - poisonpotII
     - poison2
     - poisonII
     373;8200:
+    - weaknesspotion
     - weaknesspot
     - weakness
     373;8264:
-    - weaknesspot
+    - weaknesspotionextended
     - weaknesspotx
     - weaknessx
     373;8202:
+    - slownesspotion
     - slownesspot
     - slowness
     373;8204:
+    - harmingpotion
     - harmingpot
     - harmpot
     - harm
     373;8236:
+    - harmingpotionII
     - harmingpot2
     - harmingpotII
     - harmII
