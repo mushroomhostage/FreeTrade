@@ -234,7 +234,13 @@ want player dirt bluewool
 
 
 
-want agnitfom 2diamond dpick/1000
-want player dpick/900 2diamond
+want agnitfom 2diamond dpick/80%
+want player dpick/70% 2diamond
+(Less damaged than wanted, order completes)
+
+want agnitfom 2diamond dpick/80%
+want player dpick/90% 2diamond
+14:42:23 [INFO] Not matched, worse damage old, 313 < 157
+(More damaged than wanted)
 
 

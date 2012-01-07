@@ -408,13 +408,29 @@ class Market
             double newRatio = (double)newOrder.give.getAmount() / newOrder.want.getAmount();
             double oldRatio = (double)oldOrder.want.getAmount() / oldOrder.give.getAmount();
 
-            // Offering a better or equal deal? Quantity, value
+            // Offering a better or equal deal? Quantity = relative value
             log.info("ratio " + newRatio + " >= " + oldRatio);
             if (!(newRatio >= oldRatio)) { 
-                log.info("Not matched, worse deal");
+                log.info("Not matched, worse relative value");
                 continue;
             }
-            // TODO: durability, enchantment checks
+            // TODO: durability
+            if (ItemQuery.isDurable(newOrder.give.getType())) {
+                if (newOrder.give.getDurability() > oldOrder.want.getDurability()) {
+                    log.info("Not matched, worse damage new, " + newOrder.give.getDurability() + " < " + oldOrder.want.getDurability());
+                    continue;
+                }
+            }
+            if (ItemQuery.isDurable(oldOrder.give.getType())) {
+                if (oldOrder.give.getDurability() > newOrder.want.getDurability()) {
+                    log.info("Not matched, worse damage old, " + oldOrder.give.getDurability() + " < " + newOrder.want.getDurability());
+                    continue;
+                }
+            }
+
+            // TODO: enchantment checks
+            
+        
             // Generalize to "betterness"
 
         
