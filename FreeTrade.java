@@ -73,36 +73,35 @@ class ItemQuery
             }
 
             // Damage value aka durability
-            // TODO: only for tools? not overloaded 'subtypes'
-            short maxDurability = itemStack.getType().getMaxDurability();
+            // User specifies how much they want left, 100% = unused tool
+            short maxDamage = itemStack.getType().getMaxDurability();
             if (dmgString != null && !dmgString.equals("")) {
-                short dmg;
+                short usesLeft;
 
                 if (dmgString.endsWith("%")) {
                     String percentageString = dmgString.substring(0, dmgString.length() - 1);
                     double percentage = Double.parseDouble(percentageString);
 
-                    dmg = (short)(percentage / 100.0 * maxDurability);
+                    usesLeft = (short)(percentage / 100.0 * maxDamage);
                 } else {
-                    dmg = (short)Integer.parseInt(dmgString);
+                    usesLeft = (short)Integer.parseInt(dmgString);
                 }
 
-                if (dmg > maxDurability) {
-                    dmg = maxDurability;
+                if (usesLeft > maxDamage) {
+                    usesLeft = maxDamage;
                 }
 
-                if (dmg < 1) {
-                    dmg = 1;
+                if (usesLeft < 0) {
+                    usesLeft = 0;   // TODO: same as 1? works, but breaks right after use
                 }
 
-                itemStack.setDurability(dmg);
-                log.info("Set dmg="+dmg);
+                short damage = (short)(maxDamage - usesLeft);
+
+                itemStack.setDurability(damage);
+                log.info("Set dmg="+damage);
             } else {
-                // If they didn't specify a durability, but they want a durable item, assume max value
-                // TODO: only assume max for wants. For gives, need to use value from inventory! Underspecified
-                if (isDurable(itemStack.getType())) {
-                    itemStack.setDurability(maxDurability);
-                }
+                // If they didn't specify a durability, but they want a durable item, assume no damage (0)
+                // TODO: only assume 0 for wants. For gives, need to use value from inventory! Underspecified
             }
 
             itemStack.setAmount(quantity);
@@ -385,9 +384,10 @@ class Market
                         // They get what they want!
                         newOrder.player.getInventory().addItem(newOrder.want);
                         oldOrder.player.getInventory().remove(oldOrder.give); // TODO: ensure contains()
-                        Bukkit.getServer().broadcastMessage(newOrder.player.getDisplayName() + " received " + newOrder.want + " from " + oldOrder.player.getDisplayName());
-
-                        Bukkit.getServer().broadcastMessage(oldOrder.player.getDisplayName() + " received " + newOrder.give + " from " + newOrder.player.getDisplayName());
+                        Bukkit.getServer().broadcastMessage(newOrder.player.getDisplayName() + " received " + 
+                            ItemQuery.nameStack(newOrder.want) + " from " + oldOrder.player.getDisplayName());
+                        Bukkit.getServer().broadcastMessage(oldOrder.player.getDisplayName() + " received " + 
+                            ItemQuery.nameStack(newOrder.give) + " from " + newOrder.player.getDisplayName());
                         oldOrder.player.getInventory().addItem(oldOrder.want);
                         newOrder.player.getInventory().remove(newOrder.give);
 
