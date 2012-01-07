@@ -132,25 +132,31 @@ want player 6#cobblestone 6diamond
 13:20:46 [INFO] newOrder: Player wants 384-cobblestone for 6-diamond
 13:20:46 [INFO] agnitfom received 6-diamond from Player
 13:20:46 [INFO] Updated order: agnitfom wants 4-diamond for 256-cobblestone
+(Same value, smaller quantity = partial order remaining)
+want player 4#cobblestone 4diamond
+13:22:45 [INFO] Player wants 256-cobblestone for 4-diamond
+13:22:45 [INFO] ratio 0.015625 >= 0.015625
+13:22:45 [INFO] Player received 256-cobblestone from agnitfom
+13:22:45 [INFO] agnitfom received 4-diamond from Player
+13:22:45 [INFO] Closed order agnitfom wants 4-diamond for 256-cobblestone
+(Finish up order)
+want player 4#cobblestone 4diamond 
+13:23:37 [INFO] Player wants 256-cobblestone for 4-diamond
+13:23:37 [INFO] Wanted: Player wants 256-cobblestone for 4-diamond
+(Can't get more than is available, order pends)
 
 want player 6#cobblestone 6diamond
 want agnitfom 10diamond 10#cobblestone
-TODO: solve reverse case
-
-20:43:15 [INFO] ratio 0.015625 >= 0.015625
-20:43:15 [INFO] mudpots received ItemStack{COBBLESTONE x 384} from agnitfom
-20:43:15 [INFO] agnitfom received ItemStack{DIAMOND x 6} from mudpots
-20:43:15 [INFO] Updated order: agnitfom wants ItemStack{DIAMOND x 4} for ItemStack{COBBLESTONE x 256}
-(Same value, smaller quantity = partial order remaining)
-20:44:06 [INFO] mudpots wants ItemStack{COBBLESTONE x 256} for ItemStack{DIAMOND x 4}
-20:44:06 [INFO] ratio 0.015625 >= 0.015625
-20:44:06 [INFO] mudpots received ItemStack{COBBLESTONE x 256} from agnitfom
-20:44:06 [INFO] agnitfom received ItemStack{DIAMOND x 4} from mudpots
-20:44:06 [INFO] Closed order agnitfom wants ItemStack{DIAMOND x 4} for ItemStack{COBBLESTONE x 256}
-(Finish up order)
-want mudpots 4#cobblestone 4diamond
-20:44:20 [INFO] mudpots wants ItemStack{COBBLESTONE x 256} for ItemStack{DIAMOND x 4}
-(Can't get more than is available, order pends)
+13:56:02 [INFO] agnitfom wants 10-diamond for 640-cobblestone
+13:56:02 [INFO] ratio 64.0 >= 64.0
+13:56:02 [INFO] remaining want=-256, give=-4
+13:56:02 [INFO] exchWant=384-cobblestone
+13:56:02 [INFO] exchGive=6-diamond
+13:56:02 [INFO] Player received 384-cobblestone from agnitfom
+13:56:02 [INFO] agnitfom received 6-diamond from Player
+13:56:02 [INFO] Adding new partial order
+13:56:02 [INFO] Wanted: agnitfom wants 4-diamond for 256-cobblestone
+(Works in reverse; it is symmetric)
 
 
 want agnitfom 10diamond 10#cobblestone

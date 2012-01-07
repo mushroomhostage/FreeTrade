@@ -401,44 +401,58 @@ class Market
             // TODO: durability, enchantment checks
             // Generalize to "betterness"
 
-
-            // Is there enough?
-            if (!(oldOrder.give.getAmount() >= newOrder.want.getAmount())) {
-                log.info("Not matched, not enough " + oldOrder.give.getAmount() + " >= " + newOrder.want.getAmount());
-                // TODO: important: make pending new outstanding order, can still do partial trade here!!
-                continue;
-            }
-
-            // They get what they want!
-            // TODO: ensure contains() before removing
-            // Note, clone() to avoid influencing original stacks
-            newOrder.player.getInventory().addItem(newOrder.want.clone());
-            oldOrder.player.getInventory().remove(oldOrder.give.clone()); 
-            Bukkit.getServer().broadcastMessage(newOrder.player.getDisplayName() + " received " + 
-                ItemQuery.nameStack(newOrder.want) + " from " + oldOrder.player.getDisplayName());
-            Bukkit.getServer().broadcastMessage(oldOrder.player.getDisplayName() + " received " + 
-                ItemQuery.nameStack(newOrder.give) + " from " + newOrder.player.getDisplayName());
-            oldOrder.player.getInventory().addItem(oldOrder.want.clone());
-            newOrder.player.getInventory().remove(newOrder.give.clone());
-
-            // Remove oldOrder from orders, if complete, or add partial if incomplete
-
+        
+            // Determine how much of the order can be fulfilled
             int remainingWant = oldOrder.want.getAmount() - newOrder.give.getAmount();
             int remainingGive = oldOrder.give.getAmount() - newOrder.want.getAmount();
 
-            if (remainingWant <= 0) {
+            log.info("remaining want="+remainingWant+", give="+remainingGive);
+
+            // They get what they want!
+            // TODO: ensure contains() before removing
+
+            // Calculate amount exchanged
+            ItemStack exchWant = new ItemStack(oldOrder.want.getType(), Math.min(oldOrder.want.getAmount(), newOrder.give.getAmount()), newOrder.give.getDurability());
+            ItemStack exchGive = new ItemStack(oldOrder.give.getType(), Math.min(oldOrder.give.getAmount(), newOrder.want.getAmount()), oldOrder.give.getDurability());
+
+            log.info("exchWant="+ItemQuery.nameStack(exchWant));
+            log.info("exchGive="+ItemQuery.nameStack(exchGive));
+
+            oldOrder.player.getInventory().addItem(exchWant);
+            newOrder.player.getInventory().remove(exchWant);
+            Bukkit.getServer().broadcastMessage(oldOrder.player.getDisplayName() + " received " + 
+                ItemQuery.nameStack(exchWant) + " from " + newOrder.player.getDisplayName());
+
+            newOrder.player.getInventory().addItem(exchGive);
+            oldOrder.player.getInventory().remove(exchGive);
+            Bukkit.getServer().broadcastMessage(newOrder.player.getDisplayName() + " received " + 
+                ItemQuery.nameStack(exchGive) + " from " + oldOrder.player.getDisplayName());
+
+    
+            // Remove oldOrder from orders, if complete, or add partial if incomplete
+            if (remainingWant == 0) {
                 // This order is finished, old player got everything they wanted
                 // Note: remainingWant can be negative if they got more than they bargained for
                 // (other player offered a better deal than expected). Either way, done deal.
                 orders.remove(oldOrder);
                 log.info("Closed order " + oldOrder);
-            } else {
+                return true;
+            } else if (remainingWant > 0) {
                 oldOrder.want.setAmount(remainingWant);
                 oldOrder.give.setAmount(remainingGive);
 
                 Bukkit.getServer().broadcastMessage("Updated order: " + oldOrder);
+                return true;
+            } else if (remainingWant < 0) {
+                orders.remove(oldOrder);
+                orders.remove("Closed order " + oldOrder);
+
+                newOrder.want.setAmount(-remainingGive);
+                newOrder.give.setAmount(-remainingWant);
+                log.info("Adding new partial order");
+                return false;
             }
-            return true;
+
         }
         return false;
     }
