@@ -969,7 +969,6 @@ items:
     - netherwart
     - wart
     - nw
-    # Potions
     373;0:
     - waterbottle
     373;16:
@@ -1072,7 +1071,6 @@ items:
     - harmingpotII
     - harmII
     - harm2
-    # Splash potions
     373;16384:
     - splashmundanepotion
     - spmundanepot
@@ -1162,7 +1160,6 @@ items:
     - spharmingpotII
     - spharmII
     - spharm2
-    # Unbrewable potions
     373;8289:
     - regenerationpotionII
     - regenpotII
@@ -1187,7 +1184,6 @@ items:
     - poisonpot2
     - poison2
     - poisionII
-    # Unbrewable splash potions
     373;16481:
     - splashregenerationpotionII
     - spregenpotII
@@ -1212,7 +1208,6 @@ items:
     - sppoisonpot2
     - sppoison2
     - sppoisionII
-    # Unused potions
     373;6:
     - clearpotion
     373;7:
@@ -1263,7 +1258,6 @@ items:
     - stinkypotion
     373;63:
     - stinkypotionx
-
     '2256':
     - thirteen
     - yellowdisc
@@ -1272,4 +1266,40 @@ items:
     - cat
     - greendisc
     - greenrecord
+    '2258':
+    - blocks
+    - blocksdisc
+    - redrecord
+    '2259':
+    - chirp
+    - chirpdisc
+    - darkredrecord
+    '2260':
+    - far
+    - fardisc
+    - yellowrecord
+    '2261':
+    - mall
+    - malldisc
+    - bluerecord
+    '2262':
+    - mellohi
+    - mellohidisc
+    - purplerecord
+    '2263':
+    - stal
+    - staldisc
+    - blackrecord
+    '2264':
+    - strad
+    - straddisc
+    - whiterecord
+    '2265':
+    - ward
+    - warddisc
+    - darkgreenrecord
+    '2266':
+    - eleven
+    - elevendisc
+    - brokenrecord
 listversion: 0
