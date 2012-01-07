@@ -969,6 +969,106 @@ items:
     - netherwart
     - wart
     - nw
+    373;0:
+    - waterbottle
+    373;16:
+    - awkwardpotion
+    - awkwardpot
+    - apot
+    - awkward
+    373;32:
+    - thickpotion
+    - thickpot
+    - tpot
+    - thick
+    373;64:
+    - mundanepotionextended
+    373;8192:
+    - mundanepotion
+    - mundanepot
+    - mpot
+    - mundane
+    373;8193:
+    - regenerationpotion
+    - regenerationpot
+    - regenpotion
+    - regenpot
+    - rpot
+    - regeneration
+    - regen
+    373;8257:
+    - regenerationpotionextended
+    - regenerationpotextended
+    - regenpotionextended
+    - regenpotextended
+    - regenpotx
+    - regenx
+    373;8225:
+    - regenpotII
+    - regenpot2
+    - regenII
+    - regen2
+    373;8258:
+    - swiftnesspot
+    - swiftness
+    373;8195:
+    - fireresistancepot
+    - fireresistance
+    - firepot
+    373;8259:
+    - healingpot
+    - healpot
+    - healing
+    - heal
+    373;8229:
+    - healingpotII
+    - healingpot2
+    - healpotII
+    - healpot2
+    - heal2
+    - healII
+    373;8201:
+    - strengthpot
+    - strength
+    373;8265:
+    - strengthpotx
+    - strengthx
+    373;8233:
+    - strengthpot2
+    - strengthpotII
+    - strength2
+    - strengthII
+    373;8196:
+    - poisonpot
+    - poison
+    373;8260:
+    - poisonpotextended
+    - poisonpotx
+    - poisonx
+    373;8228:
+    - poisonpot2
+    - poisonpotII
+    - poison2
+    - poisonII
+    373;8200:
+    - weaknesspot
+    - weakness
+    373;8264:
+    - weaknesspot
+    - weaknesspotx
+    - weaknessx
+    373;8202:
+    - slownesspot
+    - slowness
+    373:8204:
+    - harmingpot
+    - harmpot
+    - harm
+    373;8236:
+    - harmingpot2
+    - harmingpotII
+    - harmII
+    - harm2
     '2256':
     - thirteen
     - yellowdisc
