@@ -46,7 +46,7 @@ class ItemQuery
             // Lookup item name
             if (Bukkit.getServer().getPluginManager().getPlugin("OddItem") != null) {
                 try {
-                    itemStack = OddItem.getItemStack(nameString);
+                    itemStack = OddItem.getItemStack(nameString).clone();
                 } catch (IllegalArgumentException suggestion) {
                     throw new UsageException("No such item '" + nameString + "', did you mean '" + suggestion.getMessage() + "'?");
                 }
@@ -378,6 +378,9 @@ class Market
         for (int i = 0; i < orders.size(); i++) {
             Order oldOrder = orders.get(i);
 
+            log.info("oldOrder: " + oldOrder);
+            log.info("newOrder: " + newOrder);
+
             // Are they giving what anyone else wants?
             if (!(newOrder.give.getType() == oldOrder.want.getType() &&
                 newOrder.want.getType() == oldOrder.give.getType())) { 
@@ -387,13 +390,14 @@ class Market
             double newRatio = (double)newOrder.give.getAmount() / newOrder.want.getAmount();
             double oldRatio = (double)oldOrder.want.getAmount() / oldOrder.give.getAmount();
 
-            // TODO: quantity check, generalize to other "betterness"
-            // TODO: durability, enchantment checks
-            // Offering a better or equal deal?
+            // Offering a better or equal deal? Quantity, value
             log.info("ratio " + newRatio + " >= " + oldRatio);
             if (!(newRatio >= oldRatio)) { 
                 continue;
             }
+            // TODO: durability, enchantment checks
+            // Generalize to "betterness"
+
 
             // Is there enough?
             if (!(oldOrder.give.getAmount() >= newOrder.want.getAmount())) {
@@ -410,7 +414,7 @@ class Market
             oldOrder.player.getInventory().addItem(oldOrder.want);
             newOrder.player.getInventory().remove(newOrder.give);
 
-            // TODO: remove oldOrder from orders, if complete, or add partial if incomplete
+            // Remove oldOrder from orders, if complete, or add partial if incomplete
 
             int remainingWant = oldOrder.want.getAmount() - newOrder.give.getAmount();
             int remainingGive = oldOrder.give.getAmount() - newOrder.want.getAmount();

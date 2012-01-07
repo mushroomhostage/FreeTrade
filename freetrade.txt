@@ -127,10 +127,11 @@ want player 10#cobblestone 10diamond
 
 want agnitfom 10diamond 10#cobblestone
 want player 6#cobblestone 6diamond
-13:04:57 [INFO] ratio 0.015625 >= 0.015625
-13:04:57 [INFO] Player received 64-cobblestone from agnitfom
-13:04:57 [INFO] agnitfom received 6-diamond from Player
-13:04:57 [INFO] Closed order agnitfom wants 6-diamond for 64-cobblestone
+13:13:02 [INFO] ratio 0.015625 >= 0.015625
+13:13:02 [INFO] Player received 64-cobblestone from agnitfom
+13:13:02 [INFO] agnitfom received 6-diamond from Player
+13:13:02 [INFO] Updated order: agnitfom wants 4-diamond for 576-cobblestone
+
 
 20:43:15 [INFO] ratio 0.015625 >= 0.015625
 20:43:15 [INFO] mudpots received ItemStack{COBBLESTONE x 384} from agnitfom
