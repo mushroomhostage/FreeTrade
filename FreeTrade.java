@@ -29,10 +29,10 @@ class ItemQuery
             String quantityString = m.group(1);
             String isStackString = m.group(2);
             String nameString = m.group(3);
-            String dmgString = m.group(4);
+            String usesString = m.group(4);
             String enchString = m.group(5);
 
-            log.info("dmg=" + dmgString + ", ench="+enchString);
+            log.info("uses=" + usesString + ", ench="+enchString);
 
             if (quantityString.equals("")) {
                 quantity = 1;
@@ -75,16 +75,16 @@ class ItemQuery
             // Damage value aka durability
             // User specifies how much they want left, 100% = unused tool
             short maxDamage = itemStack.getType().getMaxDurability();
-            if (dmgString != null && !dmgString.equals("")) {
+            if (usesString != null && !usesString.equals("")) {
                 short damage;
 
-                if (dmgString.endsWith("%")) {
-                    String percentageString = dmgString.substring(0, dmgString.length() - 1);
+                if (usesString.endsWith("%")) {
+                    String percentageString = usesString.substring(0, usesString.length() - 1);
                     double percentage = Double.parseDouble(percentageString);
 
                     damage = (short)(maxDamage - (short)(percentage / 100.0 * maxDamage));
                 } else {
-                    damage = (short)(maxDamage - (short)Integer.parseInt(dmgString));
+                    damage = (short)(maxDamage - (short)Integer.parseInt(usesString));
                 }
 
                 if (damage > maxDamage) {
@@ -238,7 +238,9 @@ class ItemQuery
         name = itemStack.getType().toString();
 
         if (isDurable(m)) {
-            extra = "/" + Math.round(itemStack.getDurability() * 100.0 / m.getMaxDurability()) + "%";
+            // Percentage left
+            // Round down so '100%' always means completely unused (1 dmg = 99%)
+            extra = "/" + Math.round(Math.floor(itemStack.getDurability() * 100.0 / m.getMaxDurability())) + "%";
         } else {
             extra = "";
         }
