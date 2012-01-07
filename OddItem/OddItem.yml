@@ -969,6 +969,7 @@ items:
     - netherwart
     - wart
     - nw
+    # Potions
     373;0:
     - waterbottle
     373;16:
@@ -1071,6 +1072,198 @@ items:
     - harmingpotII
     - harmII
     - harm2
+    # Splash potions
+    373;16384:
+    - splashmundanepotion
+    - spmundanepot
+    - spmundane
+    373;16385:
+    - splashregenerationpotion
+    - spregenpot
+    - spregen
+    373;16417:
+    - splashregenerationpotionextended
+    - spregenpotx
+    - spregenx
+    373;16386:
+    - splashregenerationpotionII
+    - spregenpotII
+    - spregenpot2
+    - spregenII
+    - spregen2
+    373;16450:
+    - splashswiftnesspotion
+    - spswiftnesspot
+    - spswiftness
+    373;16387:
+    - splashfireresistancepotion
+    - spfireresistancepot
+    - spfireresistance
+    - spfirepot
+    373;16389:
+    - splashhealingpotion
+    - sphealingpot
+    - sphealpot
+    - spheal
+    373;16421:
+    - splashhealingpotionII
+    - sphealingpotII
+    - sphealingpot2
+    - spheal2
+    - sphealII
+    373;16393:
+    - splashstrengthpotion
+    - spstrengthpot
+    - spstrength
+    373;16457:
+    - splashstrengthpotionextended
+    - spstrengthpotx
+    - spstrengthx
+    373;16425:
+    - splashstrengthpotionII
+    - spstrengthpot2
+    - spstrengthpotII
+    - spstrength2
+    - spstrengthII
+    373;16388:
+    - splashpoisonpotion
+    - sppoisonpot
+    - sppoison
+    373;16452:
+    - splashpoisonpotionextended
+    - sppoisonpotx
+    - sppoisonx
+    373;16420:
+    - splashpoisonpotionII
+    - sppoisonpot2
+    - sppoisonpotII
+    - sppoison2
+    - sppoisonII
+    373;16392:
+    - splashweaknesspotion
+    - spweaknesspot
+    - spweakness
+    373;16456:
+    - splashweaknesspotionextended
+    - spweaknesspotx
+    - spweaknessx
+    373;16394:
+    - splashslownesspotion
+    - spslownesspot
+    - spslowness
+    373;16396:
+    - splashharmingpotion
+    - spharmingpot
+    - spharmpot
+    - spharm
+    373;16428:
+    - splashharmingpotionII
+    - spharmingpot2
+    - spharmingpotII
+    - spharmII
+    - spharm2
+    # Unbrewable potions
+    373;8289:
+    - regenerationpotionII
+    - regenpotII
+    - regenpot2
+    - regen2
+    - regenII
+    373;8290:
+    - swiftnesspotionII
+    - swiftnesspotII
+    - swiftnesspot2
+    - swiftnessII
+    - swiftness2
+    373;8297:
+    - strengthpotionII
+    - strengthpotII
+    - strengthpot2
+    - strength2
+    - strengthII
+    373;8292:
+    - poisonpotionII
+    - poisonpotII
+    - poisonpot2
+    - poison2
+    - poisionII
+    # Unbrewable splash potions
+    373;16481:
+    - splashregenerationpotionII
+    - spregenpotII
+    - spregenpot2
+    - spregen2
+    - spregenII
+    373;16482:
+    - splashswiftnesspotionII
+    - spswiftnesspotII
+    - spswiftnesspot2
+    - spswiftnessII
+    - spswiftness2
+    373;16489:
+    - splashstrengthpotionII
+    - spstrengthpotII
+    - spstrengthpot2
+    - spstrength2
+    - spstrengthII
+    373;16484:
+    - splashpoisonpotionII
+    - sppoisonpotII
+    - sppoisonpot2
+    - sppoison2
+    - sppoisionII
+    # Unused potions
+    373;6:
+    - clearpotion
+    373;7:
+    - clearpotionx
+    373;11:
+    - diffusepotion
+    373;13:
+    - artlesspotion
+    373;14:
+    - thinpotion
+    373;15:
+    - thinpotionx
+    373;22:
+    - bunglingpotion
+    373;23:
+    - bunglingpotionx
+    373;27:
+    - smoothpotion
+    373;29:
+    - suavepotion
+    373;30:
+    - debonairpotion
+    373;31:
+    - debonairpotionx
+    373;38:
+    - charmingpotion
+    373;39:
+    - charmingpotionx
+    373;43:
+    - refinedpotion
+    373;45:
+    - cordialpotion
+    373;46:
+    - sparkingpotion
+    373;47:
+    - sparklingpotionx
+    373;48:
+    - potentpotion
+    373;54:
+    - rankpotion
+    373;55:
+    - rankpotionx
+    373;59:
+    - acridpotion
+    373;61:
+    - grosspotion
+    373;62:
+    - stinkypotion
+    373;63:
+    - stinkypotionx
+
     '2256':
     - thirteen
     - yellowdisc
