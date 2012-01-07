@@ -11,41 +11,12 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.bukkit.*;
 
-class Order
+class ItemQuery
 {
-    Player player;
-    ItemStack want, give;
-    boolean exact;
+    ItemStack itemStack;
 
-    public Order(Player p, String wantString, String giveString) {
-        player = p;
-
-        if (wantString.contains("!")) {
-            exact = true;
-            wantString = wantString.replace("!", "");
-        }
-        if (giveString.contains("!")) {
-            exact = true;
-            giveString = giveString.replace("!", "");
-        }
-
-        want = parseItemString(wantString);
-        give = parseItemString(giveString);
-    }
-
-    public Order(Player p, ItemStack w, ItemStack g, boolean e) {
-        player = p;
-        want = w;
-        give = g;
-        exact = e;
-    }
-
-    public String toString() {
-        return player.getDisplayName() + " wants " + want + " for " + give + (exact ? " (exact)" : "");
-    }
-
-
-    public ItemStack parseItemString(String s) {  // TODO: Use OddItem, or other unified aliasing plugin
+    public ItemQuery(String s) {
+        // TODO: Use OddItem, or other unified aliasing plugin
         Pattern p = Pattern.compile("^(\\d*)([# -]?)(\\p{Alpha}+)$");
         Matcher m = p.matcher(s);
         int quantity;
@@ -76,11 +47,48 @@ class Order
                 quantity *= material.getMaxStackSize();
             }
 
-            return new ItemStack(material, quantity); // TODO: damage, data, enchantments
+            itemStack = new ItemStack(material, quantity); // TODO: damage, data, enchantments
+            return;
         }
 
         throw new UsageException("Unrecognized item specification: " + s);
     }
+}
+
+class Order
+{
+    Player player;
+    ItemStack want, give;
+    boolean exact;
+
+    public Order(Player p, String wantString, String giveString) {
+        player = p;
+
+        if (wantString.contains("!")) {
+            exact = true;
+            wantString = wantString.replace("!", "");
+        }
+        if (giveString.contains("!")) {
+            exact = true;
+            giveString = giveString.replace("!", "");
+        }
+
+        want = (new ItemQuery(wantString)).itemStack;
+        give = (new ItemQuery(giveString)).itemStack;
+    }
+
+    public Order(Player p, ItemStack w, ItemStack g, boolean e) {
+        player = p;
+        want = w;
+        give = g;
+        exact = e;
+    }
+
+    public String toString() {
+        return player.getDisplayName() + " wants " + want + " for " + give + (exact ? " (exact)" : "");
+    }
+
+
 }
 
 class UsageException extends RuntimeException
