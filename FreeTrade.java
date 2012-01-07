@@ -67,10 +67,11 @@ class ItemQuery
                 throw new UsageException("Unrecognized item name: " + nameString);
             }
 
-            // 10# = 10 stacks
+            // Quantity, shorthand 10# = 10 stacks
             if (isStackString.equals("#")) {
                 quantity *= Math.abs(itemStack.getType().getMaxStackSize());
             }
+            itemStack.setAmount(quantity);
 
             // Damage value aka durability
             // User specifies how much they want left, 100% = unused tool
@@ -101,9 +102,7 @@ class ItemQuery
                 // TODO: only assume 0 for wants. For gives, need to use value from inventory! Underspecified
             }
 
-            itemStack.setAmount(quantity);
-
-            // TODO: damage, data, enchantments
+            // TODO: enchantments
 
             return;
         }
@@ -308,6 +307,106 @@ class ItemQuery
     }
 }
 
+class EnchantQuery
+{
+    static Logger log = Logger.getLogger("Minecraft");
+
+    public EnchantQuery(String s) {
+        Map<Enchantment,Integer> enchs;
+
+        String[] enchStrings = s.split("[, /-]");
+        for (String enchString: enchStrings) {
+            log.info(enchString);
+        }
+    }
+
+    static Enchantment oneFromName(String name) {
+        switch (name)
+        {
+        // Armor
+        case "protection": 
+            return PROTECTION_ENVIRONMENTAL;
+        case "fire-protection":
+        case "fireprotection": 
+        case "fire":
+            return PROTECTION_FIRE;
+        case "feather-falling":
+        case "featherfalling":
+        case "feather":
+        case "falling":
+        case "fall":
+            return PROTECTION_FALL;
+        case "blast-protection":
+        case "blastprotection":
+        case "blast":
+            return PROTECTION_BLAST;
+        case "projectile-protection":
+        case "projectileprotection":
+        case "projectile":
+            return PROTECTION_PROJECTILE;
+        case "respiration":
+        case "oxygen":
+            return OXYGEN;
+        case "aqua-affinity":
+        case "aquaaffinity":
+        case "aqua":
+        case "waterworker":
+            return WATER_WORKER;
+        // Weapons
+        case "sharpness":
+        case "damage-all":
+            return DAMAGE_ALL;
+        case "smite":
+        case "damage-undead":
+            return DAMAGE_UNDEAD;
+        case "bane-of-anthropods":
+        case "bane":
+        case "anthropods":
+            return DAMAGE_ANTHROPODS;
+        case "knockback":
+            return KNOCKBACK;
+        case "fire-aspect":
+        case "fireaspect":
+        case "fire":
+            return FIRE_ASPECT;
+        case "looting":
+        case "loot":
+        case "loot-bonus-mobs":
+            return LOOT_BONUS_MOBS;
+        // Tools
+        case "efficiency":
+        case "dig-speed":
+            return DIG_SPEED;
+        case "silk-touch":
+        case "silktouch":
+        case "silk":
+            return SILK_TOUCH;
+        case "unbreaking":
+        case "durability":
+            return DURABILITY;
+        case "fortune":
+        case "loot-bonus-blocks":
+            return LOOT_BONUS_BLOCKS;
+        default:
+            return null;
+        }
+    }
+
+    static int levelFromString(String s) {
+        switch (s)
+        {
+        case "": return 1;
+        case "I": return 1;
+        case "II": return 2;
+        case "III": return 3;
+        case "IV": return 4;
+        case "V": return 5;
+        default:
+            return Integer.parseInt(s);
+        }
+    }
+}
+
 class Order
 {
     Player player;
@@ -408,13 +507,14 @@ class Market
             double newRatio = (double)newOrder.give.getAmount() / newOrder.want.getAmount();
             double oldRatio = (double)oldOrder.want.getAmount() / oldOrder.give.getAmount();
 
-            // Offering a better or equal deal? Quantity = relative value
+            // Offering a better or equal deal? (Quantity = relative value)
             log.info("ratio " + newRatio + " >= " + oldRatio);
             if (!(newRatio >= oldRatio)) { 
                 log.info("Not matched, worse relative value");
                 continue;
             }
-            // TODO: durability
+
+            // Is item less damaged or equally damaged than wanted? (Durability)
             if (ItemQuery.isDurable(newOrder.give.getType())) {
                 if (newOrder.give.getDurability() > oldOrder.want.getDurability()) {
                     log.info("Not matched, worse damage new, " + newOrder.give.getDurability() + " < " + oldOrder.want.getDurability());
