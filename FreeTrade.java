@@ -20,7 +20,7 @@ class ItemQuery
     Logger log = Logger.getLogger("Minecraft");
 
     public ItemQuery(String s) {
-        Pattern p = Pattern.compile("^(\\d*)([# -]?)(\\p{Alpha}+)$");
+        Pattern p = Pattern.compile("^(\\d*)([# -]?)([^/]+)/?([\\d%]*)/?([^/]*)$");
         Matcher m = p.matcher(s);
         int quantity;
 
@@ -28,6 +28,10 @@ class ItemQuery
             String quantityString = m.group(1);
             String isStackString = m.group(2);
             String nameString = m.group(3);
+            String dmgString = m.group(4);
+            String enchString = m.group(5);
+
+            log.info("dmg=" + dmgString + ", ench="+enchString);
 
             if (quantityString.equals("")) {
                 quantity = 1;
@@ -40,8 +44,11 @@ class ItemQuery
 
             // Lookup item name
             if (Bukkit.getServer().getPluginManager().getPlugin("OddItem") != null) {
-                log.info("OddItem available, looking up " + nameString);            
-                itemStack = OddItem.getItemStack(nameString);
+                try {
+                    itemStack = OddItem.getItemStack(nameString);
+                } catch (IllegalArgumentException suggestion) {
+                    throw new UsageException("No such item '" + nameString + "', did you mean '" + suggestion.getMessage() + "'?");
+                }
             } else {
                 // OddItem isn't installed so use Bukkit's long names (diamond_pickaxe, cumbersome)
                 // Note this also means you need to manually specify damage values (wool/1, not orangewool!)
@@ -49,7 +56,7 @@ class ItemQuery
                 Material material = Material.matchMaterial(nameString);
 
                 if (material == null) {
-                    throw new UsageException("Unrecognized item name: " + nameString + " (OddItem not found)");
+                    throw new UsageException("Unrecognized item name: " + nameString + " (please install OddItem)");
                 }
 
                 itemStack = new ItemStack(material);
