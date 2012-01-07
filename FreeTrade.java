@@ -378,12 +378,14 @@ class Market
         for (int i = 0; i < orders.size(); i++) {
             Order oldOrder = orders.get(i);
 
-            log.info("oldOrder: " + oldOrder);
-            log.info("newOrder: " + newOrder);
+            //log.info("oldOrder: " + oldOrder);
+            //log.info("newOrder: " + newOrder);
 
             // Are they giving what anyone else wants?
+            // TODO: if !isDurable(), also check damage!!! allow trading wool,potions..
             if (!(newOrder.give.getType() == oldOrder.want.getType() &&
                 newOrder.want.getType() == oldOrder.give.getType())) { 
+                log.info("Not matched, different types");
                 continue;
             }
 
@@ -393,6 +395,7 @@ class Market
             // Offering a better or equal deal? Quantity, value
             log.info("ratio " + newRatio + " >= " + oldRatio);
             if (!(newRatio >= oldRatio)) { 
+                log.info("Not matched, worse deal");
                 continue;
             }
             // TODO: durability, enchantment checks
@@ -401,18 +404,22 @@ class Market
 
             // Is there enough?
             if (!(oldOrder.give.getAmount() >= newOrder.want.getAmount())) {
+                log.info("Not matched, not enough " + oldOrder.give.getAmount() + " >= " + newOrder.want.getAmount());
+                // TODO: important: make pending new outstanding order, can still do partial trade here!!
                 continue;
             }
 
             // They get what they want!
-            newOrder.player.getInventory().addItem(newOrder.want);
-            oldOrder.player.getInventory().remove(oldOrder.give); // TODO: ensure contains()
+            // TODO: ensure contains() before removing
+            // Note, clone() to avoid influencing original stacks
+            newOrder.player.getInventory().addItem(newOrder.want.clone());
+            oldOrder.player.getInventory().remove(oldOrder.give.clone()); 
             Bukkit.getServer().broadcastMessage(newOrder.player.getDisplayName() + " received " + 
                 ItemQuery.nameStack(newOrder.want) + " from " + oldOrder.player.getDisplayName());
             Bukkit.getServer().broadcastMessage(oldOrder.player.getDisplayName() + " received " + 
                 ItemQuery.nameStack(newOrder.give) + " from " + newOrder.player.getDisplayName());
-            oldOrder.player.getInventory().addItem(oldOrder.want);
-            newOrder.player.getInventory().remove(newOrder.give);
+            oldOrder.player.getInventory().addItem(oldOrder.want.clone());
+            newOrder.player.getInventory().remove(newOrder.give.clone());
 
             // Remove oldOrder from orders, if complete, or add partial if incomplete
 
