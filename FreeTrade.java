@@ -84,7 +84,7 @@ class ItemQuery
 
                     damage = (short)(maxDamage - (short)(percentage / 100.0 * maxDamage));
                 } else {
-                    damage = (short)(maxDamage - (short)Integer.parseInt(usesString));
+                    damage = (short)(maxDamage - Short.parseShort(usesString));
                 }
 
                 if (damage > maxDamage) {
@@ -238,9 +238,23 @@ class ItemQuery
         name = itemStack.getType().toString();
 
         if (isDurable(m)) {
-            // Percentage left
-            // Round down so '100%' always means completely unused (1 dmg = 99%)
-            extra = "/" + Math.round(Math.floor(itemStack.getDurability() * 100.0 / m.getMaxDurability())) + "%";
+            // Percentage remaining
+            
+            // Round down so '100%' always means completely unused? (1 dmg = 99%)
+            //int percentage = Math.round(Math.floor((m.getMaxDurability() - itemStack.getDurability()) * 100.0 / m.getMaxDurability()))
+            // but then lower percentages are always one lower..
+            // So just special-case 100% to avoid misleading
+            int percentage;
+            if (itemStack.getDurability() == 0) {
+                percentage = 100;
+            } else {
+                percentage = (int)((m.getMaxDurability() - itemStack.getDurability()) * 100.0 / m.getMaxDurability());
+                if (percentage == 100) {
+                    percentage = 99;
+                }
+            }
+
+            extra = "/" + percentage + "%";
         } else {
             extra = "";
         }
