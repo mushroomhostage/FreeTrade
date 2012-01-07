@@ -318,64 +318,77 @@ class EnchantQuery
 
         String[] enchStrings = s.split("[, /-]");
         for (String enchString: enchStrings) {
-            log.info(enchString);
+            Pattern p = Pattern.compile("^([a-z-]+)([IV0-9]*)$");
+            Matcher m = p.matcher(s);
+
+            if (!m.find()) {
+                throw new UsageException("Invalid enchantment: " + enchString);
+            }
+
+            String baseName = m.group(1);
+            String levelString = m.group(2);
+
+            Enchantment ench = enchFromBaseName(baseName);
+            int level = levelFromString(levelString);
+
+            log.info("Enchantment: " + ench + ", level="+level);
         }
     }
 
     static Enchantment enchFromBaseName(String n) {
         // TODO: something like OddItem for enchantment names! hideous, this
         // Armor
-        if (n == "protection") {
+        if (n.equals("protection")) {
             return Enchantment.PROTECTION_ENVIRONMENTAL;
-        } else if (n == "fire-protection" || n == "fireprotection" || n == "fire") {
+        } else if (n.equals("fire-protection") || n.equals("fireprotection") || n.equals("fire")) {
             return Enchantment.PROTECTION_FIRE;
-        } else if (n == "feather-falling" || n == "featherfalling" || n == "feather" || n == "falling" || n == "fall") {
+        } else if (n.equals("feather-falling") || n.equals("featherfalling") || n.equals("feather") || n.equals("falling") || n.equals("fall")) {
             return Enchantment.PROTECTION_FALL;
-        } else if (n == "blast-protection" || n == "blastprotection" || n == "blast" || n == "explosion-protection") {
+        } else if (n.equals("blast-protection") || n.equals("blastprotection") || n.equals("blast") || n.equals("explosion-protection")) {
             return Enchantment.PROTECTION_EXPLOSIONS;
-        } else if (n == "projectile-protection" || n == "projectileprotection" || n == "projectile") {
+        } else if (n.equals("projectile-protection") || n.equals("projectileprotection") || n.equals("projectile")) {
             return Enchantment.PROTECTION_PROJECTILE;
-        } else if (n == "respiration" || n == "oxygen") {
+        } else if (n.equals("respiration") || n.equals("oxygen")) {
             return Enchantment.OXYGEN; 
-        } else if (n == "aqua-affinity" || n == "aquaaffinity" || n == "aqua" || n == "waterworker") {
+        } else if (n.equals("aqua-affinity") || n.equals("aquaaffinity") || n.equals("aqua") || n.equals("waterworker")) {
             return Enchantment.WATER_WORKER;
         // Weapons
-        } else if (n == "sharpness" || n == "damage-all") {
+        } else if (n.equals("sharpness") || n.equals("damage-all")) {
             return Enchantment.DAMAGE_ALL;
-        } else if (n == "smite" || n == "damage-undead") {
+        } else if (n.equals("smite") || n.equals("damage-undead")) {
             return Enchantment.DAMAGE_UNDEAD;
-        } else if (n == "bane-of-arthropods" || n == "bane" || n == "arthropods") {
+        } else if (n.equals("bane-of-arthropods") || n.equals("bane") || n.equals("arthropods")) {
             return Enchantment.DAMAGE_ARTHROPODS;
-        } else if (n == "knockback") {
+        } else if (n.equals("knockback")) {
             return Enchantment.KNOCKBACK; 
-        } else if (n == "fire-aspect" || n == "fireaspect" || n == "fire") {
+        } else if (n.equals("fire-aspect") || n.equals("fireaspect") || n.equals("fire")) {
             return Enchantment.FIRE_ASPECT;
-        } else if (n == "looting" || n == "loot" || n == "loot-bonus-mobs") {
+        } else if (n.equals("looting") || n.equals("loot") || n.equals("loot-bonus-mobs")) {
             return Enchantment.LOOT_BONUS_MOBS;
         // Tools
-        } else if (n == "efficiency" || n == "dig-speed") {
+        } else if (n.equals("efficiency") || n.equals("dig-speed")) {
             return Enchantment.DIG_SPEED;
-        } else if (n == "silk-touch" || n == "silktouch" || n == "silk") {
+        } else if (n.equals("silk-touch") || n.equals("silktouch") || n.equals("silk")) {
             return Enchantment.SILK_TOUCH;
-        } else if (n == "unbreaking" || n == "durability") {
+        } else if (n.equals("unbreaking") || n.equals("durability")) {
             return Enchantment.DURABILITY;
-        } else if (n == "fortune" || n == "loot-bonus-blocks") {
+        } else if (n.equals("fortune") || n.equals("loot-bonus-blocks")) {
             return Enchantment.LOOT_BONUS_BLOCKS;
         } else {
-            throw new UsageException("No such enchantment name: " + n);
+            throw new UsageException("Unrecognized enchantment name: " + n);
         }
     }
 
     static int levelFromString(String s) {
-        if (s == "" || s == "I") {
+        if (s.equals("") || s.equals("I")) {
             return 1;
-        } else if (s == "II") { 
+        } else if (s.equals("II")) { 
             return 2;
-        } else if (s == "III") {
+        } else if (s.equals("III")) {
             return 3;
-        } else if (s == "IV") {
+        } else if (s.equals("IV")) {
             return 4;
-        } else if (s == "V") {
+        } else if (s.equals("V")) {
             return 5;
         } else {
             return Integer.parseInt(s);
@@ -572,6 +585,8 @@ public class FreeTrade extends JavaPlugin {
 
     public void onEnable() {
         log.info(getDescription().getName() + " enabled");
+
+        log.info("e=" + new EnchantQuery("fortune3"));
     }
 
     public void onDisable() {
