@@ -108,10 +108,18 @@ class ItemQuery
         throw new UsageException("Unrecognized item specification: " + s);
     }
 
+    // Return whether an item degrades when used
+    public static boolean isDurable(ItemStack itemStack) {
+        Material m = itemStack.getType();
+
+        return isTool(m) || isWeapon(m) || isArmor(m);
+    }
+
+
     // Return whether the "damage"(durability) value is overloaded to mean
     // a different kind of material, instead of actual damage on a tool
     public static boolean dmgMeansSubtype(Material m) {
-        // TODO: should this check be inverted, just checking for tools and returning true instead?
+        // TODO: should this check be inverted, just checking for tools/weapons/armor (isDurable??) and returning true instead?
         switch (m) {
         // Blocks
         case SAPLING:
@@ -182,6 +190,53 @@ class ItemQuery
             return false;
         }
     }
+
+    public static boolean isTool(Material m) {
+        switch (m) {
+        case WOOD_PICKAXE:  case STONE_PICKAXE: case IRON_PICKAXE:  case DIAMOND_PICKAXE:
+        case WOOD_AXE:      case STONE_AXE:     case IRON_AXE:      case DIAMOND_AXE:
+        case WOOD_SPADE:    case STONE_SPADE:   case IRON_SPADE:    case DIAMOND_SPADE:
+        case FISHING_ROD:
+            return true;
+        default:
+            return false;
+        }
+    }
+
+    public static boolean isWeapon(Material m) {
+        switch (m) {
+        case WOOD_SWORD:    case STONE_SWORD:   case IRON_SWORD:    case DIAMOND_SWORD:
+        case BOW:
+            return true;
+        default:
+            return false;
+        }
+    }
+
+    public static boolean isArmor(Material m) {
+        switch (m) {
+        case LEATHER_BOOTS:     case IRON_BOOTS:      case GOLD_BOOTS:      case DIAMOND_BOOTS:
+        case LEATHER_LEGGINGS:  case IRON_LEGGINGS:   case GOLD_LEGGINGS:   case DIAMOND_LEGGINGS:
+        case LEATHER_CHESTPLATE:case IRON_CHESTPLATE: case GOLD_CHESTPLATE: case DIAMOND_CHESTPLATE:
+        case LEATHER_HELMET:    case IRON_HELMET:     case GOLD_HELMET:     case DIAMOND_HELMET:
+        // PUMPKIN is wearable on head, but isn't really armor, it doesn't take any damage
+            return true;
+        default:
+            return false;
+        }
+    }
+
+
+
+    public static String nameStack(ItemStack itemStack) {
+        String name;
+        
+        name = itemStack.getAmount() + "-" + itemStack.getType().toString();
+
+        // TODO: get name from dmg if dmgMeansSubtype()
+        // TODO: if not, show dmg value
+        return name;
+    }
 }
 
 class Order
@@ -214,7 +269,7 @@ class Order
     }
 
     public String toString() {
-        return player.getDisplayName() + " wants " + want + " for " + give + (exact ? " (exact)" : "");
+        return player.getDisplayName() + " wants " + ItemQuery.nameStack(want) + " for " + ItemQuery.nameStack(give) + (exact ? " (exact)" : "");
     }
 
 
