@@ -223,6 +223,17 @@ want agnitfom 1diamond gsword/1
 12:59:59 [INFO] Closed order agnitfom wants 2-diamond for 1-dpickaxe/69%
 (Exact trade matching durability)
 
+want agnitfom bluewool dirt
+want player dirt greenwool
+14:07:33 [INFO] Not matched, different types
+(Same block type ID, but damage values distinguish the color, no trade)
+want player dirt bluewool
+14:08:04 [INFO] agnitfom received 1-bluewool from Player
+14:08:04 [INFO] Player received 1-dirt from agnitfom
+14:08:04 [INFO] Closed order agnitfom wants 1-bluewool for 1-dirt
+
+
+
 want agnitfom 2diamond dpick/1000
 want player dpick/900 2diamond
 

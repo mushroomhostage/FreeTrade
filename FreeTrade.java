@@ -32,7 +32,7 @@ class ItemQuery
             String usesString = m.group(4);
             String enchString = m.group(5);
 
-            log.info("uses=" + usesString + ", ench="+enchString);
+            //log.info("uses=" + usesString + ", ench="+enchString);
 
             if (quantityString.equals("")) {
                 quantity = 1;
@@ -289,6 +289,23 @@ class ItemQuery
 
         return itemStack.getAmount() + "-" + name + extra;
     }
+
+    // Return whether two item stacks have the same item, taking into account 'subtypes'
+    // stored in the damage value (ex: blue wool, only same as blue wool) - but will
+    // ignore damage for durable items (ex: diamond sword, 50% = diamond sword, 100%)
+    public static boolean isSameType(ItemStack a, ItemStack b) {
+        if (a.getType() != b.getType()) {
+            return false;
+        }
+
+        Material m = a.getType();
+
+        if (isDurable(m)) {
+            return true;
+        }
+    
+        return a.getDurability() == b.getDurability();
+    }
 }
 
 class Order
@@ -382,9 +399,8 @@ class Market
             //log.info("newOrder: " + newOrder);
 
             // Are they giving what anyone else wants?
-            // TODO: if !isDurable(), also check damage!!! allow trading wool,potions..
-            if (!(newOrder.give.getType() == oldOrder.want.getType() &&
-                newOrder.want.getType() == oldOrder.give.getType())) { 
+            if (!ItemQuery.isSameType(newOrder.give, oldOrder.want) ||
+                !ItemQuery.isSameType(newOrder.want, oldOrder.give)) {
                 log.info("Not matched, different types");
                 continue;
             }
