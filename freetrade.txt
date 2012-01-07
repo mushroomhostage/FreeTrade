@@ -1,0 +1,218 @@
+Minecraft Free Trade Market plugin idea 2012/01/05 JC
+
+/want X for Y
+
+Places order saying you want X in exchange for Y
+for optional:
+
+/want X Y
+
+Quantities:
+/want 640cobble 10diamond
+
+Order is announced upon placing:
+-> Player1 wants 640cobble for 10diamond
+
+Orders automatically matched up to other orders
+
+/want 10diamond 640cobble
+
+will match up perfectly, and instantly cause:
+-> Player1 received 640cobble from Player2
+-> Player2 received 10diamond from Player1
+
+Orders matched up regardless of when they are placed
+
+Partial fills:
+
+/want 5diamond 320cobble
+-> Player1 received 320cobble from Player2
+-> Player2 received 5diamond from Player1
+-> Player1 still wants 320cobble for 5diamond
+
+Matches up to lowest order, gives best deal:
+
+/want 1diamond 640cobble
+-> Player1 received 640cobble from Player2
+-> Player2 received 1diamond from Player1
+
+Items are worth what players want to pay for them.
+Avoids fixed exchange rates (centrally-controlled economy)
+Avoids fiat currency (iConomy, $)
+Avoids trade fraud (guaranteed safe)
+
+
+Potential Enhancements and Implementation Details:
+
+Item location:
+/want looks in player inventory for item they're giving
+After inventory slot, must have space for new items they want
+If inventory changes so this is no longer true (hook inventory changes), cancel order
+
+Trading from chests:
+"Trade machine" block, configurable
+ Lapis lazuili block? (easier: gold block, crafting table, rarer: diamond block, or: new item mod?)
+Be within X of block to place/modify orders, or not
+Conceptually a trading terminal, globally connected to free market trading network
+
+If item giving not in inventory, looks in nearest chest to trade terminal
+Same rules for free inventory slots and chest content changing potentially canceling order
+
+Item specification:
+10 cobblestones, 10 cobblestone, 10cobblestone, 10cobble, 10c..
+Use some well-known item name aliasing code if available
+1diamond, diamond, 1d, d, convenient shortcuts for commonly-traded item names
+# = stack (64, 16, 1, depending on item)
+640cobble, 10#cobble
+
+
+Special trades:
+
+Experience points: /want 50xp 20d
+Potions:
+Tools:
+diamondpick/100% - completely unused, or percentage of durability or number of uses left
+Defaults to 100%, but can enter less if acceptable, i.e., 50% will trade at least 50% left, or better
+Defaults to unenchanted
+diamondpick/fortune2 - matches fortune3 or fortune2 or f2/3 + others, 100% (accepts better)
+
+/want diamondpick/fortuneII 64diamonds
+Its expensive
+
+
+Normally, try to get best deal ("more than bargained for")
+quantity < damage < enchantment
+To override, exact trade '!'
+
+/want dpick/fortune2! 64diamonds
+Exact only, won't accept dpick/fortune3, or dpick/fortune2 with other enchantments
+Also use for damage, but rarely useful (exactly 50% damage?)
+Could use for quantity:
+
+/want 640cobble! 10diamonds
+Won't accept partial trades. All-or-nothing (AON) in stock market lingo.
+
+Item in hand:
+/want 64diamonds for this
+/want 64diamonds this
+Useful when trading tools, easier than giving exact damage, unless is 100%
+
+
+/want 1blazerod 2diamonds
+
+"Trade room"
+Set admin-only trade terminal, fix radius, must go there to place/modify orders
+But trades can still execute wherever player is
+
+Trade history
+Ratios, historical over time, up/down. diamonds/cobble, etc.
+
+How much are things worth, over time?
+/want 1bread 1iron
+Desparate newbie
+/want 100iron 100bread
+Rich farmer, sets relatively high price, but maybe makes sense to buy for new players in small quantities
+
+
+
+Test cases:
+want agnitfom 10diamond 10#cobblestone
+want player 10#cobblestone 10diamond
+08:44:11 [INFO] Player wants ItemStack{COBBLESTONE x 640} for ItemStack{DIAMOND x 10}
+08:44:11 [INFO] ratio 0.015625 >= 0.015625
+08:44:11 [INFO] Player received ItemStack{COBBLESTONE x 64} from agnitfom
+08:44:11 [INFO] agnitfom received ItemStack{DIAMOND x 10} from Player
+08:44:11 [INFO] Closed order agnitfom wants ItemStack{DIAMOND x 10} for ItemStack{COBBLESTONE x 640}
+(Equal match, same value, same quantity = close order)
+
+want agnitfom 10diamond 10#cobblestone
+want player 6#cobblestone 6diamond
+13:04:57 [INFO] ratio 0.015625 >= 0.015625
+13:04:57 [INFO] Player received 64-cobblestone from agnitfom
+13:04:57 [INFO] agnitfom received 6-diamond from Player
+13:04:57 [INFO] Closed order agnitfom wants 6-diamond for 64-cobblestone
+
+20:43:15 [INFO] ratio 0.015625 >= 0.015625
+20:43:15 [INFO] mudpots received ItemStack{COBBLESTONE x 384} from agnitfom
+20:43:15 [INFO] agnitfom received ItemStack{DIAMOND x 6} from mudpots
+20:43:15 [INFO] Updated order: agnitfom wants ItemStack{DIAMOND x 4} for ItemStack{COBBLESTONE x 256}
+(Same value, smaller quantity = partial order remaining)
+20:44:06 [INFO] mudpots wants ItemStack{COBBLESTONE x 256} for ItemStack{DIAMOND x 4}
+20:44:06 [INFO] ratio 0.015625 >= 0.015625
+20:44:06 [INFO] mudpots received ItemStack{COBBLESTONE x 256} from agnitfom
+20:44:06 [INFO] agnitfom received ItemStack{DIAMOND x 4} from mudpots
+20:44:06 [INFO] Closed order agnitfom wants ItemStack{DIAMOND x 4} for ItemStack{COBBLESTONE x 256}
+(Finish up order)
+want mudpots 4#cobblestone 4diamond
+20:44:20 [INFO] mudpots wants ItemStack{COBBLESTONE x 256} for ItemStack{DIAMOND x 4}
+(Can't get more than is available, order pends)
+
+
+want agnitfom 10diamond 10#cobblestone
+want mudpots 10#cobblestone 100diamond
+20:46:37 [INFO] mudpots wants ItemStack{COBBLESTONE x 640} for ItemStack{DIAMOND x 100}
+20:46:37 [INFO] ratio 0.15625 >= 0.015625
+20:46:37 [INFO] mudpots received ItemStack{COBBLESTONE x 640} from agnitfom
+20:46:37 [INFO] agnitfom received ItemStack{DIAMOND x 100} from mudpots
+20:46:37 [INFO] Closed order agnitfom wants ItemStack{DIAMOND x 10} for ItemStack{COBBLESTONE x 640}
+(Higher value: a very generous player, offered more diamonds than the first player wanted, so he took it)
+
+want agnitfom 10diamond 10#cobblestone
+want mudpots 10#cobblestone 1diamond  
+20:47:50 [INFO] ratio 0.0015625 >= 0.015625
+(Lower value: new player wants to pay less than older player, no match, both offers remain open)
+
+want agnitfom bluewool dpick/50%
+12:22:52 [INFO] dmg=, ench=
+12:22:52 [INFO] dmg=50%, ench=
+12:22:52 [INFO] Set dmg=780
+12:22:52 [INFO] agnitfom wants 1-bluewool for 1-dpickaxe/50%
+12:22:52 [INFO] Wanted: agnitfom wants 1-bluewool for 1-dpickaxe/50%
+(Understands damage values, both to mean subtypes and how many uses are left for the item)
+
+want agnitfom 1diamond dpick/1000
+12:25:18 [INFO] dmg=, ench=
+12:25:18 [INFO] dmg=1000, ench=
+12:25:18 [INFO] Set dmg=1000
+12:25:18 [INFO] agnitfom wants 1-diamond for 1-dpickaxe/64%
+12:25:18 [INFO] Wanted: agnitfom wants 1-diamond for 1-dpickaxe/64%
+(Damage can be specific number)
+
+want agnitfom 1diamond dpick/100%
+12:25:44 [INFO] dmg=, ench=
+12:25:44 [INFO] dmg=100%, ench=
+12:25:44 [INFO] Set dmg=1561
+12:25:44 [INFO] agnitfom wants 1-diamond for 1-dpickaxe/100%
+12:25:44 [INFO] Wanted: agnitfom wants 1-diamond for 1-dpickaxe/100%
+(Or a percentage)
+
+want agnitfom 1diamond gsword/1
+12:26:12 [INFO] dmg=, ench=
+12:26:12 [INFO] dmg=1, ench=
+12:26:12 [INFO] Set dmg=1
+12:26:12 [INFO] agnitfom wants 1-diamond for 1-gsword/3%
+12:26:12 [INFO] Wanted: agnitfom wants 1-diamond for 1-gsword/3%
+(To get with any amount of damage, use 1 or less, 0 or 0% ok too)
+
+
+>want agnitfom 2diamond dpick/70%
+12:59:55 [INFO] uses=, ench=
+12:59:55 [INFO] uses=70%, ench=
+12:59:55 [INFO] Set dmg=469
+12:59:55 [INFO] agnitfom wants 2-diamond for 1-dpickaxe/69%
+12:59:55 [INFO] Wanted: agnitfom wants 2-diamond for 1-dpickaxe/69%
+>want player dpick/70% 2diamond
+12:59:59 [INFO] uses=70%, ench=
+12:59:59 [INFO] Set dmg=469
+12:59:59 [INFO] uses=, ench=
+12:59:59 [INFO] Player wants 1-dpickaxe/69% for 2-diamond
+12:59:59 [INFO] ratio 2.0 >= 2.0
+12:59:59 [INFO] Player received 1-dpickaxe/69% from agnitfom
+12:59:59 [INFO] agnitfom received 2-diamond from Player
+12:59:59 [INFO] Closed order agnitfom wants 2-diamond for 1-dpickaxe/69%
+(Exact trade matching durability)
+
+want agnitfom 2diamond dpick/1000
+want player dpick/900 2diamond
+
+
