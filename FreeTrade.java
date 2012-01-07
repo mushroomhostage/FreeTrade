@@ -320,7 +320,7 @@ class EnchantQuery
         }
     }
 
-    static Enchantment oneFromName(String name) {
+    static Enchantment oneFromName(String n) {
         switch (name)
         {
         // Armor
@@ -595,11 +595,40 @@ public class FreeTrade extends JavaPlugin {
     Market market = new Market();
 
     public void onEnable() {
-        log.info("FreeTrade enabled");
+        loadConfig();
+
+        log.info(getDescription().getName() + " enabled");
     }
 
     public void onDisable() {
-        log.info("FreeTrade disabled");
+        log.info(getDescription().getName() + " disabled");
+    }
+
+    private void loadConfig() {
+        String filename = getDataFolder() + System.getProperty("file.separator") + "FreeTrade.yml";
+        File file = new File(filename);
+        
+        if (!file.exists()) {
+            if (!saveConfig(file)) {
+                throw new Exception("Couldn't save configuration file");
+            }
+
+        }
+    }
+
+    private void saveConfig(File file) {
+        FileWriter writer;
+
+        if (!file.getParentFile().exists()) {
+            file.getParentFile().mkdir();
+        }
+        try {
+            writer = new FileWriter(file);
+        } catch (IOException e) {
+            log.severe("Couldn't save config file: " + e.getMessage());
+            Bukkit.getServer().getPluginManager.disablePlugin(this);
+            return false;
+        }
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
