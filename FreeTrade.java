@@ -107,6 +107,22 @@ class ItemQuery
 
         throw new UsageException("Unrecognized item specification: " + s);
     }
+
+    public static void dmgMeansSubtype(Material m) {
+        switch (typeId) {
+        case SAPLING:
+        case LEAVES:
+        case LOG:
+        case WOOL:
+        case DOUBLE_STEP:
+        case STEP:
+        case SMOOTH_BRICK:
+
+        case COAL:
+        case INK_SACK:
+        case POTION:
+        //case SPAWNER_EGG:     // TODO: w49
+    }
 }
 
 class Order
