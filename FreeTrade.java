@@ -6,14 +6,18 @@ import java.util.regex.*;
 import java.util.ArrayList;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.*;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.bukkit.*;
 
+import info.somethingodd.bukkit.OddItem.OddItem;
+
 class ItemQuery
 {
     ItemStack itemStack;
+    Logger log = Logger.getLogger("Minecraft");
 
     public ItemQuery(String s) {
         // TODO: Use OddItem, or other unified aliasing plugin
@@ -25,6 +29,7 @@ class ItemQuery
             String quantityString = m.group(1);
             String isStackString = m.group(2);
             String nameString = m.group(3);
+            Material material;
 
             if (quantityString.equals("")) {
                 quantity = 1;
@@ -35,12 +40,21 @@ class ItemQuery
                 }
             }
 
-            // TODO: really need better material matching names, shorthands
-            // diamond_pickaxe, too long. diamondpick, dpick, would be better.
-            // iron_ingot, want just iron or i. shortest match: cobblestone, cobble. common: diamond, d. plural.
-            Material material = Material.matchMaterial(nameString);
+
+            // Lookup item name
+            if (Bukkit.getServer().getPluginManager().getPlugin("OddItem") != null) {
+                log.info("OddItem available, looking up " + nameString);            
+                material = OddItem.getItemStack(nameString).getType();
+                // TODO: get damage value, too! very important
+                log.info("Material = " + material);
+            } else {
+                // OddItem isn't installed so use Bukkit's long names (diamond_pickaxe, cumbersome)
+                material = Material.matchMaterial(nameString);
+            }
+
             if (material == null) {
                 // TODO: exception?
+                throw new UsageException("No such item: " + nameString);
             }
 
             if (isStackString.equals("#")) {

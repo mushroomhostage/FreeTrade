@@ -6,3 +6,4 @@ commands:
         description: Place an order for an item you want
         #permission: freetrade.want
         usage: /want [item you want] for [item you will give in return]
+softdepend: [OddItem]
