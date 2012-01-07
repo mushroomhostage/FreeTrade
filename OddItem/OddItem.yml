@@ -807,6 +807,8 @@ items:
     - book
     '341':
     - slimeorb
+    - slime
+    - slimeball
     '342':
     - scart
     - sminecart
@@ -1258,6 +1260,32 @@ items:
     - stinkypotion
     373;63:
     - stinkypotionx
+    '374':
+    - glassbottle
+    '375':
+    - spidereye
+    - seye
+    '376':
+    - fermentedspidereye
+    - fermentedeye
+    - fseye
+    '377':
+    - blazepowder
+    - powder
+    '378':
+    - magmacream
+    - cream
+    '379':
+    - brewingstand
+    - stand
+    '380':
+    - cauldron
+    '381':
+    - eyeofender
+    - eeye
+    '382':
+    - glisteringmelon
+    - gmelon
     '2256':
     - thirteen
     - yellowdisc
