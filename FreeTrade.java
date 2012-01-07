@@ -20,7 +20,6 @@ class ItemQuery
     Logger log = Logger.getLogger("Minecraft");
 
     public ItemQuery(String s) {
-        // TODO: Use OddItem, or other unified aliasing plugin
         Pattern p = Pattern.compile("^(\\d*)([# -]?)(\\p{Alpha}+)$");
         Matcher m = p.matcher(s);
         int quantity;
@@ -29,7 +28,6 @@ class ItemQuery
             String quantityString = m.group(1);
             String isStackString = m.group(2);
             String nameString = m.group(3);
-            Material material;
 
             if (quantityString.equals("")) {
                 quantity = 1;
@@ -40,28 +38,35 @@ class ItemQuery
                 }
             }
 
-
             // Lookup item name
             if (Bukkit.getServer().getPluginManager().getPlugin("OddItem") != null) {
                 log.info("OddItem available, looking up " + nameString);            
-                material = OddItem.getItemStack(nameString).getType();
-                // TODO: get damage value, too! very important
-                log.info("Material = " + material);
+                itemStack = OddItem.getItemStack(nameString);
             } else {
                 // OddItem isn't installed so use Bukkit's long names (diamond_pickaxe, cumbersome)
-                material = Material.matchMaterial(nameString);
+                // Note this also means you need to manually specify damage values (wool/1, not orangewool!)
+                // Therefore installing OddItem is highly recommended
+                Material material = Material.matchMaterial(nameString);
+
+                if (material == null) {
+                    throw new UsageException("Unrecognized item name: " + nameString + " (OddItem not found)");
+                }
+
+                itemStack = new ItemStack(material);
             }
 
-            if (material == null) {
-                // TODO: exception?
-                throw new UsageException("No such item: " + nameString);
+            if (itemStack == null) {
+                throw new UsageException("Unrecognized item name: " + nameString);
             }
 
             if (isStackString.equals("#")) {
-                quantity *= material.getMaxStackSize();
+                quantity *= Math.abs(itemStack.getType().getMaxStackSize());
             }
 
-            itemStack = new ItemStack(material, quantity); // TODO: damage, data, enchantments
+            itemStack.setAmount(quantity);
+
+            // TODO: damage, data, enchantments
+
             return;
         }
 
