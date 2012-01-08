@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.io.*;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.*;
@@ -15,6 +16,8 @@ import org.bukkit.command.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.bukkit.enchantments.*;
+import org.bukkit.configuration.*;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.*;
 
 import info.somethingodd.bukkit.OddItem.OddItem;
@@ -774,11 +777,67 @@ public class FreeTrade extends JavaPlugin {
     Market market = new Market();
 
     public void onEnable() {
+        loadConfig();
         log.info(getDescription().getName() + " enabled");
     }
 
     public void onDisable() {
+        saveConfig();
         log.info(getDescription().getName() + " disabled");
+    }
+
+    public void loadConfig() {
+        String filename = getDataFolder() + System.getProperty("file.separator") + "FreeTrade.yml";
+        File file = new File(filename);
+
+        if (!file.exists()) {
+            if (!newConfig(file)) {
+                throw new UsageException("Could not create new configuration file");
+            }
+        }
+
+        YamlConfiguration config = new YamlConfiguration();
+        config.loadConfiguration(file);
+
+        log.info("Loaded config " + config.getInt("version", 0));
+    }
+
+    // Copy default configuration
+    public boolean newConfig(File file) {
+        FileWriter fileWriter;
+        if (!file.getParentFile().exists()) {
+            file.getParentFile().mkdir();
+        }
+
+        try {
+            fileWriter = new FileWriter(file);
+        } catch (IOException e) {
+            log.severe("Couldn't write config file: " + e.getMessage());
+            Bukkit.getServer().getPluginManager().disablePlugin(Bukkit.getServer().getPluginManager().getPlugin("FreeTrade"));
+            return false;
+        }
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new BufferedInputStream(getResource("FreeTrade.yml"))));
+        BufferedWriter writer = new BufferedWriter(fileWriter);
+        try {
+            String line = reader.readLine();
+            while (line != null) {
+                writer.write(line + System.getProperty("line.separator"));
+                line = reader.readLine();
+            }
+            log.info("Wrote default config");
+        } catch (IOException e) {
+            log.severe("Error writing config: " + e.getMessage());
+        } finally {
+            try {
+                writer.close();
+                reader.close();
+            } catch (IOException e) {
+                log.severe("Error saving config: " + e.getMessage());
+                Bukkit.getServer().getPluginManager().disablePlugin(Bukkit.getServer().getPluginManager().getPlugin("FreeTrade"));
+            }
+        }
+        return true;
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {

@@ -1,3 +1,4 @@
+version: 1
 enchants:
     # Armor
     '0':
@@ -2324,4 +2325,3 @@ items:
         - elevendisc
         - brokenrecord
         obtain: creative
-listversion: 0
