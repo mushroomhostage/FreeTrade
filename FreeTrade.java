@@ -35,106 +35,103 @@ class ItemQuery
     public ItemQuery(String s) {
         Pattern p = Pattern.compile(
             "^(\\d*)" +     // quantity
-            "([# :-]?)" +   // separator
+            "([# :-]?)" +   // stack flag
             "([^/]+)" +     // name
             "/?([\\d%]*)" + // use
             "/?([^/]*)$");  // enchant
         Matcher m = p.matcher(s);
         int quantity;
 
-        while(m.find()) {
-            String quantityString = m.group(1);
-            String isStackString = m.group(2);
-            String nameString = m.group(3);
-            String usesString = m.group(4);
-            String enchString = m.group(5);
-
-            //log.info("uses=" + usesString + ", ench="+enchString);
-
-            if (quantityString.equals("")) {
-                quantity = 1;
-            } else {
-                quantity = Integer.parseInt(quantityString);
-                if (quantity < 0) {
-                    throw new UsageException("Invalid quantity: " + quantity);
-                }
-            }
-
-            // TODO: wildcards, *, match one or if multiple list all matching (i.e. *pot*), for a search
-
-            // First try built-in name lookup
-            itemStack = directLookupName(nameString);
-            if (itemStack == null) {
-                // If available, try OddItem for better names or clever suggestions
-                if (Bukkit.getServer().getPluginManager().getPlugin("OddItem") != null) {
-                    try {
-                        itemStack = OddItem.getItemStack(nameString).clone();
-                    } catch (IllegalArgumentException suggestion) {
-                        throw new UsageException("No such item '" + nameString + "', did you mean '" + suggestion.getMessage() + "'?");
-                    }
-                } else {
-                    // Worst case, lookup name from Bukkit itself
-                    // Not very good because doesn't include damage value subtypes
-                    Material material = Material.matchMaterial(nameString);
-                    if (material == null) {
-                        throw new UsageException("Unrecognized item name: " + nameString + " (no suggestions available)");
-                    }
-                    itemStack = new ItemStack(material);
-                }
-            }
-
-            if (itemStack == null) {
-                throw new UsageException("Unrecognized item name: " + nameString);
-            }
-
-
-            // Quantity, shorthand 10# = 10 stacks
-            if (isStackString.equals("#")) {
-                quantity *= Math.abs(itemStack.getType().getMaxStackSize());
-            }
-            itemStack.setAmount(quantity);
-
-            // Damage value aka durability
-            // User specifies how much they want left, 100% = unused tool
-            short maxDamage = itemStack.getType().getMaxDurability();
-            if (usesString != null && !usesString.equals("")) {
-                short damage;
-
-                if (usesString.endsWith("%")) {
-                    String percentageString = usesString.substring(0, usesString.length() - 1);
-                    double percentage = Double.parseDouble(percentageString);
-
-                    damage = (short)(maxDamage - (short)(percentage / 100.0 * maxDamage));
-                } else {
-                    damage = (short)(maxDamage - Short.parseShort(usesString));
-                }
-
-                if (damage > maxDamage) {
-                    damage = maxDamage;     // Breaks right after one use
-                }
-
-                if (damage < 0) {
-                    damage = 0;             // Completely unused
-                }
-
-                itemStack.setDurability(damage);
-            } else {
-                // If they didn't specify a durability, but they want a durable item, assume no damage (0)
-                // TODO: only assume 0 for wants. For gives, need to use value from inventory! Underspecified
-            }
-
-            // TODO: enchantments
-            if (enchString != null && !enchString.equals("")) {
-                EnchantQuery enchs = new EnchantQuery(enchString);
-
-                itemStack.addEnchantments(enchs.all);
-            }
-
-
-            return;
+        if (!m.find()) {
+            throw new UsageException("Unrecognized item specification: " + s);
         }
 
-        throw new UsageException("Unrecognized item specification: " + s);
+        String quantityString = m.group(1);
+        String isStackString = m.group(2);
+        String nameString = m.group(3);
+        String usesString = m.group(4);
+        String enchString = m.group(5);
+
+        log.info("q="+quantityString+", name="+nameString);
+
+        if (quantityString.equals("")) {
+            quantity = 1;
+        } else {
+            quantity = Integer.parseInt(quantityString);
+            if (quantity < 1) {
+                throw new UsageException("Invalid quantity: " + quantity);
+            }
+        }
+
+        // TODO: wildcards, *, match one or if multiple list all matching (i.e. *pot*), for a search
+
+        // First try built-in name lookup
+        itemStack = directLookupName(nameString);
+        if (itemStack == null) {
+            // If available, try OddItem for better names or clever suggestions
+            if (Bukkit.getServer().getPluginManager().getPlugin("OddItem") != null) {
+                try {
+                    itemStack = OddItem.getItemStack(nameString).clone();
+                } catch (IllegalArgumentException suggestion) {
+                    throw new UsageException("No such item '" + nameString + "', did you mean '" + suggestion.getMessage() + "'?");
+                }
+            } else {
+                // Worst case, lookup name from Bukkit itself
+                // Not very good because doesn't include damage value subtypes
+                Material material = Material.matchMaterial(nameString);
+                if (material == null) {
+                    throw new UsageException("Unrecognized item name: " + nameString + " (no suggestions available)");
+                }
+                itemStack = new ItemStack(material);
+            }
+        }
+
+        if (itemStack == null) {
+            throw new UsageException("Unrecognized item name: " + nameString);
+        }
+
+
+        // Quantity, shorthand 10# = 10 stacks
+        if (isStackString.equals("#")) {
+            quantity *= Math.abs(itemStack.getType().getMaxStackSize());
+        }
+        itemStack.setAmount(quantity);
+
+        // Damage value aka durability
+        // User specifies how much they want left, 100% = unused tool
+        short maxDamage = itemStack.getType().getMaxDurability();
+        if (usesString != null && !usesString.equals("")) {
+            short damage;
+
+            if (usesString.endsWith("%")) {
+                String percentageString = usesString.substring(0, usesString.length() - 1);
+                double percentage = Double.parseDouble(percentageString);
+
+                damage = (short)(maxDamage - (short)(percentage / 100.0 * maxDamage));
+            } else {
+                damage = (short)(maxDamage - Short.parseShort(usesString));
+            }
+
+            if (damage > maxDamage) {
+                damage = maxDamage;     // Breaks right after one use
+            }
+
+            if (damage < 0) {
+                damage = 0;             // Completely unused
+            }
+
+            itemStack.setDurability(damage);
+        } else {
+            // If they didn't specify a durability, but they want a durable item, assume no damage (0)
+            // TODO: only assume 0 for wants. For gives, need to use value from inventory! Underspecified
+        }
+
+        // TODO: enchantments
+        if (enchString != null && !enchString.equals("")) {
+            EnchantQuery enchs = new EnchantQuery(enchString);
+
+            itemStack.addEnchantments(enchs.all);
+        }
     }
 
     public ItemQuery(String s, Player p) {
