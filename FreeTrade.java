@@ -28,11 +28,12 @@ class ItemQuery
     ItemStack itemStack;
     static Logger log = Logger.getLogger("Minecraft");
 
+    // Map between item names/aliases and id;dmg string
     static ConcurrentHashMap<String,String> name2CodeName;
     static ConcurrentHashMap<String,String> codeName2Name;
 
     public ItemQuery(String s) {
-        Pattern p = Pattern.compile("^(\\d*)([# -]?)([^/]+)/?([\\d%]*)/?([^/]*)$");
+        Pattern p = Pattern.compile("^(\\d*)([# :-]?)([^/]+)/?([\\d%]*)/?([^/]*)$");
         Matcher m = p.matcher(s);
         int quantity;
 
@@ -54,29 +55,33 @@ class ItemQuery
                 }
             }
 
-            // Lookup item name
-            if (Bukkit.getServer().getPluginManager().getPlugin("OddItem") != null) {
-                try {
-                    itemStack = OddItem.getItemStack(nameString).clone();
-                } catch (IllegalArgumentException suggestion) {
-                    throw new UsageException("No such item '" + nameString + "', did you mean '" + suggestion.getMessage() + "'?");
-                }
-            } else {
-                // OddItem isn't installed so use Bukkit's long names (diamond_pickaxe, cumbersome)
-                // Note this also means you need to manually specify damage values (wool/1, not orangewool!)
-                // Therefore installing OddItem is highly recommended
-                Material material = Material.matchMaterial(nameString);
+            // TODO: wildcards, *, match one or if multiple list all matching (i.e. *pot*), for a search
 
-                if (material == null) {
-                    throw new UsageException("Unrecognized item name: " + nameString + " (please install OddItem)");
+            // First try built-in name lookup
+            itemStack = directLookupName(nameString);
+            if (itemStack == null) {
+                // If available, try OddItem for better names or clever suggestions
+                if (Bukkit.getServer().getPluginManager().getPlugin("OddItem") != null) {
+                    try {
+                        itemStack = OddItem.getItemStack(nameString).clone();
+                    } catch (IllegalArgumentException suggestion) {
+                        throw new UsageException("No such item '" + nameString + "', did you mean '" + suggestion.getMessage() + "'?");
+                    }
+                } else {
+                    // Worst case, lookup name from Bukkit itself
+                    // Not very good because doesn't include damage value subtypes
+                    Material material = Material.matchMaterial(nameString);
+                    if (material == null) {
+                        throw new UsageException("Unrecognized item name: " + nameString + " (no suggestions available)");
+                    }
+                    itemStack = new ItemStack(material);
                 }
-
-                itemStack = new ItemStack(material);
             }
 
             if (itemStack == null) {
                 throw new UsageException("Unrecognized item name: " + nameString);
             }
+
 
             // Quantity, shorthand 10# = 10 stacks
             if (isStackString.equals("#")) {
@@ -327,7 +332,7 @@ class ItemQuery
             enchString = "";
         }
 
-        return itemStack.getAmount() + "-" + name + usesString + enchString;
+        return itemStack.getAmount() + ":" + name + usesString + enchString;
     }
 
     // Return whether two item stacks have the same item, taking into account 'subtypes'
@@ -346,6 +351,9 @@ class ItemQuery
     
         return a.getDurability() == b.getDurability();
     }
+
+
+    // Configuration
 
     public static void loadConfig(YamlConfiguration config) {
         Map<String,Object> configValues = config.getValues(true);
@@ -380,6 +388,40 @@ class ItemQuery
         log.info("Loaded " + i + " item aliases");
 
     }
+
+    // Parse a material code string with optional damage value (ex: 35;11)
+    private static ItemStack codeName2ItemStack(String codeName) {
+        Pattern p = Pattern.compile("^(\\d+)[;:/]?(\\d*)$");
+        Matcher m = p.matcher(codeName);
+        int typeCode;
+        short dmgCode;
+
+        if (!m.find()) {
+            // This is an error in the config file (TODO: preparse or detect earlier)
+            throw new UsageException("Invalid item code format: " + codeName);
+        }
+
+        typeCode = Integer.parseInt(m.group(1));
+        if (m.group(2) != null && !m.group(2).equals("")) {
+            dmgCode = Short.parseShort(m.group(2));
+        } else {
+            dmgCode = 0;
+        }
+            
+        return new ItemStack(typeCode, 1, dmgCode);
+    }
+
+    // Get an ItemStack directly from one of its names or aliases, or null
+    private static ItemStack directLookupName(String nameString) {
+        String materialCode = name2CodeName.get(nameString);
+
+        if (materialCode == null) {
+            return null;
+        }
+
+        return codeName2ItemStack(materialCode);
+    }
+
 }
 
 class EnchantQuery
