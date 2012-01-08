@@ -134,16 +134,7 @@ class ItemQuery
                 throw new UsageException("No item in hand");
             }
         } else {
-            try {
-                itemStack = (new ItemQuery(s)).itemStack;
-            } catch (UsageException e) {
-                if (p != null) {
-                    log.info("Sending usage exception: " + p.getDisplayName() + " - " + e );
-                    p.sendMessage(e.getMessage());
-                } 
-                // Still invalid usage - halt processing
-                throw e;
-            }
+            itemStack = (new ItemQuery(s)).itemStack;
         }
     }
 
@@ -935,7 +926,15 @@ public class FreeTrade extends JavaPlugin {
             giveString = args[n+1];
         }
 
-        Order order = new Order(player, wantString, giveString);
+        Order order;
+
+        try {
+            order = new Order(player, wantString, giveString);
+        } catch (UsageException e) {
+            log.info("Sending usage exception: " + player.getDisplayName() + " - " + e );
+            player.sendMessage(e.getMessage());
+            return false;
+        } 
 
         sender.sendMessage(order.toString());
         market.placeOrder(order);
