@@ -512,6 +512,32 @@ class EnchantQuery
         default: return Integer.toString(n);
         }
     }
+
+    // Return wheather itemA has >= enchantments than itemB
+    public static boolean equalOrBetter(ItemStack itemA, ItemStack itemB) {
+        Map<Enchantment,Integer> enchsB = itemB.getEnchantments();
+        Iterator it = enchsB.entrySet().iterator();
+
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+
+            EnchantmentWrapper enchB = (EnchantmentWrapper)pair.getKey();
+            int levelB = ((Integer)pair.getValue()).intValue();
+
+            if (!itemA.containsEnchantment(Enchantment.getById(enchB.getId()))) {
+                log.info("Missing enchantment " + enchName(enchB) + " not on " + itemA + " (doesn't match " + itemB + ")");
+                return false;
+            }
+
+            int levelA = itemA.getEnchantmentLevel(Enchantment.getById(enchB.getId()));
+            log.info("Level " + levelB + " vs " + levelA);
+            if (levelA < levelB) {
+                log.info("Lower enchantment level " + levelA + " < " + levelB);
+                return false;
+            }
+       } 
+       return true;
+    }
 }
 
 class Order
@@ -636,9 +662,20 @@ class Market
             }
 
             // TODO: enchantment checks
+            if (!EnchantQuery.equalOrBetter(newOrder.give, oldOrder.want)) {
+                log.info("Not matched, insufficient magic new " + EnchantQuery.nameEnchs(newOrder.give.getEnchantments()) + 
+                    " < " + EnchantQuery.nameEnchs(oldOrder.want.getEnchantments()));
+                continue;
+            }
+            if (!EnchantQuery.equalOrBetter(oldOrder.give, newOrder.want)) {
+                log.info("Not matched, insufficient magic old " + EnchantQuery.nameEnchs(oldOrder.give.getEnchantments()) + 
+                    " < " + EnchantQuery.nameEnchs(newOrder.want.getEnchantments()));
+                continue;
+            }
             
         
-            // Generalize to "betterness"
+            // TODO: Generalize to "betterness"
+
 
         
             // Determine how much of the order can be fulfilled

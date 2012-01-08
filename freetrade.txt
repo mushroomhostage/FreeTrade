@@ -255,3 +255,38 @@ want agnitfom dpick//f2 64d
 want player 64d dpick//f2
 (Basic enchantment trade, confirm is enchanted when receive)
 
+want agnitfom dpick//f2 64d
+want player 64d dpick//f1
+17:18:06 [INFO] Level 2 vs 1
+17:18:06 [INFO] Lower enchantment level 1 < 2
+17:18:06 [INFO] Not matched, insufficient magic new FortuneI < FortuneII
+17:18:06 [INFO] Wanted: Player wants 64-diamond for 1-dpickaxe/100%/FortuneI
+(No trade, lower enchantment than desired)
+
+want agnitfom dpick//f2 64d
+want player 64d dpick//f3
+17:19:06 [INFO] Level 2 vs 3
+17:19:06 [INFO] remaining want=0, give=0
+17:19:06 [INFO] exchWant=1-dpickaxe/100%/FortuneIII
+17:19:06 [INFO] exchGive=64-diamond
+17:19:06 [INFO] agnitfom received 1-dpickaxe/100%/FortuneIII from Player
+17:19:06 [INFO] Player received 64-diamond from agnitfom
+17:19:06 [INFO] Closed order agnitfom wants 1-dpickaxe/100%/FortuneII for 64-diamond
+(Higher level than desired, trades)
+
+want player 64d dpick//f3
+want agnitfom dpick//f2 64d
+(Same in reverse order)
+
+want player 64d dpick//f3,e3,u3
+want agnitfom dpick//f2 64d
+17:20:36 [INFO] Player received 64-diamond from agnitfom
+17:20:36 [INFO] agnitfom received 1-dpickaxe/100%/UnbreakingIII,FortuneIII,EfficiencyIII from Player
+17:20:36 [INFO] Closed order Player wants 64-diamond for 1-dpickaxe/100%/UnbreakingIII,FortuneIII,EfficiencyIII
+(More enchantments than desired and greater level, great deal for agnitfom)
+
+want player 64d dpick//f3,e3,u3
+want agnitfom dpick//e3 64d
+(More enchantments, same level)
+
+
