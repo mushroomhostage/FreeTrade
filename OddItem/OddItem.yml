@@ -479,14 +479,56 @@ items:
     - dungeon
     - sbrick
     - stonebrick
-    '99':
+    99;0:
     - bshroomcap
     - brownmushroomcap
-    - hugebrownmushroom
-    '100':
-    - redmushroomcap
-    - rshroomcap
-    - hugeredmushroom
+    - hugebrownmushroompores
+    99;1:
+    - bshroomcaptopwestnoth
+    99;2:
+    - bshroomcaptopnorth
+    99;3:
+    - bshroomcaptopnortheast
+    99;4:
+    - bshroomcaptopwest
+    99;5:
+    - bshroomcaptop
+    99;6:
+    - bshroomcaptopeast
+    99;7:
+    - bshroomcaptopsouthwest
+    99;8:
+    - bshroomcaptopsouth
+    99;9:
+    - bshroomcaptopeastsouth
+    99;10:
+    - bshroomstem
+    - hugebrownmushroomstem
+    100;0:
+    - bshroomcap
+    - brownmushroomcap
+    - hugebrownmushroompores
+    100;1:
+    - rshroomcaptopwestnoth
+    100;2:
+    - rshroomcaptopnorth
+    100;3:
+    - rshroomcaptopnortheast
+    100;4:
+    - rshroomcaptopwest
+    100;5:
+    - rshroomcaptop
+    100;6:
+    - rshroomcaptopeast
+    100;7:
+    - rshroomcaptopsouthwest
+    100;8:
+    - rshroomcaptopsouth
+    100;9:
+    - rshroomcaptopeastsouth
+    100;10:
+    - rshroomstem
+    - hugeredmushroomstem
     '101':
     - ibars
     - ironbars
@@ -1032,7 +1074,6 @@ items:
     - netherwart
     - wart
     - nw
-    # Potions
     373;0:
     - waterbottle
     373;16:
@@ -1135,7 +1176,6 @@ items:
     - harmingpotII
     - harmII
     - harm2
-    # Splash potions
     373;16384:
     - splashmundanepotion
     - spmundanepot
@@ -1225,7 +1265,6 @@ items:
     - spharmingpotII
     - spharmII
     - spharm2
-    # Unbrewable potions
     373;8289:
     - regenerationpotionII
     - regenpotII
@@ -1250,7 +1289,6 @@ items:
     - poisonpot2
     - poison2
     - poisionII
-    # Unbrewable splash potions
     373;16481:
     - splashregenerationpotionII
     - spregenpotII
@@ -1275,7 +1313,6 @@ items:
     - sppoisonpot2
     - sppoison2
     - sppoisionII
-    # Unused potions
     373;6:
     - clearpotion
     373;7:
@@ -1352,78 +1389,6 @@ items:
     '382':
     - glisteringmelon
     - gmelon
-    # Entity spawner eggs in 11w49a+
-    # Damage value corresponds to entity ID; see http://www.minecraftwiki.net/wiki/Data_values#Entity_IDs
-    # Not available in 1.0.1
-#    383;1:
-#    - droppeditemegg
-#    383;2:
-#    - experienceorbegg
-#    383;10:
-#    - shotarrowegg
-#    383;11:
-#    - thrownsnowballegg
-#    383;12:
-#    - ghastfireballegg
-#    383;13:
-#    - blazefireballegg
-#    383;14:
-#    - thrownenderpearlegg
-#    383;15:
-#    - throwneyeofenderegg
-#    383;20:
-#    - primedtntegg
-#    383;21:
-#    - fallingblockegg
-#    383;40:
-#    - minecartegg
-#    383;41:
-#    - boategg
-#    383;50:
-#    - creeperegg
-#    383;51:
-#    - skeletonegg
-#    383;52:
-#    - spideregg
-#    383;53:
-#    - giantegg
-#    383;54:
-#    - zombieegg
-#    383;55:
-#    - slimeegg
-#    383;56:
-#    - ghastegg
-#    383;57:
-#    - zombiepigmanegg
-#    383;60:
-#    - silverfishegg
-#    383;61:
-#    - blazeegg
-#    383;62:
-#    - magmacubeegg
-#    383;63:
-#    - enderdragonegg
-#    383;90:
-#    - pigegg
-#    383;91:
-#    - sheepegg
-#    393;92:
-#    - cowegg
-#    393;93:
-#    - chickenegg
-#    393;94:
-#    - squidegg
-#    393;95:
-#    - wolfegg
-#    393;96:
-#    - mooshroomegg
-#    393;97:
-#    - snowgolemegg
-#    393;120:
-#    - villageregg
-#    393;200:
-#    - endercrystalegg
-    # Music discs
     '2256':
     - thirteen
     - yellowdisc
@@ -1435,10 +1400,10 @@ items:
     '2258':
     - blocks
     - blocksdisc
-    - redrecord 
+    - redrecord
     '2259':
-    - chirp 
-    - chirpdisc 
+    - chirp
+    - chirpdisc
     - darkredrecord
     '2260':
     - far
