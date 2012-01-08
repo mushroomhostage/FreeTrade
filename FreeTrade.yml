@@ -1,3 +1,97 @@
+enchants:
+    # Armor
+    '0':
+        name: Protection
+        aliases:
+        - p
+        - prot
+    '1':
+        name: Fire Protection
+        aliases:
+        - fire
+        - fp
+    '2':
+        name: Feather Falling
+        aliases:
+        - feather
+        - falling
+        - fall
+        - ff
+        - fp
+    '3':
+        name: Blast Protection
+        aliases:
+        - blast
+        - explosionprotection
+        - bp
+    '4':
+        name: Projectile Protection
+        aliases:
+        - projectile
+        - pp
+    '5':
+        name: Respiration
+        aliases:
+        - oxygen
+        - r
+    '6':
+        name: Aqua Affinity
+        aliases:
+        - aqua
+        - waterworker
+        - aa
+    # Weapons
+    '16':
+        name: Sharpness
+        aliases:
+        - damageall
+        - s
+    '17':
+        name: Smite
+        aliases:
+        - damageundead
+        - sm
+    '18':
+        name: Bane of Arthropods
+        aliases:
+        - bane
+        - arthropods
+        - b
+    '19':
+        name: Knockback
+        aliases:
+        - k
+    '20':
+        name: Fire Aspect
+        aliases:
+        - fa
+    '21':
+        name: Looting
+        aliases:
+        - loot
+        - lootbonusmobs
+        - l
+    # Tools
+    '32':
+        name: Efficiency
+        aliases:
+        - digspeed
+        - e
+    '33':
+        name: Silk Touch
+        aliases:
+        - silk
+        - st
+    '34':
+        name: Unbreaking
+        aliases:
+        - durability
+        - u
+    '35':
+        name: Fortune
+        aliases:
+        - lootbonusblocks
+        - f
 items:
     '0':
         name: Air
