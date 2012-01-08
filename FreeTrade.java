@@ -218,6 +218,8 @@ class ItemQuery
         case WOOD_PICKAXE:  case STONE_PICKAXE: case IRON_PICKAXE:  case GOLD_PICKAXE:  case DIAMOND_PICKAXE:
         case WOOD_AXE:      case STONE_AXE:     case IRON_AXE:      case GOLD_AXE:      case DIAMOND_AXE:
         case WOOD_SPADE:    case STONE_SPADE:   case IRON_SPADE:    case GOLD_SPADE:    case DIAMOND_SPADE:
+        case WOOD_HOE:      case STONE_HOE:     case IRON_HOE:      case GOLD_HOE:      case DIAMOND_HOE:
+        case FLINT_AND_STEEL:
         case FISHING_ROD:
             return true;
         default:

@@ -915,10 +915,12 @@ items:
         aliases: 
     '256':
         name: Iron Shovel
+        purpose: tool
         aliases: 
         - ishovel
     '257':
         name: Iron Pickaxe
+        purpose: tool
         aliases: 
         - ipick
         - ipickaxe
@@ -926,10 +928,12 @@ items:
         - ip
     '258':
         name: Iron Axe
+        purpose: tool
         aliases: 
         - iaxe
     '259':
         name: Flint and Steel
+        purpose: tool
         aliases: 
         - fands
         - firestarter
@@ -974,16 +978,19 @@ items:
         - isword
     '268':
         name: Wooden Sword
+        purpose: weapon
         aliases: 
         - woodsword
         - wsword
     '269':
         name: Wooden Shovel
+        purpose: tool
         aliases: 
         - woodshovel
         - wshovel
     '270':
         name: Wooden Pickaxe
+        purpose: tool
         aliases: 
         - woodenpick
         - woodpick
@@ -993,19 +1000,23 @@ items:
         - wp
     '271':
         name: Wooden Axe
+        purpose: tool
         aliases: 
         - waxe
         - woodaxe
     '272':
         name: Stone Sword
+        purpose: weapon
         aliases: 
         - ssword
     '273':
         name: Stone Shovel
+        purpose: tool
         aliases: 
         - sshovel
     '274':
         name: Stone Pickaxe
+        purpose: tool
         aliases: 
         - spick
         - spickaxe
@@ -1013,19 +1024,23 @@ items:
         - sp
     '275':
         name: Stone Axe
+        purpose: tool
         aliases: 
         - saxe
     '276':
         name: Diamond Sword
+        purpose: weapon
         aliases: 
         - dsword
         - ds
     '277':
         name: Diamond Shovel
+        purpose: tool
         aliases: 
         - dshovel
     '278':
         name: Diamond Pickaxe
+        purpose: tool
         aliases: 
         - diamondpick
         - dpick
@@ -1033,6 +1048,7 @@ items:
         - dp
     '279':
         name: Diamond Axe
+        purpose: tool
         aliases: 
         - daxe
     '280':
@@ -1049,15 +1065,18 @@ items:
         - stew
     '283':
         name: Gold Sword
+        purpose: weapon
         aliases: 
         - gsword
         - gs
     '284':
         name: Gold Shovel
+        purpose: tool
         aliases: 
         - gshovel
     '285':
         name: Gold Pickaxe
+        purpose: tool
         aliases: 
         - goldpick
         - gpick
@@ -1065,6 +1084,7 @@ items:
         - gp
     '286':
         name: Gold Axe
+        purpose: tool
         aliases: 
         - gaxe
     '287':
@@ -1079,23 +1099,28 @@ items:
         - sulfur
     '290':
         name: Wooden Hoe
+        purpose: tool
         aliases: 
         - whoe
         - woodhoe
     '291':
         name: Stone Hoe
+        purpose: tool
         aliases: 
         - shoe
     '292':
         name: Iron Hoe
+        purpose: tool
         aliases: 
         - ihoe
     '293':
         name: Diamond Hoe
+        purpose: tool
         aliases: 
         - dhoe
     '294':
         name: Gold Hoe
+        purpose: tool
         aliases: 
         - ghoe
     '295':
@@ -1360,6 +1385,7 @@ items:
         aliases: 
     '346':
         name: Fishing Rod
+        purpose: tool
         aliases: 
         - fishingpole
         - fishingrod
