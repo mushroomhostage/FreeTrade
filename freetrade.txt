@@ -251,4 +251,7 @@ want player dpick/90% 2diamond
 16:39:09 [INFO] Wanted: agnitfom wants 1-dsword/100%/SmiteV,KnockbackII,LootingI for 64-diamond
 (Enchantment specification)
 
-want agnitfom dpick/fortune2
+want agnitfom dpick//f2 64d
+want player 64d dpick//f2
+(Basic enchantment trade, confirm is enchanted when receive)
+
