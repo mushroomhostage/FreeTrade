@@ -6,6 +6,7 @@ import java.util.regex.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.*;
@@ -314,7 +315,7 @@ class EnchantQuery
     static Logger log = Logger.getLogger("Minecraft");
 
     public EnchantQuery(String s) {
-        Map<Enchantment,Integer> enchs;
+        Map<Enchantment,Integer> enchs = new HashMap<Enchantment,Integer>();
 
         String[] enchStrings = s.split("[, /-]");
         for (String enchString: enchStrings) {
@@ -331,12 +332,27 @@ class EnchantQuery
             Enchantment ench = enchFromBaseName(baseName);
             int level = levelFromString(levelString);
 
+            // Odd, what's the point of having a separate 'wrapper' class?
+            // Either way, it has useful methods for us
+            EnchantmentWrapper enchWrapper = new EnchantmentWrapper(ench.getId());
+
+            if (level > enchWrapper.getMaxLevel()) {
+                level = ench.getMaxLevel();
+            }
+
             log.info("Enchantment: " + ench + ", level="+level);
+
+            enchs.put(ench, new Integer(level));
         }
     }
 
     static Enchantment enchFromBaseName(String n) {
         // TODO: something like OddItem for enchantment names! hideous, this
+        Enchantment ench = Enchantment.getByName(n);
+        if (ench != null) {
+            return ench;
+        }
+
         // Armor
         if (n.equals("protection")) {
             return Enchantment.PROTECTION_ENVIRONMENTAL;
@@ -375,7 +391,7 @@ class EnchantQuery
         } else if (n.equals("fortune") || n.equals("loot-bonus-blocks")) {
             return Enchantment.LOOT_BONUS_BLOCKS;
         } else {
-            throw new UsageException("Unrecognized enchantment name: " + n);
+           throw new UsageException("Unrecognized enchantment name: " + n);
         }
     }
 
@@ -586,7 +602,7 @@ public class FreeTrade extends JavaPlugin {
     public void onEnable() {
         log.info(getDescription().getName() + " enabled");
 
-        log.info("e=" + new EnchantQuery("fortune3"));
+        log.info("e=" + new EnchantQuery("fortuneII"));
     }
 
     public void onDisable() {
