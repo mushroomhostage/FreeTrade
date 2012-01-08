@@ -251,6 +251,10 @@ class ItemQuery
 
 
     public static String nameStack(ItemStack itemStack) {
+        if (itemStack == null) {
+            return "nothing";
+        }
+
         String name, usesString, enchString;
         Material m = itemStack.getType();
        
@@ -557,6 +561,7 @@ class Order
     Player player;
     ItemStack want, give;
     boolean exact;
+    boolean free;
 
     public Order(Player p, String wantString, String giveString) {
         player = p;
@@ -571,7 +576,14 @@ class Order
         }
 
         want = (new ItemQuery(wantString, p)).itemStack;
-        give = (new ItemQuery(giveString, p)).itemStack;
+
+        if (giveString.equals("nothing")) {
+            // TODO: permissions
+            free = true;
+            give = null;
+        } else {
+            give = (new ItemQuery(giveString, p)).itemStack;
+        }
     }
 
     public Order(Player p, ItemStack w, ItemStack g, boolean e) {
@@ -624,6 +636,12 @@ class Market
     }
 
     public void placeOrder(Order order) {
+        if (order.free) {
+            // TODO: permissions
+            order.player.getInventory().addItem(order.want);
+            return;
+        }
+
         if (matchOrder(order)) {
             // Executed
             return;
