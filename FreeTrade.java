@@ -33,7 +33,12 @@ class ItemQuery
     static ConcurrentHashMap<String,String> codeName2Name;
 
     public ItemQuery(String s) {
-        Pattern p = Pattern.compile("^(\\d*)([# :-]?)([^/]+)/?([\\d%]*)/?([^/]*)$");
+        Pattern p = Pattern.compile(
+            "^(\\d*)" +     // quantity
+            "([# :-]?)" +   // separator
+            "([^/]+)" +     // name
+            "/?([\\d%]*)" + // use
+            "/?([^/]*)$");  // enchant
         Matcher m = p.matcher(s);
         int quantity;
 
@@ -367,15 +372,11 @@ class ItemQuery
             log.info("codeName="+codeName);
 
             String properName = config.getString("items." + codeName + ".name");
-            String aliasProperName = properName.toLowerCase().replaceAll(" ", "");  // preprocessed for lookup
-            log.info("\tname="+properName);
-            name2CodeName.put(aliasProperName, codeName);
-            i += 1;
-            codeName2Name.put(codeName, aliasProperName);
 
             String obtainString = config.getString("items." + codeName + ".obtain");
             log.info("\tobtain="+obtainString);
 
+            // Add aliases from config
             List<String> aliases = config.getStringList("items." + codeName + ".aliases");
             log.info("\taliases="+aliases);
             if (aliases != null) {
@@ -384,6 +385,17 @@ class ItemQuery
                     i += 1;
                 } 
             }
+
+            // Generate 'proper name' alias
+            String aliasProperName = properName.toLowerCase().replaceAll(" ", "");  // preprocessed for lookup
+            log.info("\tname="+properName);
+            name2CodeName.put(aliasProperName, codeName);
+            i += 1;
+            codeName2Name.put(codeName, aliasProperName);
+
+            // Generate numeric alias
+            name2CodeName.put(codeName, codeName);
+            i += 1;
         }
         log.info("Loaded " + i + " item aliases");
 
