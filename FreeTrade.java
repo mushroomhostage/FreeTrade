@@ -134,7 +134,16 @@ class ItemQuery
                 throw new UsageException("No item in hand");
             }
         } else {
-            itemStack = (new ItemQuery(s)).itemStack;
+            try {
+                itemStack = (new ItemQuery(s)).itemStack;
+            } catch (UsageException e) {
+                if (p != null) {
+                    log.info("Sending usage exception: " + p.getDisplayName() + " - " + e );
+                    p.sendMessage(e.getMessage());
+                } 
+                // Still invalid usage - halt processing
+                throw e;
+            }
         }
     }
 
@@ -637,15 +646,17 @@ class Order
     }
 
     public String toString() {
+        // TODO: pregenerate in initialization as description, no need to relookup
         return player.getDisplayName() + " wants " + ItemQuery.nameStack(want) + " for " + ItemQuery.nameStack(give) + (exact ? " (exact)" : "");
     }
 
 
 }
 
+// Exception to be reported back to player as invalid usage
 class UsageException extends RuntimeException
 {
-    public String message;
+    String message;
 
     public UsageException(String msg) {
         message = msg;
@@ -653,6 +664,10 @@ class UsageException extends RuntimeException
 
     public String toString() {
         return "UsageException: " + message;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }
 
