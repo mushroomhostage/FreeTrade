@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
 import java.io.*;
 
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,6 +27,9 @@ class ItemQuery
 {
     ItemStack itemStack;
     static Logger log = Logger.getLogger("Minecraft");
+
+    static ConcurrentHashMap<String,String> name2CodeName;
+    static ConcurrentHashMap<String,String> codeName2Name;
 
     public ItemQuery(String s) {
         Pattern p = Pattern.compile("^(\\d*)([# -]?)([^/]+)/?([\\d%]*)/?([^/]*)$");
@@ -341,6 +345,40 @@ class ItemQuery
         }
     
         return a.getDurability() == b.getDurability();
+    }
+
+    public static void loadConfig(YamlConfiguration config) {
+        Map<String,Object> configValues = config.getValues(true);
+        MemorySection itemsSection = (MemorySection)configValues.get("items");
+        int i = 0;
+    
+        name2CodeName = new ConcurrentHashMap<String, String>();
+        codeName2Name = new ConcurrentHashMap<String, String>();
+
+        for (String codeName: itemsSection.getKeys(false)) {
+            log.info("codeName="+codeName);
+
+            String properName = config.getString("items." + codeName + ".name");
+            String aliasProperName = properName.toLowerCase().replaceAll(" ", "");  // preprocessed for lookup
+            log.info("\tname="+properName);
+            name2CodeName.put(aliasProperName, codeName);
+            i += 1;
+            codeName2Name.put(codeName, aliasProperName);
+
+            String obtainString = config.getString("items." + codeName + ".obtain");
+            log.info("\tobtain="+obtainString);
+
+            List<String> aliases = config.getStringList("items." + codeName + ".aliases");
+            log.info("\taliases="+aliases);
+            if (aliases != null) {
+                for (String alias: aliases) {
+                    name2CodeName.put(alias, codeName);
+                    i += 1;
+                } 
+            }
+        }
+        log.info("Loaded " + i + " item aliases");
+
     }
 }
 
@@ -803,22 +841,9 @@ public class FreeTrade extends JavaPlugin {
             throw new UsageException("Configuration file version is outdated");
         }
 
-        Map<String,Object> configValues = config.getValues(true);
 
-        MemorySection itemsSection = (MemorySection)configValues.get("items");
+        ItemQuery.loadConfig(config);
 
-        for (String codeName: itemsSection.getKeys(false)) {
-            log.info("codeName="+codeName);
-
-            String properName = config.getString("items." + codeName + ".name");
-            log.info("\tname="+properName);
-
-            String obtainString = config.getString("items." + codeName + ".obtain");
-            log.info("\tobtain="+obtainString);
-
-            List<String> aliases = config.getStringList("items." + codeName + ".aliases");
-            log.info("\taliases="+aliases);
-        }
     }
 
     // Copy default configuration
