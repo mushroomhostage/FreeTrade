@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.*;
@@ -314,16 +315,18 @@ class EnchantQuery
 {
     static Logger log = Logger.getLogger("Minecraft");
 
-    public EnchantQuery(String s) {
-        Map<Enchantment,Integer> enchs = new HashMap<Enchantment,Integer>();
+    Map<Enchantment,Integer> all;
 
-        String[] enchStrings = s.split("[, /-]");
+    public EnchantQuery(String allString) {
+        all = new HashMap<Enchantment,Integer>();
+
+        String[] enchStrings = allString.split("[, /-]+");
         for (String enchString: enchStrings) {
             Pattern p = Pattern.compile("^([a-z-]+)([IV0-9]*)$");
-            Matcher m = p.matcher(s);
+            Matcher m = p.matcher(enchString);
 
             if (!m.find()) {
-                throw new UsageException("Invalid enchantment: " + enchString);
+                throw new UsageException("Unrecognizable enchantment: '" + enchString + "'");
             }
 
             String baseName = m.group(1);
@@ -342,12 +345,52 @@ class EnchantQuery
 
             log.info("Enchantment: " + ench + ", level="+level);
 
-            enchs.put(ench, new Integer(level));
+            all.put(enchWrapper, new Integer(level));
         }
+    }
+
+    // Return whether all the enchantments can apply to an item
+    public boolean canEnchantItem(ItemStack item) {
+        Iterator it = all.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+
+            EnchantmentWrapper ench = (EnchantmentWrapper)pair.getKey();
+            Integer level = (Integer)pair.getValue();
+
+            if (!ench.canEnchantItem(item)) {
+                log.info("Cannot apply enchantment " + ench + " to " + item);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public String toString() {
+        StringBuffer names = new StringBuffer();
+        Iterator it = all.entrySet().iterator();
+
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+
+            EnchantmentWrapper ench = (EnchantmentWrapper)pair.getKey();
+            Integer level = (Integer)pair.getValue();
+
+            names.append(enchName(ench));
+            names.append(levelToString(level));
+            names.append(","); 
+        }
+
+        // Remove the trailing comma
+        // Would have liked to just build an array then join it, but not easier in Java either 
+        names.deleteCharAt(names.length() - 1);
+
+        return names.toString();
     }
 
     static Enchantment enchFromBaseName(String n) {
         // TODO: something like OddItem for enchantment names! hideous, this
+        n = n.toLowerCase();
         Enchantment ench = Enchantment.getByName(n);
         if (ench != null) {
             return ench;
@@ -395,6 +438,30 @@ class EnchantQuery
         }
     }
 
+    static String enchName(EnchantmentWrapper ench) {
+        switch (ench.getId()) {
+        case 0: return "Protection";
+        case 1: return "FireProtection";
+        case 2: return "FeatherFalling";
+        case 3: return "BlastProtection";
+        case 4: return "ProjectileProtection";
+        case 5: return "Respiration";
+        case 6: return "AquaAffinity";
+        case 16: return "Sharpness";
+        case 17: return "Smite";
+        case 18: return "BaneOfArthropods";
+        case 19: return "Knockback";
+        case 20: return "FireAspect";
+        case 21: return "Looting";
+        case 32: return "Efficiency";
+        case 33: return "SilkTouch";
+        case 34: return "Unbreaking";
+        case 35: return "Fortune";
+        default: return "Unknown(" + ench.getId() + ")";
+        }
+        // There is ench.getName(), but the names don't match in-game
+    }
+
     static int levelFromString(String s) {
         if (s.equals("") || s.equals("I")) {
             return 1;
@@ -408,6 +475,17 @@ class EnchantQuery
             return 5;
         } else {
             return Integer.parseInt(s);
+        }
+    }
+
+    static String levelToString(int n) {
+        switch (n) {
+        case 1: return "I";
+        case 2: return "II";
+        case 3: return "III";
+        case 4: return "IV";
+        case 5: return "V";
+        default: return Integer.toString(n);
         }
     }
 }
@@ -602,7 +680,7 @@ public class FreeTrade extends JavaPlugin {
     public void onEnable() {
         log.info(getDescription().getName() + " enabled");
 
-        log.info("e=" + new EnchantQuery("fortuneII"));
+        log.info("e=" + new EnchantQuery("smiteV,lootingII,knockbackII"));
     }
 
     public void onDisable() {
