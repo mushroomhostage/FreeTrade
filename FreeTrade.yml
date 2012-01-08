@@ -1,1536 +1,2390 @@
-comparator: r
-groups:
-    oddtransport:
-        data:
-            oddgive:
-                type:
-                - whitelist
-                - kit
-                priority: 1
-        items:
-        - lapisblock,2
-        - greendye
-        - reddye
-        - air
 items:
     '0':
-    - air
-    - empty
-    - sky
+        name: 
+        aliases: 
+        - air
+        - empty
+        - sky
     '1':
-    - rock
-    - smoothrock
-    - smoothstone
-    - stone
-    - s
+        name: 
+        aliases: 
+        - rock
+        - smoothrock
+        - smoothstone
+        - stone
+        - s
     '2':
-    - grass
+        name: 
+        aliases: 
+        - grass
     '3':
-    - dirt
+        name: 
+        aliases: 
+        - dirt
     '4':
-    - cob
-    - cobble
-    - cobblestone
+        name: 
+        aliases: 
+        - cob
+        - cobble
+        - cobblestone
     '5':
-    - plank
-    - wood
+        name: 
+        aliases: 
+        - plank
+        - wood
     6;0:
-    - sapling
-    - oaksapling
+        name: 
+        aliases: 
+        - sapling
+        - oaksapling
     6;1:
-    - pinesapling
+        name: 
+        aliases: 
+        - pinesapling
     6;2:
-    - birchsapling
+        name: 
+        aliases: 
+        - birchsapling
     '7':
-    - adminium
-    - bedrock
+        name: 
+        aliases: 
+        - adminium
+        - bedrock
     '8':
-    - water
+        name: 
+        aliases: 
+        - water
     '9':
-    - stillwater
-    - stationarywater
-    - swater
+        name: 
+        aliases: 
+        - stillwater
+        - stationarywater
+        - swater
     '10':
-    - lava
+        name: 
+        aliases: 
+        - lava
     '11':
-    - stilllava
-    - stationarylava
-    - slava
+        name: 
+        aliases: 
+        - stilllava
+        - stationarylava
+        - slava
     '12':
-    - sand
+        name: 
+        aliases: 
+        - sand
     '13':
-    - gravel
+        name: 
+        aliases: 
+        - gravel
     '14':
-    - goldore
-    - gore
+        name: 
+        aliases: 
+        - goldore
+        - gore
     '15':
-    - iore
-    - ironore
+        name: 
+        aliases: 
+        - iore
+        - ironore
     '16':
-    - coalore
-    - core
+        name: 
+        aliases: 
+        - coalore
+        - core
     17;0:
-    - log
-    - oak
-    - oaklog
-    - oakwood
-    - l
+        name: 
+        aliases: 
+        - log
+        - oak
+        - oaklog
+        - oakwood
+        - l
     17;1:
-    - pine
-    - pinelog
-    - pinewood
-    - p
+        name: 
+        aliases: 
+        - pine
+        - pinelog
+        - pinewood
+        - p
     17;2:
-    - birch
-    - birchlog
-    - birchwood
-    - b
+        name: 
+        aliases: 
+        - birch
+        - birchlog
+        - birchwood
+        - b
     18;0:
-    - leaf
-    - leaves
+        name: 
+        aliases: 
+        - leaf
+        - leaves
     18;1:
-    - darkleaf
-    - darkleaves
-    - pineleaf
-    - pineleaves
+        name: 
+        aliases: 
+        - darkleaf
+        - darkleaves
+        - pineleaf
+        - pineleaves
     18;2:
-    - birchleaf
-    - birchleaves
-    - whiteleaf
-    - whiteleaves
+        name: 
+        aliases: 
+        - birchleaf
+        - birchleaves
+        - whiteleaf
+        - whiteleaves
     '19':
-    - sponge
+        name: 
+        aliases: 
+        - sponge
     '20':
-    - glass
-    - gl
+        name: 
+        aliases: 
+        - glass
+        - gl
     '21':
-    - lapislazuliore
-    - lapisore
-    - llore
+        name: 
+        aliases: 
+        - lapislazuliore
+        - lapisore
+        - llore
     '22':
-    - lapisblock
-    - lapislazuliblock
-    - lblock
-    - llblock
+        name: 
+        aliases: 
+        - lapisblock
+        - lapislazuliblock
+        - lblock
+        - llblock
     '23':
-    - dispenser
+        name: 
+        aliases: 
+        - dispenser
     '24':
-    - sandstone
-    - sstone
-    - ss
+        name: 
+        aliases: 
+        - sandstone
+        - sstone
+        - ss
     '25':
-    - musicblock
-    - noteblock
+        name: 
+        aliases: 
+        - musicblock
+        - noteblock
     '26':
-    - bedblock
+        name: 
+        aliases: 
+        - bedblock
     '27':
-    - boosterrail
-    - boosterrails
-    - brail
-    - btrack
-    - poweredrail
-    - poweredrails
-    - prail
-    - ptrack
+        name: 
+        aliases: 
+        - boosterrail
+        - boosterrails
+        - brail
+        - btrack
+        - poweredrail
+        - poweredrails
+        - prail
+        - ptrack
     '28':
-    - detectorrail
-    - detectorrails
-    - drail
-    - dtrack
+        name: 
+        aliases: 
+        - detectorrail
+        - detectorrails
+        - drail
+        - dtrack
     '29':
-    - spiston
-    - stickypiston
+        name: 
+        aliases: 
+        - spiston
+        - stickypiston
     '30':
-    - web
-    - cobweb
+        name: 
+        aliases: 
+        - web
+        - cobweb
     '31':
-    - tallgrass
-    - wildgrass
+        name: 
+        aliases: 
+        - tallgrass
+        - wildgrass
     '32':
-    - deadshrub
-    - deadbush
-    - desertgrass
-    - deserttallgrass
-    - deserttree
+        name: 
+        aliases: 
+        - deadshrub
+        - deadbush
+        - desertgrass
+        - deserttallgrass
+        - deserttree
     '33':
-    - piston
+        name: 
+        aliases: 
+        - piston
     '34':
-    - pistonextension
-    - pistonext
+        name: 
+        aliases: 
+        - pistonextension
+        - pistonext
     35;0:
-    - cloth
-    - whitecloth
-    - whitewool
-    - wool
-    - w
+        name: 
+        aliases: 
+        - cloth
+        - whitecloth
+        - whitewool
+        - wool
+        - w
     35;1:
-    - orangecloth
-    - orangewool
+        name: 
+        aliases: 
+        - orangecloth
+        - orangewool
     35;2:
-    - magentacloth
-    - magentawool
+        name: 
+        aliases: 
+        - magentacloth
+        - magentawool
     35;3:
-    - lightbluecloth
-    - lightbluewool
+        name: 
+        aliases: 
+        - lightbluecloth
+        - lightbluewool
     35;4:
-    - yellowcloth
-    - yellowwool
+        name: 
+        aliases: 
+        - yellowcloth
+        - yellowwool
     35;5:
-    - lightgreencloth
-    - lightgreenwool
-    - limecloth
-    - limewool
+        name: 
+        aliases: 
+        - lightgreencloth
+        - lightgreenwool
+        - limecloth
+        - limewool
     35;6:
-    - pinkcloth
-    - pinkwool
+        name: 
+        aliases: 
+        - pinkcloth
+        - pinkwool
     35;7:
-    - graycloth
-    - graywool
+        name: 
+        aliases: 
+        - graycloth
+        - graywool
     35;8:
-    - lightgraycloth
-    - lightgraywool
-    - silvercloth
-    - silverwool
+        name: 
+        aliases: 
+        - lightgraycloth
+        - lightgraywool
+        - silvercloth
+        - silverwool
     35;9:
-    - cyancloth
-    - cyanwool
+        name: 
+        aliases: 
+        - cyancloth
+        - cyanwool
     35;10:
-    - purplecloth
-    - purplewool
+        name: 
+        aliases: 
+        - purplecloth
+        - purplewool
     35;11:
-    - bluecloth
-    - bluewool
+        name: 
+        aliases: 
+        - bluecloth
+        - bluewool
     35;12:
-    - browncloth
-    - brownwool
+        name: 
+        aliases: 
+        - browncloth
+        - brownwool
     35;13:
-    - darkgrencloth
-    - darkgreenwool
-    - greencloth
-    - greenwool
+        name: 
+        aliases: 
+        - darkgrencloth
+        - darkgreenwool
+        - greencloth
+        - greenwool
     35;14:
-    - redcloth
-    - redwool
+        name: 
+        aliases: 
+        - redcloth
+        - redwool
     35;15:
-    - blackcloth
-    - blackwool
+        name: 
+        aliases: 
+        - blackcloth
+        - blackwool
     '36':
-    - blockmovedbypiston
+        name: 
+        aliases: 
+        - blockmovedbypiston
     '37':
-    - dandelion
-    - yellowflower
-    - flower
+        name: 
+        aliases: 
+        - dandelion
+        - yellowflower
+        - flower
     '38':
-    - redflower
-    - rose
+        name: 
+        aliases: 
+        - redflower
+        - rose
     '39':
-    - brownmushroom
-    - bmushroom
-    - bshroom
+        name: 
+        aliases: 
+        - brownmushroom
+        - bmushroom
+        - bshroom
     '40':
-    - redmushroom
-    - rmushroom
-    - rshroom
+        name: 
+        aliases: 
+        - redmushroom
+        - rmushroom
+        - rshroom
     '41':
-    - gblock
-    - gold
-    - goldblock
-    - gb
+        name: 
+        aliases: 
+        - gblock
+        - gold
+        - goldblock
+        - gb
     '42':
-    - iblock
-    - iron
-    - ironblock
-    - ib
+        name: 
+        aliases: 
+        - iblock
+        - iron
+        - ironblock
+        - ib
     43;0:
-    - doublestoneslab
-    - doubleslab
-    - doublestep
-    - dslab
-    - dstep
+        name: 
+        aliases: 
+        - doublestoneslab
+        - doubleslab
+        - doublestep
+        - dslab
+        - dstep
     43;1:
-    - doublesandstoneslab
-    - dsandslab
-    - dsandstep
-    - dsslab
-    - dsstep
+        name: 
+        aliases: 
+        - doublesandstoneslab
+        - dsandslab
+        - dsandstep
+        - dsslab
+        - dsstep
     43;2:
-    - doublewoodenslab
-    - dwoodslab
-    - dwoodstep
-    - dwslab
-    - dwstep
+        name: 
+        aliases: 
+        - doublewoodenslab
+        - dwoodslab
+        - dwoodstep
+        - dwslab
+        - dwstep
     43;3:
-    - doublecobblestoneslab
-    - dcobbleslab
-    - dcobblestep
-    - dcslab
-    - dcstep
+        name: 
+        aliases: 
+        - doublecobblestoneslab
+        - dcobbleslab
+        - dcobblestep
+        - dcslab
+        - dcstep
     44;0:
-    - stoneslab
-    - slab
-    - step
+        name: 
+        aliases: 
+        - stoneslab
+        - slab
+        - step
     44;1:
-    - sandslab
-    - sandstep
-    - sslab
-    - sstep
+        name: 
+        aliases: 
+        - sandslab
+        - sandstep
+        - sslab
+        - sstep
     44;2:
-    - woodenslab
-    - woodslab
-    - woodstep
-    - wslab
-    - wstep
+        name: 
+        aliases: 
+        - woodenslab
+        - woodslab
+        - woodstep
+        - wslab
+        - wstep
     44;3:
-    - cobblestoneslab
-    - cobbleslab
-    - cobblestep
-    - cslab
-    - cstep
+        name: 
+        aliases: 
+        - cobblestoneslab
+        - cobbleslab
+        - cobblestep
+        - cslab
+        - cstep
     '45':
-    - brickblock
-    - brickwall
+        name: 
+        aliases: 
+        - brickblock
+        - brickwall
     '46':
-    - tnt
+        name: 
+        aliases: 
+        - tnt
     '47':
-    - bookcase
-    - bookshelf
+        name: 
+        aliases: 
+        - bookcase
+        - bookshelf
     '48':
-    - moss
-    - mossy
-    - mossycobble
-    - mossycobblestone
+        name: 
+        aliases: 
+        - moss
+        - mossy
+        - mossycobble
+        - mossycobblestone
     '49':
-    - obsidian
-    - ob
-    - o
+        name: 
+        aliases: 
+        - obsidian
+        - ob
+        - o
     '50':
-    - torch
-    - t
+        name: 
+        aliases: 
+        - torch
+        - t
     '51':
-    - fire
+        name: 
+        aliases: 
+        - fire
     '52':
-    - monsterspawner
-    - mobspawner
-    - spawner
+        name: 
+        aliases: 
+        - monsterspawner
+        - mobspawner
+        - spawner
     '53':
-    - woodstair
-    - woodstairs
-    - woodenstair
-    - woodenstairs
-    - wstair
-    - wstairs
+        name: 
+        aliases: 
+        - woodstair
+        - woodstairs
+        - woodenstair
+        - woodenstairs
+        - wstair
+        - wstairs
     '54':
-    - chest
+        name: 
+        aliases: 
+        - chest
     '55':
-    - redstoneblock
-    - redstonewire
+        name: 
+        aliases: 
+        - redstoneblock
+        - redstonewire
     '56':
-    - diamondore
-    - dore
+        name: 
+        aliases: 
+        - diamondore
+        - dore
     '57':
-    - dblock
-    - diamondblock
-    - db
+        name: 
+        aliases: 
+        - dblock
+        - diamondblock
+        - db
     '58':
-    - craftingtable
-    - crafttable
-    - workbench
-    - worktable
+        name: 
+        aliases: 
+        - craftingtable
+        - crafttable
+        - workbench
+        - worktable
     '59':
-    - cropblock
-    - wheatblock
-    - wheatseedsblock
+        name: 
+        aliases: 
+        - cropblock
+        - wheatblock
+        - wheatseedsblock
     '60':
-    - farm
-    - farmland
-    - farmground
-    - soil
+        name: 
+        aliases: 
+        - farm
+        - farmland
+        - farmground
+        - soil
     '61':
-    - furnace
+        name: 
+        aliases: 
+        - furnace
     '62':
-    - burningfurnace
-    - litfurnace
+        name: 
+        aliases: 
+        - burningfurnace
+        - litfurnace
     '63':
-    - signblock
-    - signpost
+        name: 
+        aliases: 
+        - signblock
+        - signpost
     '64':
-    - wooddoorblock
-    - woodendoorblock
+        name: 
+        aliases: 
+        - wooddoorblock
+        - woodendoorblock
     '65':
-    - ladder
+        name: 
+        aliases: 
+        - ladder
     '66':
-    - rail
-    - rails
-    - track
-    - tracks
+        name: 
+        aliases: 
+        - rail
+        - rails
+        - track
+        - tracks
     '67':
-    - cobblestairs
-    - cobblestonestairs
-    - cobstairs
-    - cstair
-    - cstairs
+        name: 
+        aliases: 
+        - cobblestairs
+        - cobblestonestairs
+        - cobstairs
+        - cstair
+        - cstairs
     '68':
-    - signblocktop
-    - wallsign
+        name: 
+        aliases: 
+        - signblocktop
+        - wallsign
     '69':
-    - lever
+        name: 
+        aliases: 
+        - lever
     '70':
-    - rockplate
-    - rockpressureplate
-    - stoneplate
-    - stonepressureplate
+        name: 
+        aliases: 
+        - rockplate
+        - rockpressureplate
+        - stoneplate
+        - stonepressureplate
     '71':
-    - irondoorblock
+        name: 
+        aliases: 
+        - irondoorblock
     '72':
-    - woodenplate
-    - woodenpressureplate
-    - woodplate
-    - woodpressureplate
+        name: 
+        aliases: 
+        - woodenplate
+        - woodenpressureplate
+        - woodplate
+        - woodpressureplate
     '73':
-    - redstoneore
-    - rore
+        name: 
+        aliases: 
+        - redstoneore
+        - rore
     '74':
-    - glowingredstoneore
-    - glowingrore
-    - redstoneorelit
-    - rorelit
+        name: 
+        aliases: 
+        - glowingredstoneore
+        - glowingrore
+        - redstoneorelit
+        - rorelit
     '75':
-    - redstonetorchoff
-    - rtorchoff
+        name: 
+        aliases: 
+        - redstonetorchoff
+        - rtorchoff
     '76':
-    - redstonetorch
-    - rtorch
+        name: 
+        aliases: 
+        - redstonetorch
+        - rtorch
     '77':
-    - button
-    - stonebutton
+        name: 
+        aliases: 
+        - button
+        - stonebutton
     '78':
-    - snow
-    - fallensnow
+        name: 
+        aliases: 
+        - snow
+        - fallensnow
     '79':
-    - ice
+        name: 
+        aliases: 
+        - ice
     '80':
-    - snowblock
+        name: 
+        aliases: 
+        - snowblock
     '81':
-    - cactus
-    - cacti
+        name: 
+        aliases: 
+        - cactus
+        - cacti
     '82':
-    - clayblock
+        name: 
+        aliases: 
+        - clayblock
     '83':
-    - reedblock
-    - sugarcaneblock
-    - caneblock
+        name: 
+        aliases: 
+        - reedblock
+        - sugarcaneblock
+        - caneblock
     '84':
-    - jukebox
+        name: 
+        aliases: 
+        - jukebox
     '85':
-    - fence
+        name: 
+        aliases: 
+        - fence
     '86':
-    - pumpkin
+        name: 
+        aliases: 
+        - pumpkin
     '87':
-    - bloodstone
-    - brimstone
-    - hellsand
-    - netherrack
-    - nethersand
-    - netherstone
-    - redsand
+        name: 
+        aliases: 
+        - bloodstone
+        - brimstone
+        - hellsand
+        - netherrack
+        - nethersand
+        - netherstone
+        - redsand
     '88':
-    - mud
-    - slowsand
-    - soulsand
+        name: 
+        aliases: 
+        - mud
+        - slowsand
+        - soulsand
     '89':
-    - glow
-    - glowblock
-    - glowstone
-    - glowstoneblock
-    - lightblock
-    - lightstone
+        name: 
+        aliases: 
+        - glow
+        - glowblock
+        - glowstone
+        - glowstoneblock
+        - lightblock
+        - lightstone
     '90':
-    - portal
-    - portalblock
+        name: 
+        aliases: 
+        - portal
+        - portalblock
     '91':
-    - jack
-    - jackolantern
-    - lantern
-    - pumpkinlantern
-    - pumpkintorch
+        name: 
+        aliases: 
+        - jack
+        - jackolantern
+        - lantern
+        - pumpkinlantern
+        - pumpkintorch
     '92':
-    - cakeblock
+        name: 
+        aliases: 
+        - cakeblock
     '93':
-    - diodeoff
-    - repeateroff
+        name: 
+        aliases: 
+        - diodeoff
+        - repeateroff
     '94':
-    - diodeon
-    - repeateron
+        name: 
+        aliases: 
+        - diodeon
+        - repeateron
     '95':
-    - aprilchest
-    - foolchest
-    - lockedchest
-    - mysterychest
+        name: 
+        aliases: 
+        - aprilchest
+        - foolchest
+        - lockedchest
+        - mysterychest
     '96':
-    - hatch
-    - trapdoor
+        name: 
+        aliases: 
+        - hatch
+        - trapdoor
     97;0:
-    - silverfishstone
+        name: 
+        aliases: 
+        - silverfishstone
     97;1:
-    - silverfishcobblestone
+        name: 
+        aliases: 
+        - silverfishcobblestone
     97;2:
-    - silverfishstonebrick
+        name: 
+        aliases: 
+        - silverfishstonebrick
     '98':
-    - dungeon
-    - sbrick
-    - stonebrick
+        name: 
+        aliases: 
+        - dungeon
+        - sbrick
+        - stonebrick
     99;0:
-    - bshroomcap
-    - brownmushroomcap
-    - hugebrownmushroompores
+        name: 
+        aliases: 
+        - bshroomcap
+        - brownmushroomcap
+        - hugebrownmushroompores
     99;1:
-    - bshroomcaptopwestnoth
+        name: 
+        aliases: 
+        - bshroomcaptopwestnoth
     99;2:
-    - bshroomcaptopnorth
+        name: 
+        aliases: 
+        - bshroomcaptopnorth
     99;3:
-    - bshroomcaptopnortheast
+        name: 
+        aliases: 
+        - bshroomcaptopnortheast
     99;4:
-    - bshroomcaptopwest
+        name: 
+        aliases: 
+        - bshroomcaptopwest
     99;5:
-    - bshroomcaptop
+        name: 
+        aliases: 
+        - bshroomcaptop
     99;6:
-    - bshroomcaptopeast
+        name: 
+        aliases: 
+        - bshroomcaptopeast
     99;7:
-    - bshroomcaptopsouthwest
+        name: 
+        aliases: 
+        - bshroomcaptopsouthwest
     99;8:
-    - bshroomcaptopsouth
+        name: 
+        aliases: 
+        - bshroomcaptopsouth
     99;9:
-    - bshroomcaptopeastsouth
+        name: 
+        aliases: 
+        - bshroomcaptopeastsouth
     99;10:
-    - bshroomstem
-    - hugebrownmushroomstem
+        name: 
+        aliases: 
+        - bshroomstem
+        - hugebrownmushroomstem
     100;0:
-    - redmushroomcap
-    - rshroomcap
-    - hugeredmushroompores
+        name: 
+        aliases: 
+        - redmushroomcap
+        - rshroomcap
+        - hugeredmushroompores
     100;0:
-    - bshroomcap
-    - brownmushroomcap
-    - hugebrownmushroompores
+        name: 
+        aliases: 
+        - bshroomcap
+        - brownmushroomcap
+        - hugebrownmushroompores
     100;1:
-    - rshroomcaptopwestnoth
+        name: 
+        aliases: 
+        - rshroomcaptopwestnoth
     100;2:
-    - rshroomcaptopnorth
+        name: 
+        aliases: 
+        - rshroomcaptopnorth
     100;3:
-    - rshroomcaptopnortheast
+        name: 
+        aliases: 
+        - rshroomcaptopnortheast
     100;4:
-    - rshroomcaptopwest
+        name: 
+        aliases: 
+        - rshroomcaptopwest
     100;5:
-    - rshroomcaptop
+        name: 
+        aliases: 
+        - rshroomcaptop
     100;6:
-    - rshroomcaptopeast
+        name: 
+        aliases: 
+        - rshroomcaptopeast
     100;7:
-    - rshroomcaptopsouthwest
+        name: 
+        aliases: 
+        - rshroomcaptopsouthwest
     100;8:
-    - rshroomcaptopsouth
+        name: 
+        aliases: 
+        - rshroomcaptopsouth
     100;9:
-    - rshroomcaptopeastsouth
+        name: 
+        aliases: 
+        - rshroomcaptopeastsouth
     100;10:
-    - rshroomstem
-    - hugeredmushroomstem
+        name: 
+        aliases: 
+        - rshroomstem
+        - hugeredmushroomstem
     '101':
-    - ibars
-    - ironbars
+        name: 
+        aliases: 
+        - ibars
+        - ironbars
     '102':
-    - glasspane
-    - pane
-    - window
+        name: 
+        aliases: 
+        - glasspane
+        - pane
+        - window
     '103':
-    - melon
-    - melonblock
+        name: 
+        aliases: 
+        - melon
+        - melonblock
     '104':
-    - pstem
-    - pumpkinstem
+        name: 
+        aliases: 
+        - pstem
+        - pumpkinstem
     '105':
-    - melonstem
-    - mstem
+        name: 
+        aliases: 
+        - melonstem
+        - mstem
     '106':
-    - vines
+        name: 
+        aliases: 
+        - vines
     '107':
-    - gate
-    - fencegate
+        name: 
+        aliases: 
+        - gate
+        - fencegate
     '108':
-    - brickstair
-    - brickstairs
-    - bstair
-    - bstairs
+        name: 
+        aliases: 
+        - brickstair
+        - brickstairs
+        - bstair
+        - bstairs
     '109':
-    - sbstair
-    - sbstairs
-    - stonebrickstair
-    - stonebstair
-    - stonebstairs
-    - stonebrickstairs
+        name: 
+        aliases: 
+        - sbstair
+        - sbstairs
+        - stonebrickstair
+        - stonebstair
+        - stonebstairs
+        - stonebrickstairs
     '110':
-    - mycelium
-    - mycel
+        name: 
+        aliases: 
+        - mycelium
+        - mycel
     '111':
-    - lilypad
+        name: 
+        aliases: 
+        - lilypad
     '112':
-    - nbrick
-    - netherbrick
+        name: 
+        aliases: 
+        - nbrick
+        - netherbrick
     '113':
-    - nbrickfence
-    - netherbrickfence
-    - netherfence
-    - nfence
+        name: 
+        aliases: 
+        - nbrickfence
+        - netherbrickfence
+        - netherfence
+        - nfence
     '114':
-    - nbrickstair
-    - nbrickstairs
-    - nbstair
-    - nbstairs
-    - netherbrickstair
-    - netherbrickstairs
+        name: 
+        aliases: 
+        - nbrickstair
+        - nbrickstairs
+        - nbstair
+        - nbstairs
+        - netherbrickstair
+        - netherbrickstairs
     '115':
-    - netherwartblock
+        name: 
+        aliases: 
+        - netherwartblock
     '116':
-    - enchantmenttable
-    - etable
+        name: 
+        aliases: 
+        - enchantmenttable
+        - etable
     '117':
-    - brewingstandblock
+        name: 
+        aliases: 
+        - brewingstandblock
     '118':
-    - cauldronblock
+        name: 
+        aliases: 
+        - cauldronblock
     '119':
-    - endportal
+        name: 
+        aliases: 
+        - endportal
     '120':
-    - endportalframe
+        name: 
+        aliases: 
+        - endportalframe
     '121':
-    - endstone
+        name: 
+        aliases: 
+        - endstone
     '122':
-    - dragonegg
+        name: 
+        aliases: 
+        - dragonegg
     '256':
-    - ironshovel
-    - ishovel
+        name: 
+        aliases: 
+        - ironshovel
+        - ishovel
     '257':
-    - ipick
-    - ipickaxe
-    - ironpick
-    - ironpickaxe
-    - ip
+        name: 
+        aliases: 
+        - ipick
+        - ipickaxe
+        - ironpick
+        - ironpickaxe
+        - ip
     '258':
-    - iaxe
-    - ironaxe
+        name: 
+        aliases: 
+        - iaxe
+        - ironaxe
     '259':
-    - fands
-    - firestarter
-    - flintandsteel
-    - lighter
+        name: 
+        aliases: 
+        - fands
+        - firestarter
+        - flintandsteel
+        - lighter
     '260':
-    - apple
+        name: 
+        aliases: 
+        - apple
     '261':
-    - bow
+        name: 
+        aliases: 
+        - bow
     '262':
-    - arrow
-    - a
+        name: 
+        aliases: 
+        - arrow
+        - a
     263;0:
-    - coal
+        name: 
+        aliases: 
+        - coal
     263;1:
-    - charcoal
+        name: 
+        aliases: 
+        - charcoal
     '264':
-    - diamond
-    - d
+        name: 
+        aliases: 
+        - diamond
+        - d
     '265':
-    - iingot
-    - ironbar
-    - ironingot
-    - i
+        name: 
+        aliases: 
+        - iingot
+        - ironbar
+        - ironingot
+        - i
     '266':
-    - gingot
-    - goldbar
-    - goldingot
-    - g
+        name: 
+        aliases: 
+        - gingot
+        - goldbar
+        - goldingot
+        - g
     '267':
-    - ironsword
-    - isword
+        name: 
+        aliases: 
+        - ironsword
+        - isword
     '268':
-    - woodsword
-    - woodensword
-    - wsword
+        name: 
+        aliases: 
+        - woodsword
+        - woodensword
+        - wsword
     '269':
-    - woodshovel
-    - wshovel
+        name: 
+        aliases: 
+        - woodshovel
+        - wshovel
     '270':
-    - woodenpick
-    - woodenpickaxe
-    - woodpick
-    - woodpickaxe
-    - wpick
-    - wpickaxe
-    - wp
+        name: 
+        aliases: 
+        - woodenpick
+        - woodenpickaxe
+        - woodpick
+        - woodpickaxe
+        - wpick
+        - wpickaxe
+        - wp
     '271':
-    - waxe
-    - woodaxe
-    - woodenaxe
+        name: 
+        aliases: 
+        - waxe
+        - woodaxe
+        - woodenaxe
     '272':
-    - ssword
-    - stonesword
+        name: 
+        aliases: 
+        - ssword
+        - stonesword
     '273':
-    - sshovel
-    - stoneshovel
+        name: 
+        aliases: 
+        - sshovel
+        - stoneshovel
     '274':
-    - spick
-    - spickaxe
-    - stonepick
-    - stonepickaxe
-    - sp
+        name: 
+        aliases: 
+        - spick
+        - spickaxe
+        - stonepick
+        - stonepickaxe
+        - sp
     '275':
-    - saxe
-    - stoneaxe
+        name: 
+        aliases: 
+        - saxe
+        - stoneaxe
     '276':
-    - diamondsword
-    - dsword
-    - ds
+        name: 
+        aliases: 
+        - diamondsword
+        - dsword
+        - ds
     '277':
-    - diamondshovel
-    - dshovel
+        name: 
+        aliases: 
+        - diamondshovel
+        - dshovel
     '278':
-    - diamondpick
-    - diamondpickaxe
-    - dpick
-    - dpickaxe
-    - dp
+        name: 
+        aliases: 
+        - diamondpick
+        - diamondpickaxe
+        - dpick
+        - dpickaxe
+        - dp
     '279':
-    - daxe
-    - diamondaxe
+        name: 
+        aliases: 
+        - daxe
+        - diamondaxe
     '280':
-    - stick
+        name: 
+        aliases: 
+        - stick
     '281':
-    - bowl
+        name: 
+        aliases: 
+        - bowl
     '282':
-    - mushroomsoup
-    - mushroomstew
-    - soup
-    - stew
+        name: 
+        aliases: 
+        - mushroomsoup
+        - mushroomstew
+        - soup
+        - stew
     '283':
-    - goldsword
-    - gsword
-    - gs
+        name: 
+        aliases: 
+        - goldsword
+        - gsword
+        - gs
     '284':
-    - goldshovel
-    - gshovel
+        name: 
+        aliases: 
+        - goldshovel
+        - gshovel
     '285':
-    - goldpick
-    - goldpickaxe
-    - gpick
-    - gpickaxe
-    - gp
+        name: 
+        aliases: 
+        - goldpick
+        - goldpickaxe
+        - gpick
+        - gpickaxe
+        - gp
     '286':
-    - gaxe
-    - goldaxe
+        name: 
+        aliases: 
+        - gaxe
+        - goldaxe
     '287':
-    - string
+        name: 
+        aliases: 
+        - string
     '288':
-    - feather
+        name: 
+        aliases: 
+        - feather
     '289':
-    - gunpowder
-    - sulfur
+        name: 
+        aliases: 
+        - gunpowder
+        - sulfur
     '290':
-    - whoe
-    - woodenhoe
-    - woodhoe
+        name: 
+        aliases: 
+        - whoe
+        - woodenhoe
+        - woodhoe
     '291':
-    - shoe
-    - stonehoe
+        name: 
+        aliases: 
+        - shoe
+        - stonehoe
     '292':
-    - ihoe
-    - ironhoe
+        name: 
+        aliases: 
+        - ihoe
+        - ironhoe
     '293':
-    - dhoe
-    - diamondhoe
+        name: 
+        aliases: 
+        - dhoe
+        - diamondhoe
     '294':
-    - ghoe
-    - goldhoe
+        name: 
+        aliases: 
+        - ghoe
+        - goldhoe
     '295':
-    - seed
-    - seeds
+        name: 
+        aliases: 
+        - seed
+        - seeds
     '296':
-    - wheat
+        name: 
+        aliases: 
+        - wheat
     '297':
-    - bread
+        name: 
+        aliases: 
+        - bread
     '298':
-    - leatherhelm
-    - leatherhelmet
-    - lhelm
-    - lhelmet
+        name: 
+        aliases: 
+        - leatherhelm
+        - leatherhelmet
+        - lhelm
+        - lhelmet
     '299':
-    - lchest
-    - leatherchest
-    - leatherchestplate
-    - leathershirt
-    - lshirt
+        name: 
+        aliases: 
+        - lchest
+        - leatherchest
+        - leatherchestplate
+        - leathershirt
+        - lshirt
     '300':
-    - leatherleggings
-    - leatherpants
-    - lleggings
-    - lpants
+        name: 
+        aliases: 
+        - leatherleggings
+        - leatherpants
+        - lleggings
+        - lpants
     '301':
-    - lboots
-    - leatherboots
-    - leathershoes
-    - lshoes
+        name: 
+        aliases: 
+        - lboots
+        - leatherboots
+        - leathershoes
+        - lshoes
     '302':
-    - chainhelm
-    - chainhelmet
-    - chelm
-    - chelmet
+        name: 
+        aliases: 
+        - chainhelm
+        - chainhelmet
+        - chelm
+        - chelmet
     '303':
-    - cchest
-    - chainchest
-    - chainchestplate
-    - chainshirt
-    - cshirt
+        name: 
+        aliases: 
+        - cchest
+        - chainchest
+        - chainchestplate
+        - chainshirt
+        - cshirt
     '304':
-    - chainpants
-    - cpants
+        name: 
+        aliases: 
+        - chainpants
+        - cpants
     '305':
-    - cboots
-    - chainboots
-    - cshoes
-    - chainshoes
+        name: 
+        aliases: 
+        - cboots
+        - chainboots
+        - cshoes
+        - chainshoes
     '306':
-    - ihelm
-    - ihelmet
-    - ironhelm
-    - ironhelmet
+        name: 
+        aliases: 
+        - ihelm
+        - ihelmet
+        - ironhelm
+        - ironhelmet
     '307':
-    - ichest
-    - ironchest
-    - ironchestplate
-    - ironshirt
-    - ishirt
+        name: 
+        aliases: 
+        - ichest
+        - ironchest
+        - ironchestplate
+        - ironshirt
+        - ishirt
     '308':
-    - ileggings
-    - ipants
-    - ironleggings
-    - ironpants
+        name: 
+        aliases: 
+        - ileggings
+        - ipants
+        - ironleggings
+        - ironpants
     '309':
-    - iboots
-    - ironboots
-    - ironshoes
-    - ishoes
+        name: 
+        aliases: 
+        - iboots
+        - ironboots
+        - ironshoes
+        - ishoes
     '310':
-    - dhelm
-    - dhelmet
-    - diamondhelm
-    - diamondhelmet
+        name: 
+        aliases: 
+        - dhelm
+        - dhelmet
+        - diamondhelm
+        - diamondhelmet
     '311':
-    - dchest
-    - diamondchest
-    - diamondchestplate
-    - diamondshirt
-    - dshirt
+        name: 
+        aliases: 
+        - dchest
+        - diamondchest
+        - diamondchestplate
+        - diamondshirt
+        - dshirt
     '312':
-    - diamondleggings
-    - diamondpants
-    - dleggings
-    - dlegging
-    - dpants
+        name: 
+        aliases: 
+        - diamondleggings
+        - diamondpants
+        - dleggings
+        - dlegging
+        - dpants
     '313':
-    - dboots
-    - diamondboots
-    - diamondshoes
-    - dshoes
+        name: 
+        aliases: 
+        - dboots
+        - diamondboots
+        - diamondshoes
+        - dshoes
     '314':
-    - ghelm
-    - ghelmet
-    - goldhelm
-    - goldhelmet
+        name: 
+        aliases: 
+        - ghelm
+        - ghelmet
+        - goldhelm
+        - goldhelmet
     '315':
-    - gchest
-    - goldchest
-    - goldshirt
-    - gshirt
+        name: 
+        aliases: 
+        - gchest
+        - goldchest
+        - goldshirt
+        - gshirt
     '316':
-    - gleggings
-    - goldleggins
-    - goldpants
-    - gpants
+        name: 
+        aliases: 
+        - gleggings
+        - goldleggins
+        - goldpants
+        - gpants
     '317':
-    - gboots
-    - goldboots
-    - goldshoes
-    - gshoes
+        name: 
+        aliases: 
+        - gboots
+        - goldboots
+        - goldshoes
+        - gshoes
     '318':
-    - flint
+        name: 
+        aliases: 
+        - flint
     '319':
-    - pork
-    - porkchop
+        name: 
+        aliases: 
+        - pork
+        - porkchop
     '320':
-    - cookedpork
-    - cookedporkchop
+        name: 
+        aliases: 
+        - cookedpork
+        - cookedporkchop
     '321':
-    - painting
+        name: 
+        aliases: 
+        - painting
     '322':
-    - gapple
-    - goldapple
-    - goldenapple
+        name: 
+        aliases: 
+        - gapple
+        - goldapple
+        - goldenapple
     '323':
-    - sign
+        name: 
+        aliases: 
+        - sign
     '324':
-    - wdoor
-    - wooddoor
-    - woddendoor
+        name: 
+        aliases: 
+        - wdoor
+        - wooddoor
+        - woddendoor
     '325':
-    - bucket
+        name: 
+        aliases: 
+        - bucket
     '326':
-    - waterbucker
-    - wbucket
+        name: 
+        aliases: 
+        - waterbucker
+        - wbucket
     '327':
-    - lavabucket
-    - lbucket
+        name: 
+        aliases: 
+        - lavabucket
+        - lbucket
     '328':
-    - cart
-    - minecart
+        name: 
+        aliases: 
+        - cart
+        - minecart
     '329':
-    - saddle
+        name: 
+        aliases: 
+        - saddle
     '330':
-    - idoor
-    - irondoor
+        name: 
+        aliases: 
+        - idoor
+        - irondoor
     '331':
-    - rdust
-    - redstone
-    - redstonedust
-    - rsdust
+        name: 
+        aliases: 
+        - rdust
+        - redstone
+        - redstonedust
+        - rsdust
     '332':
-    - snowball
+        name: 
+        aliases: 
+        - snowball
     '333':
-    - boat
+        name: 
+        aliases: 
+        - boat
     '334':
-    - hide
-    - leather
+        name: 
+        aliases: 
+        - hide
+        - leather
     '335':
-    - mbucket
-    - milkbucket
-    - milk
+        name: 
+        aliases: 
+        - mbucket
+        - milkbucket
+        - milk
     '336':
-    - brick
+        name: 
+        aliases: 
+        - brick
     '337':
-    - clay
+        name: 
+        aliases: 
+        - clay
     '338':
-    - bamboo
-    - reed
-    - sugarcane
+        name: 
+        aliases: 
+        - bamboo
+        - reed
+        - sugarcane
     '339':
-    - paper
+        name: 
+        aliases: 
+        - paper
     '340':
-    - book
+        name: 
+        aliases: 
+        - book
     '341':
-    - slimeorb
-    - slime
-    - slimeball
+        name: 
+        aliases: 
+        - slimeorb
+        - slime
+        - slimeball
     '342':
-    - scart
-    - sminecart
-    - storagecart
-    - storageminecart
+        name: 
+        aliases: 
+        - scart
+        - sminecart
+        - storagecart
+        - storageminecart
     '343':
-    - pcart
-    - pminecart
-    - poweredcart
-    - poweredminecart
+        name: 
+        aliases: 
+        - pcart
+        - pminecart
+        - poweredcart
+        - poweredminecart
     '344':
-    - egg
+        name: 
+        aliases: 
+        - egg
     '345':
-    - compass
+        name: 
+        aliases: 
+        - compass
     '346':
-    - fishingpole
-    - fishingrod
-    - pole
-    - rod
-    - frod
+        name: 
+        aliases: 
+        - fishingpole
+        - fishingrod
+        - pole
+        - rod
+        - frod
     '347':
-    - clock
-    - watch
+        name: 
+        aliases: 
+        - clock
+        - watch
     '348':
-    - gdust
-    - glowdust
-    - gsdust
-    - glowstonedust
-    - ldust
-    - lightstonedust
-    - lsdust
-    - lightdust
+        name: 
+        aliases: 
+        - gdust
+        - glowdust
+        - gsdust
+        - glowstonedust
+        - ldust
+        - lightstonedust
+        - lsdust
+        - lightdust
     '349':
-    - fish
+        name: 
+        aliases: 
+        - fish
     '350':
-    - cookedfish
-    - filet
+        name: 
+        aliases: 
+        - cookedfish
+        - filet
     351;0:
-    - black
-    - blackdye
-    - ink
-    - inksac
-    - inksack
+        name: 
+        aliases: 
+        - black
+        - blackdye
+        - ink
+        - inksac
+        - inksack
     351;1:
-    - red
-    - reddye
-    - rosered
+        name: 
+        aliases: 
+        - red
+        - reddye
+        - rosered
     351;2:
-    - cactusgreen
-    - green
-    - greendye
+        name: 
+        aliases: 
+        - cactusgreen
+        - green
+        - greendye
     351;3:
-    - brown
-    - browndye
-    - cocoabeans
+        name: 
+        aliases: 
+        - brown
+        - browndye
+        - cocoabeans
     351;4:
-    - blue
-    - bluedye
-    - lapis
-    - lapislazuli
+        name: 
+        aliases: 
+        - blue
+        - bluedye
+        - lapis
+        - lapislazuli
     351;5:
-    - purple
-    - purpledye
+        name: 
+        aliases: 
+        - purple
+        - purpledye
     351;6:
-    - cyan
-    - cyandye
+        name: 
+        aliases: 
+        - cyan
+        - cyandye
     351;7:
-    - lightgray
-    - lightgraydye
-    - lightgrey
-    - lightgreydye
-    - silver
-    - silverdye
+        name: 
+        aliases: 
+        - lightgray
+        - lightgraydye
+        - lightgrey
+        - lightgreydye
+        - silver
+        - silverdye
     351;8:
-    - gray
-    - graydye
-    - grey
-    - greydye
+        name: 
+        aliases: 
+        - gray
+        - graydye
+        - grey
+        - greydye
     351;9:
-    - pink
-    - pinkdye
+        name: 
+        aliases: 
+        - pink
+        - pinkdye
     351;10:
-    - lime
-    - limedye
+        name: 
+        aliases: 
+        - lime
+        - limedye
     351;11:
-    - dandelionyellow
-    - yellow
-    - yellowdye
+        name: 
+        aliases: 
+        - dandelionyellow
+        - yellow
+        - yellowdye
     351;12:
-    - lightblue
-    - lightbluedye
-    - skyblue
-    - skybluedye
+        name: 
+        aliases: 
+        - lightblue
+        - lightbluedye
+        - skyblue
+        - skybluedye
     351;13:
-    - magenta
-    - magentadye
+        name: 
+        aliases: 
+        - magenta
+        - magentadye
     351;14:
-    - orange
-    - orangedye
+        name: 
+        aliases: 
+        - orange
+        - orangedye
     351;15:
-    - bonemeal
-    - white
-    - whitedye
+        name: 
+        aliases: 
+        - bonemeal
+        - white
+        - whitedye
     '352':
-    - bone
+        name: 
+        aliases: 
+        - bone
     '353':
-    - sugar
+        name: 
+        aliases: 
+        - sugar
     '354':
-    - cake
+        name: 
+        aliases: 
+        - cake
     '355':
-    - bed
+        name: 
+        aliases: 
+        - bed
     '356':
-    - diode
-    - repeater
+        name: 
+        aliases: 
+        - diode
+        - repeater
     '357':
-    - cookie
+        name: 
+        aliases: 
+        - cookie
     '358':
-    - map
+        name: 
+        aliases: 
+        - map
     '359':
-    - scissors
-    - shears
+        name: 
+        aliases: 
+        - scissors
+        - shears
     '360':
-    - melonslice
-    - mslice
-    - m
+        name: 
+        aliases: 
+        - melonslice
+        - mslice
+        - m
     '361':
-    - pseed
-    - pseeds
-    - pumpkinseed
-    - pumpkinseeds
+        name: 
+        aliases: 
+        - pseed
+        - pseeds
+        - pumpkinseed
+        - pumpkinseeds
     '362':
-    - melonseed
-    - melonseeds
-    - mseed
-    - mseeds
+        name: 
+        aliases: 
+        - melonseed
+        - melonseeds
+        - mseed
+        - mseeds
     '363':
-    - beef
-    - rawbeef
+        name: 
+        aliases: 
+        - beef
+        - rawbeef
     '364':
-    - cookedbeef
-    - steak
+        name: 
+        aliases: 
+        - cookedbeef
+        - steak
     '365':
-    - chicken
-    - rawchicken
+        name: 
+        aliases: 
+        - chicken
+        - rawchicken
     '366':
-    - cookedchicken
+        name: 
+        aliases: 
+        - cookedchicken
     '367':
-    - rottenflesh
+        name: 
+        aliases: 
+        - rottenflesh
     '368':
-    - enderpearl
-    - pearl
-    - e
+        name: 
+        aliases: 
+        - enderpearl
+        - pearl
+        - e
     '369':
-    - blazerod
-    - brod
+        name: 
+        aliases: 
+        - blazerod
+        - brod
     '370':
-    - ghasttear
-    - tear
+        name: 
+        aliases: 
+        - ghasttear
+        - tear
     '371':
-    - goldnugget
+        name: 
+        aliases: 
+        - goldnugget
     '372':
-    - netherwart
-    - wart
-    - nw
-    # Potions
+        name: 
+        aliases: 
+        - netherwart
+        - wart
+        - nw
     373;0:
-    - waterbottle
+        name: 
+        aliases: 
+        - waterbottle
     373;16:
-    - awkwardpotion
-    - awkwardpot
-    - awkward
+        name: 
+        aliases: 
+        - awkwardpotion
+        - awkwardpot
+        - awkward
     373;32:
-    - thickpotion
-    - thickpot
-    - thick
+        name: 
+        aliases: 
+        - thickpotion
+        - thickpot
+        - thick
     373;64:
-    - mundanepotionextended
-    - mundanepotx
+        name: 
+        aliases: 
+        - mundanepotionextended
+        - mundanepotx
     373;8192:
-    - mundanepotion
-    - mundanepot
-    - mundane
+        name: 
+        aliases: 
+        - mundanepotion
+        - mundanepot
+        - mundane
     373;8193:
-    - regenerationpotion
-    - regenpot
-    - regen
+        name: 
+        aliases: 
+        - regenerationpotion
+        - regenpot
+        - regen
     373;8257:
-    - regenerationpotionextended
-    - regenpotx
-    - regenx
+        name: 
+        aliases: 
+        - regenerationpotionextended
+        - regenpotx
+        - regenx
     373;8225:
-    - regenerationpotionII
-    - regenpotII
-    - regenpot2
-    - regenII
-    - regen2
+        name: 
+        aliases: 
+        - regenerationpotionII
+        - regenpotII
+        - regenpot2
+        - regenII
+        - regen2
     373;8258:
-    - swiftnesspotion
-    - swiftnesspot
-    - swiftness
+        name: 
+        aliases: 
+        - swiftnesspotion
+        - swiftnesspot
+        - swiftness
     373;8195:
-    - fireresistancepotion
-    - fireresistancepot
-    - fireresistance
-    - firepot
+        name: 
+        aliases: 
+        - fireresistancepotion
+        - fireresistancepot
+        - fireresistance
+        - firepot
     373;8259:
-    - fireresistancepotionextended
-    - fireresistancepotx
-    - fireresistancex
-    - firepotx
+        name: 
+        aliases: 
+        - fireresistancepotionextended
+        - fireresistancepotx
+        - fireresistancex
+        - firepotx
     373;8197:
-    - healingpotion
-    - healingpot
-    - healpot
-    - heal
+        name: 
+        aliases: 
+        - healingpotion
+        - healingpot
+        - healpot
+        - heal
     373;8229:
-    - healingpotionII
-    - healingpotII
-    - healingpot2
-    - heal2
-    - healII
+        name: 
+        aliases: 
+        - healingpotionII
+        - healingpotII
+        - healingpot2
+        - heal2
+        - healII
     373;8201:
-    - strengthpotion
-    - strengthpot
-    - strength
+        name: 
+        aliases: 
+        - strengthpotion
+        - strengthpot
+        - strength
     373;8265:
-    - strengthpotionextended
-    - strengthpotx
-    - strengthx
+        name: 
+        aliases: 
+        - strengthpotionextended
+        - strengthpotx
+        - strengthx
     373;8233:
-    - strengthpotionII
-    - strengthpot2
-    - strengthpotII
-    - strength2
-    - strengthII
+        name: 
+        aliases: 
+        - strengthpotionII
+        - strengthpot2
+        - strengthpotII
+        - strength2
+        - strengthII
     373;8196:
-    - poisonpotion
-    - poisonpot
-    - poison
+        name: 
+        aliases: 
+        - poisonpotion
+        - poisonpot
+        - poison
     373;8260:
-    - poisonpotionextended
-    - poisonpotx
-    - poisonx
+        name: 
+        aliases: 
+        - poisonpotionextended
+        - poisonpotx
+        - poisonx
     373;8228:
-    - poisonpotionII
-    - poisonpot2
-    - poisonpotII
-    - poison2
-    - poisonII
+        name: 
+        aliases: 
+        - poisonpotionII
+        - poisonpot2
+        - poisonpotII
+        - poison2
+        - poisonII
     373;8200:
-    - weaknesspotion
-    - weaknesspot
-    - weakness
+        name: 
+        aliases: 
+        - weaknesspotion
+        - weaknesspot
+        - weakness
     373;8264:
-    - weaknesspotionextended
-    - weaknesspotx
-    - weaknessx
+        name: 
+        aliases: 
+        - weaknesspotionextended
+        - weaknesspotx
+        - weaknessx
     373;8202:
-    - slownesspotion
-    - slownesspot
-    - slowness
+        name: 
+        aliases: 
+        - slownesspotion
+        - slownesspot
+        - slowness
     373;8204:
-    - harmingpotion
-    - harmingpot
-    - harmpot
-    - harm
+        name: 
+        aliases: 
+        - harmingpotion
+        - harmingpot
+        - harmpot
+        - harm
     373;8236:
-    - harmingpotionII
-    - harmingpot2
-    - harmingpotII
-    - harmII
-    - harm2
-    # Splash potions
+        name: 
+        aliases: 
+        - harmingpotionII
+        - harmingpot2
+        - harmingpotII
+        - harmII
+        - harm2
     373;16384:
-    - splashmundanepotion
-    - spmundanepot
-    - spmundane
+        name: 
+        aliases: 
+        - splashmundanepotion
+        - spmundanepot
+        - spmundane
     373;16385:
-    - splashregenerationpotion
-    - spregenpot
-    - spregen
+        name: 
+        aliases: 
+        - splashregenerationpotion
+        - spregenpot
+        - spregen
     373;16417:
-    - splashregenerationpotionextended
-    - spregenpotx
-    - spregenx
+        name: 
+        aliases: 
+        - splashregenerationpotionextended
+        - spregenpotx
+        - spregenx
     373;16386:
-    - splashregenerationpotionII
-    - spregenpotII
-    - spregenpot2
-    - spregenII
-    - spregen2
+        name: 
+        aliases: 
+        - splashregenerationpotionII
+        - spregenpotII
+        - spregenpot2
+        - spregenII
+        - spregen2
     373;16450:
-    - splashswiftnesspotion
-    - spswiftnesspot
-    - spswiftness
+        name: 
+        aliases: 
+        - splashswiftnesspotion
+        - spswiftnesspot
+        - spswiftness
     373;16387:
-    - splashfireresistancepotion
-    - spfireresistancepot
-    - spfireresistance
-    - spfirepot
+        name: 
+        aliases: 
+        - splashfireresistancepotion
+        - spfireresistancepot
+        - spfireresistance
+        - spfirepot
     373;16451:
-    - splashfireresistancepotionextended
-    - spfireresistancepotx
-    - spfireresistancepotx
-    - spfirepotx
+        name: 
+        aliases: 
+        - splashfireresistancepotionextended
+        - spfireresistancepotx
+        - spfireresistancepotx
+        - spfirepotx
     373;16389:
-    - splashhealingpotion
-    - sphealingpot
-    - sphealpot
-    - spheal
+        name: 
+        aliases: 
+        - splashhealingpotion
+        - sphealingpot
+        - sphealpot
+        - spheal
     373;16421:
-    - splashhealingpotionII
-    - sphealingpotII
-    - sphealingpot2
-    - spheal2
-    - sphealII
+        name: 
+        aliases: 
+        - splashhealingpotionII
+        - sphealingpotII
+        - sphealingpot2
+        - spheal2
+        - sphealII
     373;16393:
-    - splashstrengthpotion
-    - spstrengthpot
-    - spstrength
+        name: 
+        aliases: 
+        - splashstrengthpotion
+        - spstrengthpot
+        - spstrength
     373;16457:
-    - splashstrengthpotionextended
-    - spstrengthpotx
-    - spstrengthx
+        name: 
+        aliases: 
+        - splashstrengthpotionextended
+        - spstrengthpotx
+        - spstrengthx
     373;16425:
-    - splashstrengthpotionII
-    - spstrengthpot2
-    - spstrengthpotII
-    - spstrength2
-    - spstrengthII
+        name: 
+        aliases: 
+        - splashstrengthpotionII
+        - spstrengthpot2
+        - spstrengthpotII
+        - spstrength2
+        - spstrengthII
     373;16388:
-    - splashpoisonpotion
-    - sppoisonpot
-    - sppoison
+        name: 
+        aliases: 
+        - splashpoisonpotion
+        - sppoisonpot
+        - sppoison
     373;16452:
-    - splashpoisonpotionextended
-    - sppoisonpotx
-    - sppoisonx
+        name: 
+        aliases: 
+        - splashpoisonpotionextended
+        - sppoisonpotx
+        - sppoisonx
     373;16420:
-    - splashpoisonpotionII
-    - sppoisonpot2
-    - sppoisonpotII
-    - sppoison2
-    - sppoisonII
+        name: 
+        aliases: 
+        - splashpoisonpotionII
+        - sppoisonpot2
+        - sppoisonpotII
+        - sppoison2
+        - sppoisonII
     373;16392:
-    - splashweaknesspotion
-    - spweaknesspot
-    - spweakness
+        name: 
+        aliases: 
+        - splashweaknesspotion
+        - spweaknesspot
+        - spweakness
     373;16456:
-    - splashweaknesspotionextended
-    - spweaknesspotx
-    - spweaknessx
+        name: 
+        aliases: 
+        - splashweaknesspotionextended
+        - spweaknesspotx
+        - spweaknessx
     373;16394:
-    - splashslownesspotion
-    - spslownesspot
-    - spslowness
+        name: 
+        aliases: 
+        - splashslownesspotion
+        - spslownesspot
+        - spslowness
     373;16396:
-    - splashharmingpotion
-    - spharmingpot
-    - spharmpot
-    - spharm
+        name: 
+        aliases: 
+        - splashharmingpotion
+        - spharmingpot
+        - spharmpot
+        - spharm
     373;16428:
-    - splashharmingpotionII
-    - spharmingpot2
-    - spharmingpotII
-    - spharmII
-    - spharm2
-    # Unbrewable potions
+        name: 
+        aliases: 
+        - splashharmingpotionII
+        - spharmingpot2
+        - spharmingpotII
+        - spharmII
+        - spharm2
     373;8289:
-    - regenerationpotionII
-    - regenpotII
-    - regenpot2
-    - regen2
-    - regenII
+        name: 
+        aliases: 
+        - regenerationpotionII
+        - regenpotII
+        - regenpot2
+        - regen2
+        - regenII
     373;8290:
-    - swiftnesspotionII
-    - swiftnesspotII
-    - swiftnesspot2
-    - swiftnessII
-    - swiftness2
+        name: 
+        aliases: 
+        - swiftnesspotionII
+        - swiftnesspotII
+        - swiftnesspot2
+        - swiftnessII
+        - swiftness2
     373;8297:
-    - strengthpotionII
-    - strengthpotII
-    - strengthpot2
-    - strength2
-    - strengthII
+        name: 
+        aliases: 
+        - strengthpotionII
+        - strengthpotII
+        - strengthpot2
+        - strength2
+        - strengthII
     373;8292:
-    - poisonpotionII
-    - poisonpotII
-    - poisonpot2
-    - poison2
-    - poisionII
-    # Unbrewable splash potions
+        name: 
+        aliases: 
+        - poisonpotionII
+        - poisonpotII
+        - poisonpot2
+        - poison2
+        - poisionII
     373;16481:
-    - splashregenerationpotionII
-    - spregenpotII
-    - spregenpot2
-    - spregen2
-    - spregenII
+        name: 
+        aliases: 
+        - splashregenerationpotionII
+        - spregenpotII
+        - spregenpot2
+        - spregen2
+        - spregenII
     373;16482:
-    - splashswiftnesspotionII
-    - spswiftnesspotII
-    - spswiftnesspot2
-    - spswiftnessII
-    - spswiftness2
+        name: 
+        aliases: 
+        - splashswiftnesspotionII
+        - spswiftnesspotII
+        - spswiftnesspot2
+        - spswiftnessII
+        - spswiftness2
     373;16489:
-    - splashstrengthpotionII
-    - spstrengthpotII
-    - spstrengthpot2
-    - spstrength2
-    - spstrengthII
+        name: 
+        aliases: 
+        - splashstrengthpotionII
+        - spstrengthpotII
+        - spstrengthpot2
+        - spstrength2
+        - spstrengthII
     373;16484:
-    - splashpoisonpotionII
-    - sppoisonpotII
-    - sppoisonpot2
-    - sppoison2
-    - sppoisionII
-    # Unused potions
+        name: 
+        aliases: 
+        - splashpoisonpotionII
+        - sppoisonpotII
+        - sppoisonpot2
+        - sppoison2
+        - sppoisionII
     373;6:
-    - clearpotion
+        name: 
+        aliases: 
+        - clearpotion
     373;7:
-    - clearpotionx
+        name: 
+        aliases: 
+        - clearpotionx
     373;11:
-    - diffusepotion
+        name: 
+        aliases: 
+        - diffusepotion
     373;13:
-    - artlesspotion
+        name: 
+        aliases: 
+        - artlesspotion
     373;14:
-    - thinpotion
+        name: 
+        aliases: 
+        - thinpotion
     373;15:
-    - thinpotionx
+        name: 
+        aliases: 
+        - thinpotionx
     373;22:
-    - bunglingpotion
+        name: 
+        aliases: 
+        - bunglingpotion
     373;23:
-    - bunglingpotionx
+        name: 
+        aliases: 
+        - bunglingpotionx
     373;27:
-    - smoothpotion
+        name: 
+        aliases: 
+        - smoothpotion
     373;29:
-    - suavepotion
+        name: 
+        aliases: 
+        - suavepotion
     373;30:
-    - debonairpotion
+        name: 
+        aliases: 
+        - debonairpotion
     373;31:
-    - debonairpotionx
+        name: 
+        aliases: 
+        - debonairpotionx
     373;38:
-    - charmingpotion
+        name: 
+        aliases: 
+        - charmingpotion
     373;39:
-    - charmingpotionx
+        name: 
+        aliases: 
+        - charmingpotionx
     373;43:
-    - refinedpotion
+        name: 
+        aliases: 
+        - refinedpotion
     373;45:
-    - cordialpotion
+        name: 
+        aliases: 
+        - cordialpotion
     373;46:
-    - sparkingpotion
+        name: 
+        aliases: 
+        - sparkingpotion
     373;47:
-    - sparklingpotionx
+        name: 
+        aliases: 
+        - sparklingpotionx
     373;48:
-    - potentpotion
+        name: 
+        aliases: 
+        - potentpotion
     373;54:
-    - rankpotion
+        name: 
+        aliases: 
+        - rankpotion
     373;55:
-    - rankpotionx
+        name: 
+        aliases: 
+        - rankpotionx
     373;59:
-    - acridpotion
+        name: 
+        aliases: 
+        - acridpotion
     373;61:
-    - grosspotion
+        name: 
+        aliases: 
+        - grosspotion
     373;62:
-    - stinkypotion
+        name: 
+        aliases: 
+        - stinkypotion
     373;63:
-    - stinkypotionx
+        name: 
+        aliases: 
+        - stinkypotionx
     '374':
-    - glassbottle
+        name: 
+        aliases: 
+        - glassbottle
     '375':
-    - spidereye
-    - seye
+        name: 
+        aliases: 
+        - spidereye
+        - seye
     '376':
-    - fermentedspidereye
-    - fermentedeye
-    - fseye
+        name: 
+        aliases: 
+        - fermentedspidereye
+        - fermentedeye
+        - fseye
     '377':
-    - blazepowder
-    - powder
+        name: 
+        aliases: 
+        - blazepowder
+        - powder
     '378':
-    - magmacream
-    - cream
+        name: 
+        aliases: 
+        - magmacream
+        - cream
     '379':
-    - brewingstand
-    - stand
+        name: 
+        aliases: 
+        - brewingstand
+        - stand
     '380':
-    - cauldron
+        name: 
+        aliases: 
+        - cauldron
     '381':
-    - eyeofender
-    - eeye
+        name: 
+        aliases: 
+        - eyeofender
+        - eeye
     '382':
-    - glisteringmelon
-    - gmelon
-    # Entity spawner eggs in 11w49a+
+        name: 
+        aliases: 
+        - glisteringmelon
+        - gmelon
     # Damage value corresponds to entity ID; see http://www.minecraftwiki.net/wiki/Data_values#Entity_IDs
-    # Not available in 1.0.1
+        name: 
+        aliases: 
 #    383;1:
-#    - droppeditemegg
+        name: 
+        aliases: 
+    #    - droppeditemegg
 #    383;2:
-#    - experienceorbegg
+        name: 
+        aliases: 
+    #    - experienceorbegg
 #    383;10:
-#    - shotarrowegg
+        name: 
+        aliases: 
+    #    - shotarrowegg
 #    383;11:
-#    - thrownsnowballegg
+        name: 
+        aliases: 
+    #    - thrownsnowballegg
 #    383;12:
-#    - ghastfireballegg
+        name: 
+        aliases: 
+    #    - ghastfireballegg
 #    383;13:
-#    - blazefireballegg
+        name: 
+        aliases: 
+    #    - blazefireballegg
 #    383;14:
-#    - thrownenderpearlegg
+        name: 
+        aliases: 
+    #    - thrownenderpearlegg
 #    383;15:
-#    - throwneyeofenderegg
+        name: 
+        aliases: 
+    #    - throwneyeofenderegg
 #    383;20:
-#    - primedtntegg
+        name: 
+        aliases: 
+    #    - primedtntegg
 #    383;21:
-#    - fallingblockegg
+        name: 
+        aliases: 
+    #    - fallingblockegg
 #    383;40:
-#    - minecartegg
+        name: 
+        aliases: 
+    #    - minecartegg
 #    383;41:
-#    - boategg
+        name: 
+        aliases: 
+    #    - boategg
 #    383;50:
-#    - creeperegg
+        name: 
+        aliases: 
+    #    - creeperegg
 #    383;51:
-#    - skeletonegg
+        name: 
+        aliases: 
+    #    - skeletonegg
 #    383;52:
-#    - spideregg
+        name: 
+        aliases: 
+    #    - spideregg
 #    383;53:
-#    - giantegg
+        name: 
+        aliases: 
+    #    - giantegg
 #    383;54:
-#    - zombieegg
+        name: 
+        aliases: 
+    #    - zombieegg
 #    383;55:
-#    - slimeegg
+        name: 
+        aliases: 
+    #    - slimeegg
 #    383;56:
-#    - ghastegg
+        name: 
+        aliases: 
+    #    - ghastegg
 #    383;57:
-#    - zombiepigmanegg
+        name: 
+        aliases: 
+    #    - zombiepigmanegg
 #    383;60:
-#    - silverfishegg
+        name: 
+        aliases: 
+    #    - silverfishegg
 #    383;61:
-#    - blazeegg
+        name: 
+        aliases: 
+    #    - blazeegg
 #    383;62:
-#    - magmacubeegg
+        name: 
+        aliases: 
+    #    - magmacubeegg
 #    383;63:
-#    - enderdragonegg
+        name: 
+        aliases: 
+    #    - enderdragonegg
 #    383;90:
-#    - pigegg
+        name: 
+        aliases: 
+    #    - pigegg
 #    383;91:
-#    - sheepegg
+        name: 
+        aliases: 
+    #    - sheepegg
 #    393;92:
-#    - cowegg
+        name: 
+        aliases: 
+    #    - cowegg
 #    393;93:
-#    - chickenegg
+        name: 
+        aliases: 
+    #    - chickenegg
 #    393;94:
-#    - squidegg
+        name: 
+        aliases: 
+    #    - squidegg
 #    393;95:
-#    - wolfegg
+        name: 
+        aliases: 
+    #    - wolfegg
 #    393;96:
-#    - mooshroomegg
+        name: 
+        aliases: 
+    #    - mooshroomegg
 #    393;97:
-#    - snowgolemegg
+        name: 
+        aliases: 
+    #    - snowgolemegg
 #    393;120:
-#    - villageregg
+        name: 
+        aliases: 
+    #    - villageregg
 #    393;200:
-#    - endercrystalegg
-    # Music discs
+        name: 
+        aliases: 
+    #    - endercrystalegg
     '2256':
-    - thirteen
-    - yellowdisc
-    - yellowrecord
+        name: 
+        aliases: 
+        - thirteen
+        - yellowdisc
+        - yellowrecord
     '2257':
-    - cat
-    - greendisc
-    - greenrecord
+        name: 
+        aliases: 
+        - cat
+        - greendisc
+        - greenrecord
     '2258':
-    - blocks
-    - blocksdisc
-    - redrecord 
+        name: 
+        aliases: 
+        - blocks
+        - blocksdisc
+        - redrecord 
     '2259':
-    - chirp 
-    - chirpdisc 
-    - darkredrecord
+        name: 
+        aliases: 
+        - chirp 
+        - chirpdisc 
+        - darkredrecord
     '2260':
-    - far
-    - fardisc
-    - yellowrecord
+        name: 
+        aliases: 
+        - far
+        - fardisc
+        - yellowrecord
     '2261':
-    - mall
-    - malldisc
-    - bluerecord
+        name: 
+        aliases: 
+        - mall
+        - malldisc
+        - bluerecord
     '2262':
-    - mellohi
-    - mellohidisc
-    - purplerecord
+        name: 
+        aliases: 
+        - mellohi
+        - mellohidisc
+        - purplerecord
     '2263':
-    - stal
-    - staldisc
-    - blackrecord
+        name: 
+        aliases: 
+        - stal
+        - staldisc
+        - blackrecord
     '2264':
-    - strad
-    - straddisc
-    - whiterecord
+        name: 
+        aliases: 
+        - strad
+        - straddisc
+        - whiterecord
     '2265':
-    - ward
-    - warddisc
-    - darkgreenrecord
+        name: 
+        aliases: 
+        - ward
+        - warddisc
+        - darkgreenrecord
     '2266':
-    - eleven
-    - elevendisc
-    - brokenrecord
+        name: 
+        aliases: 
+        - eleven
+        - elevendisc
+        - brokenrecord
 listversion: 0
