@@ -782,7 +782,6 @@ public class FreeTrade extends JavaPlugin {
     }
 
     public void onDisable() {
-        saveConfig();
         log.info(getDescription().getName() + " disabled");
     }
 
@@ -796,10 +795,30 @@ public class FreeTrade extends JavaPlugin {
             }
         }
 
-        YamlConfiguration config = new YamlConfiguration();
-        config.loadConfiguration(file);
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(new File(filename));
+        if (config == null) {
+            throw new UsageException("Failed to load configuration file " + filename);
+        }
+        if (config.getInt("version") < 1) {
+            throw new UsageException("Configuration file version is outdated");
+        }
 
-        log.info("Loaded config " + config.getInt("version", 0));
+        Map<String,Object> configValues = config.getValues(true);
+
+        MemorySection itemsSection = (MemorySection)configValues.get("items");
+
+        for (String codeName: itemsSection.getKeys(false)) {
+            log.info("codeName="+codeName);
+
+            String properName = config.getString("items." + codeName + ".name");
+            log.info("\tname="+properName);
+
+            String obtainString = config.getString("items." + codeName + ".obtain");
+            log.info("\tobtain="+obtainString);
+
+            List<String> aliases = config.getStringList("items." + codeName + ".aliases");
+            log.info("\taliases="+aliases);
+        }
     }
 
     // Copy default configuration
