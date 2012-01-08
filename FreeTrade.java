@@ -295,10 +295,11 @@ class ItemQuery
         }
 
         // Enchantments
-        Map<Enchantment,Integer> enchs = itemStack.getEnchantments();
-        enchString = EnchantQuery.nameEnchs(enchs);
-        if (!enchString.equals("")) {
-            enchString = "/" + enchString;
+        if (EnchantQuery.hasEnchantments(itemStack)) {
+            Map<Enchantment,Integer> enchs = itemStack.getEnchantments();
+            enchString = "/" + EnchantQuery.nameEnchs(enchs);
+        } else {
+            enchString = "";
         }
 
         return itemStack.getAmount() + "-" + name + usesString + enchString;
@@ -375,6 +376,12 @@ class EnchantQuery
             }
         }
         return true;
+    }
+
+    public static boolean hasEnchantments(ItemStack item) {
+        Map<Enchantment,Integer> enchs = item.getEnchantments();
+
+        return enchs.size() != 0;
     }
 
     public String toString() {
