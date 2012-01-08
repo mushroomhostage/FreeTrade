@@ -48,11 +48,13 @@ items:
     - water
     '9':
     - stillwater
+    - stationarywater
     - swater
     '10':
     - lava
     '11':
     - stilllava
+    - stationarylava
     - slava
     '12':
     - sand
@@ -119,6 +121,8 @@ items:
     '25':
     - musicblock
     - noteblock
+    '26':
+    - bedblock
     '27':
     - boosterrail
     - boosterrails
@@ -138,16 +142,21 @@ items:
     - stickypiston
     '30':
     - web
+    - cobweb
     '31':
     - tallgrass
     - wildgrass
     '32':
     - deadshrub
+    - deadbush
     - desertgrass
     - deserttallgrass
     - deserttree
     '33':
     - piston
+    '34':
+    - pistonextension
+    - pistonext
     35;0:
     - cloth
     - whitecloth
@@ -205,6 +214,8 @@ items:
     35;15:
     - blackcloth
     - blackwool
+    '36':
+    - blockmovedbypiston
     '37':
     - dandelion
     - yellowflower
@@ -214,8 +225,12 @@ items:
     - rose
     '39':
     - brownmushroom
+    - bmushroom
+    - bshroom
     '40':
     - redmushroom
+    - rmushroom
+    - rshroom
     '41':
     - gblock
     - gold
@@ -227,24 +242,31 @@ items:
     - ironblock
     - ib
     43;0:
+    - doublestoneslab
     - doubleslab
     - doublestep
+    - dslab
+    - dstep
     43;1:
+    - doublesandstoneslab
     - dsandslab
     - dsandstep
     - dsslab
     - dsstep
     43;2:
+    - doublewoodenslab
     - dwoodslab
     - dwoodstep
     - dwslab
     - dwstep
     43;3:
+    - doublecobblestoneslab
     - dcobbleslab
     - dcobblestep
     - dcslab
     - dcstep
     44;0:
+    - stoneslab
     - slab
     - step
     44;1:
@@ -253,11 +275,13 @@ items:
     - sslab
     - sstep
     44;2:
+    - woodenslab
     - woodslab
     - woodstep
     - wslab
     - wstep
     44;3:
+    - cobblestoneslab
     - cobbleslab
     - cobblestep
     - cslab
@@ -281,9 +305,11 @@ items:
     - o
     '50':
     - torch
+    - t
     '51':
     - fire
     '52':
+    - monsterspawner
     - mobspawner
     - spawner
     '53':
@@ -297,32 +323,39 @@ items:
     - chest
     '55':
     - redstoneblock
+    - redstonewire
     '56':
     - diamondore
     - dore
     '57':
     - dblock
     - diamondblock
+    - db
     '58':
+    - craftingtable
     - crafttable
     - workbench
     - worktable
     '59':
     - cropblock
     - wheatblock
+    - wheatseedsblock
     '60':
     - farm
+    - farmland
     - farmground
     - soil
     '61':
     - furnace
     '62':
+    - burningfurnace
     - litfurnace
     '63':
     - signblock
+    - signpost
     '64':
-    - fencegate
     - wooddoorblock
+    - woodendoorblock
     '65':
     - ladder
     '66':
@@ -338,6 +371,7 @@ items:
     - cstairs
     '68':
     - signblocktop
+    - wallsign
     '69':
     - lever
     '70':
@@ -368,8 +402,10 @@ items:
     - rtorch
     '77':
     - button
+    - stonebutton
     '78':
     - snow
+    - fallensnow
     '79':
     - ice
     '80':
@@ -381,6 +417,8 @@ items:
     - clayblock
     '83':
     - reedblock
+    - sugarcaneblock
+    - caneblock
     '84':
     - jukebox
     '85':
@@ -403,6 +441,7 @@ items:
     - glow
     - glowblock
     - glowstone
+    - glowstoneblock
     - lightblock
     - lightstone
     '90':
@@ -430,9 +469,12 @@ items:
     '96':
     - hatch
     - trapdoor
-    '97':
-    - silverfish
-    - hiddensilverfish
+    97;0:
+    - silverfishstone
+    97;1:
+    - silverfishcobblestone
+    97;2:
+    - silverfishstonebrick
     '98':
     - dungeon
     - sbrick
@@ -990,6 +1032,7 @@ items:
     - netherwart
     - wart
     - nw
+    # Potions
     373;0:
     - waterbottle
     373;16:
@@ -1092,6 +1135,7 @@ items:
     - harmingpotII
     - harmII
     - harm2
+    # Splash potions
     373;16384:
     - splashmundanepotion
     - spmundanepot
@@ -1181,6 +1225,7 @@ items:
     - spharmingpotII
     - spharmII
     - spharm2
+    # Unbrewable potions
     373;8289:
     - regenerationpotionII
     - regenpotII
@@ -1205,6 +1250,7 @@ items:
     - poisonpot2
     - poison2
     - poisionII
+    # Unbrewable splash potions
     373;16481:
     - splashregenerationpotionII
     - spregenpotII
@@ -1229,6 +1275,7 @@ items:
     - sppoisonpot2
     - sppoison2
     - sppoisionII
+    # Unused potions
     373;6:
     - clearpotion
     373;7:
@@ -1305,6 +1352,78 @@ items:
     '382':
     - glisteringmelon
     - gmelon
+    # Entity spawner eggs in 11w49a+
+    # Damage value corresponds to entity ID; see http://www.minecraftwiki.net/wiki/Data_values#Entity_IDs
+    # Not available in 1.0.1
+#    383;1:
+#    - droppeditemegg
+#    383;2:
+#    - experienceorbegg
+#    383;10:
+#    - shotarrowegg
+#    383;11:
+#    - thrownsnowballegg
+#    383;12:
+#    - ghastfireballegg
+#    383;13:
+#    - blazefireballegg
+#    383;14:
+#    - thrownenderpearlegg
+#    383;15:
+#    - throwneyeofenderegg
+#    383;20:
+#    - primedtntegg
+#    383;21:
+#    - fallingblockegg
+#    383;40:
+#    - minecartegg
+#    383;41:
+#    - boategg
+#    383;50:
+#    - creeperegg
+#    383;51:
+#    - skeletonegg
+#    383;52:
+#    - spideregg
+#    383;53:
+#    - giantegg
+#    383;54:
+#    - zombieegg
+#    383;55:
+#    - slimeegg
+#    383;56:
+#    - ghastegg
+#    383;57:
+#    - zombiepigmanegg
+#    383;60:
+#    - silverfishegg
+#    383;61:
+#    - blazeegg
+#    383;62:
+#    - magmacubeegg
+#    383;63:
+#    - enderdragonegg
+#    383;90:
+#    - pigegg
+#    383;91:
+#    - sheepegg
+#    393;92:
+#    - cowegg
+#    393;93:
+#    - chickenegg
+#    393;94:
+#    - squidegg
+#    393;95:
+#    - wolfegg
+#    393;96:
+#    - mooshroomegg
+#    393;97:
+#    - snowgolemegg
+#    393;120:
+#    - villageregg
+#    393;200:
+#    - endercrystalegg
+    # Music discs
     '2256':
     - thirteen
     - yellowdisc
@@ -1316,10 +1435,10 @@ items:
     '2258':
     - blocks
     - blocksdisc
-    - redrecord
+    - redrecord 
     '2259':
-    - chirp
-    - chirpdisc
+    - chirp 
+    - chirpdisc 
     - darkredrecord
     '2260':
     - far

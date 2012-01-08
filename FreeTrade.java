@@ -577,7 +577,7 @@ class Order
 
         want = (new ItemQuery(wantString, p)).itemStack;
 
-        if (giveString.equals("nothing")) {
+        if (giveString.equals("nothing") || giveString.equals("-")) {
             // TODO: permissions
             free = true;
             give = null;

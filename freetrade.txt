@@ -299,3 +299,5 @@ want agnitfom dpick/0 1d
 want agnitfom 10g for this
 ('this' shortcut for stack in hand)
 
+want agnitfom artlesspotion for nothing
+(admin/testing shortcut, create out of thin air)
