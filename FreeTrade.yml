@@ -1,465 +1,441 @@
 items:
     '0':
-        name: 
+        name: Air
         aliases: 
-        - air
         - empty
         - sky
+        obtain: never
     '1':
-        name: 
+        name: Stone
         aliases: 
         - rock
         - smoothrock
         - smoothstone
-        - stone
         - s
     '2':
-        name: 
+        name: Grass
         aliases: 
-        - grass
+        obtain: silktouch
     '3':
-        name: 
+        name: Dirt
         aliases: 
-        - dirt
     '4':
-        name: 
+        name: Cobblestone
         aliases: 
         - cob
         - cobble
-        - cobblestone
     '5':
-        name: 
+        name: Wooden Plank
         aliases: 
         - plank
-        - wood
     6;0:
-        name: 
+        name: Oak Sapling
         aliases: 
         - sapling
-        - oaksapling
     6;1:
-        name: 
+        name: Pine Sapling
         aliases: 
-        - pinesapling
     6;2:
-        name: 
+        name: Birch Sapling
         aliases: 
-        - birchsapling
     '7':
-        name: 
+        name: Bedrock
         aliases: 
         - adminium
-        - bedrock
+        obtain: creative
     '8':
-        name: 
+        name: Water
         aliases: 
-        - water
+        - watersource
+        - spring
+        obtain: hacking
     '9':
-        name: 
+        name: Stationary Water
         aliases: 
         - stillwater
-        - stationarywater
         - swater
+        obtain: hacking
     '10':
-        name: 
+        name: Lava
         aliases: 
-        - lava
+        - lavasource
+        obtain: hacking
     '11':
-        name: 
+        name: Stationary Lava
         aliases: 
         - stilllava
-        - stationarylava
         - slava
+        obtain: hacking
     '12':
-        name: 
+        name: Sand
         aliases: 
-        - sand
     '13':
-        name: 
+        name: Gravel
         aliases: 
-        - gravel
     '14':
-        name: 
+        name: Gold Ore
         aliases: 
-        - goldore
         - gore
     '15':
-        name: 
+        name: Iron Ore
         aliases: 
         - iore
-        - ironore
     '16':
-        name: 
+        name: Coal Ore
         aliases: 
-        - coalore
         - core
+        obtain: silktouch
     17;0:
-        name: 
+        name: Wood
         aliases: 
         - log
         - oak
         - oaklog
         - oakwood
-        - l
     17;1:
-        name: 
+        name: Pine Wood
         aliases: 
         - pine
         - pinelog
         - pinewood
         - p
     17;2:
-        name: 
+        name: Birch Wood
         aliases: 
         - birch
         - birchlog
         - birchwood
         - b
     18;0:
-        name: 
+        name: Oak Leaves
         aliases: 
         - leaf
         - leaves
     18;1:
-        name: 
+        name: Pine Leaves
         aliases: 
         - darkleaf
         - darkleaves
         - pineleaf
-        - pineleaves
     18;2:
-        name: 
+        name: Birch Leaves
         aliases: 
         - birchleaf
-        - birchleaves
         - whiteleaf
         - whiteleaves
+    18;3:
+        name: Spruce Leaves
+        aliases:
+        - spruceleaf
     '19':
-        name: 
+        name: Sponge
         aliases: 
-        - sponge
+        obtain: creative
     '20':
-        name: 
+        name: Glass
         aliases: 
-        - glass
         - gl
     '21':
-        name: 
+        name: Lapis Lazuli Ore
         aliases: 
-        - lapislazuliore
         - lapisore
         - llore
+        obtain: silktouch
     '22':
-        name: 
+        name: Lapis Lazuili Block
         aliases: 
         - lapisblock
-        - lapislazuliblock
         - lblock
         - llblock
     '23':
-        name: 
+        name: Dispenser
         aliases: 
-        - dispenser
     '24':
-        name: 
+        name: Sandstone
         aliases: 
-        - sandstone
         - sstone
         - ss
     '25':
-        name: 
+        name: Note Block
         aliases: 
         - musicblock
-        - noteblock
     '26':
-        name: 
+        name: Bed Block
         aliases: 
         - bedblock
+        obtain: hacking
     '27':
-        name: 
+        name: Powered Rail
         aliases: 
         - boosterrail
         - boosterrails
         - brail
         - btrack
-        - poweredrail
         - poweredrails
         - prail
         - ptrack
     '28':
-        name: 
+        name: Detector Rail
         aliases: 
-        - detectorrail
         - detectorrails
         - drail
         - dtrack
     '29':
-        name: 
+        name: Sticky Piston
         aliases: 
         - spiston
-        - stickypiston
     '30':
-        name: 
+        name: Cobweb
         aliases: 
         - web
-        - cobweb
-    '31':
-        name: 
-        aliases: 
-        - tallgrass
+        obtain: creative
+    31;0:
+        name: Dead Shrub
+        # TODO: obtain
+    31;1:
+        name: Tall Grass
+        aliases:
         - wildgrass
+        # TODO: obtain
+    31;2:
+        name: Fern
+        # TODO: obtain
     '32':
-        name: 
+        name: Dead Bush
         aliases: 
-        - deadshrub
         - deadbush
         - desertgrass
         - deserttallgrass
         - deserttree
+        obtain: creative
     '33':
-        name: 
+        name: Piston
         aliases: 
-        - piston
     '34':
-        name: 
+        name: Piston Extension
         aliases: 
-        - pistonextension
         - pistonext
+        obtain: hacking
     35;0:
-        name: 
+        name: White Wool
         aliases: 
         - cloth
         - whitecloth
-        - whitewool
         - wool
         - w
     35;1:
-        name: 
+        name: Orange Wool
         aliases: 
         - orangecloth
-        - orangewool
     35;2:
-        name: 
+        name: Magenta Wool
         aliases: 
         - magentacloth
         - magentawool
     35;3:
-        name: 
+        name: Light Blue Wool
         aliases: 
         - lightbluecloth
-        - lightbluewool
     35;4:
-        name: 
+        name: Yellow Wool
         aliases: 
         - yellowcloth
-        - yellowwool
     35;5:
-        name: 
+        name: Light Green Wool
         aliases: 
         - lightgreencloth
-        - lightgreenwool
         - limecloth
         - limewool
     35;6:
-        name: 
+        name: Pink Wool
         aliases: 
         - pinkcloth
-        - pinkwool
     35;7:
-        name: 
+        name: Gray Wool
         aliases: 
         - graycloth
-        - graywool
+        - greywool
+        - greycloth
     35;8:
-        name: 
+        name: Light Gray Wool
         aliases: 
         - lightgraycloth
-        - lightgraywool
         - silvercloth
         - silverwool
+        - lightgreycloth
+        - lightgreywool
     35;9:
-        name: 
+        name: Cyan Wool
         aliases: 
         - cyancloth
-        - cyanwool
     35;10:
-        name: 
+        name: Purple Wool
         aliases: 
         - purplecloth
-        - purplewool
     35;11:
-        name: 
+        name: Blue Wool
         aliases: 
         - bluecloth
-        - bluewool
     35;12:
-        name: 
+        name: Brown Wool
         aliases: 
         - browncloth
-        - brownwool
     35;13:
-        name: 
+        name: Dark Green Wool
         aliases: 
-        - darkgrencloth
-        - darkgreenwool
+        - darkgreencloth
         - greencloth
         - greenwool
     35;14:
-        name: 
+        name: Red Wool
         aliases: 
         - redcloth
-        - redwool
     35;15:
-        name: 
+        name: Black Wool
         aliases: 
         - blackcloth
-        - blackwool
     '36':
-        name: 
+        name: Block moved by Piston
         aliases: 
-        - blockmovedbypiston
+        obtain: hacking
     '37':
-        name: 
+        name: Dandelion
         aliases: 
-        - dandelion
         - yellowflower
         - flower
     '38':
-        name: 
+        name: Rose
         aliases: 
         - redflower
-        - rose
     '39':
-        name: 
+        name: Brown Mushroom
         aliases: 
-        - brownmushroom
         - bmushroom
         - bshroom
     '40':
-        name: 
+        name: Red Mushroom
         aliases: 
-        - redmushroom
         - rmushroom
         - rshroom
     '41':
-        name: 
+        name: Gold Block
         aliases: 
         - gblock
         - gold
-        - goldblock
         - gb
     '42':
-        name: 
+        name: Iron Block
         aliases: 
         - iblock
         - iron
-        - ironblock
         - ib
     43;0:
-        name: 
+        name: Double Stone Slab
         aliases: 
-        - doublestoneslab
         - doubleslab
         - doublestep
         - dslab
         - dstep
+        obtain: hacking
+        # TOOD: update wiki
     43;1:
-        name: 
+        name: Double Sandstone Slab
         aliases: 
-        - doublesandstoneslab
         - dsandslab
         - dsandstep
         - dsslab
         - dsstep
+        obtain: hacking
+        # TOOD: update wiki
     43;2:
-        name: 
+        name: Double Wooden Slab
         aliases: 
         - doublewoodenslab
+        - doublewoodslab
         - dwoodslab
         - dwoodstep
         - dwslab
         - dwstep
+        obtain: hacking
+        # TOOD: update wiki
     43;3:
-        name: 
+        name: Double Cobblestone Slab
         aliases: 
-        - doublecobblestoneslab
         - dcobbleslab
         - dcobblestep
         - dcslab
         - dcstep
+        obtain: hacking
+        # TOOD: update wiki
     44;0:
-        name: 
+        name: Stone Slab
         aliases: 
-        - stoneslab
         - slab
         - step
     44;1:
-        name: 
+        name: Sandstone Slab
         aliases: 
         - sandslab
         - sandstep
         - sslab
         - sstep
     44;2:
-        name: 
+        name: Wooden Slab
         aliases: 
-        - woodenslab
         - woodslab
         - woodstep
         - wslab
         - wstep
     44;3:
-        name: 
+        name: Cobblestone Slab
         aliases: 
-        - cobblestoneslab
         - cobbleslab
         - cobblestep
         - cslab
         - cstep
     '45':
-        name: 
+        name: Brick Block
         aliases: 
         - brickblock
         - brickwall
+        - bricks
     '46':
-        name: 
+        name: TNT
         aliases: 
-        - tnt
     '47':
-        name: 
+        name: Bookshelf
         aliases: 
         - bookcase
-        - bookshelf
     '48':
-        name: 
+        name: Moss Stone
         aliases: 
         - moss
         - mossy
         - mossycobble
         - mossycobblestone
     '49':
-        name: 
+        name: Obsidian
         aliases: 
-        - obsidian
         - ob
         - o
     '50':
-        name: 
+        name: Torch
         aliases: 
         - torch
         - t
     '51':
-        name: 
+        name: Fire
         aliases: 
         - fire
+        obtain: hacking
     '52':
-        name: 
+        name: Monster Spawner
         aliases: 
-        - monsterspawner
         - mobspawner
         - spawner
+        obtain: hacking
     '53':
-        name: 
+        name: Wooden Stairs
         aliases: 
         - woodstair
         - woodstairs
@@ -468,77 +444,77 @@ items:
         - wstair
         - wstairs
     '54':
-        name: 
+        name: Chest
         aliases: 
-        - chest
+        - box
     '55':
-        name: 
+        name: Redstone Wire 
         aliases: 
         - redstoneblock
-        - redstonewire
+        obtain: hacking
     '56':
-        name: 
+        name: Diamond Ore
         aliases: 
-        - diamondore
         - dore
+        obtain: silktouch
     '57':
-        name: 
+        name: Diamond Block
         aliases: 
         - dblock
         - diamondblock
         - db
     '58':
-        name: 
+        name: Crafting Table
         aliases: 
-        - craftingtable
         - crafttable
         - workbench
         - worktable
     '59':
-        name: 
+        name: Crop Block
         aliases: 
         - cropblock
         - wheatblock
         - wheatseedsblock
+        obtain: hacking
     '60':
-        name: 
+        name: Farmland
         aliases: 
         - farm
-        - farmland
         - farmground
         - soil
+        obtain: hacking
     '61':
-        name: 
+        name: Furnace
         aliases: 
-        - furnace
     '62':
-        name: 
+        name: Burning Furnace
         aliases: 
-        - burningfurnace
         - litfurnace
+        obtain: silktouch
     '63':
-        name: 
+        name: Sign Post
         aliases: 
         - signblock
         - signpost
+        obtain: hacking
     '64':
-        name: 
+        name: Wooden Door Block
         aliases: 
         - wooddoorblock
-        - woodendoorblock
+        obtain: hacking
     '65':
-        name: 
+        name: Ladder
         aliases: 
-        - ladder
+        - ladders
     '66':
-        name: 
+        name: Rail
         aliases: 
         - rail
         - rails
         - track
         - tracks
     '67':
-        name: 
+        name: Cobblestone Stair
         aliases: 
         - cobblestairs
         - cobblestonestairs
@@ -546,131 +522,119 @@ items:
         - cstair
         - cstairs
     '68':
-        name: 
+        name: Wall Sign
         aliases: 
         - signblocktop
-        - wallsign
+        obtain: hacking
     '69':
-        name: 
+        name: Lever
         aliases: 
-        - lever
     '70':
-        name: 
+        name: Stone Pressure Plate
         aliases: 
         - rockplate
         - rockpressureplate
         - stoneplate
-        - stonepressureplate
     '71':
-        name: 
+        name: Iron Door Block
         aliases: 
-        - irondoorblock
+        obtain: hacking
     '72':
-        name: 
+        name: Wooden Pressure Plate
         aliases: 
         - woodenplate
-        - woodenpressureplate
         - woodplate
         - woodpressureplate
     '73':
-        name: 
+        name: Redstone Ore
         aliases: 
         - redstoneore
-        - rore
+        obtain: silktouch
     '74':
-        name: 
+        name: Glowing Redstone Ore
         aliases: 
-        - glowingredstoneore
         - glowingrore
         - redstoneorelit
         - rorelit
+        obtain: silktouch
     '75':
-        name: 
+        name: Redstone Torch Off
         aliases: 
-        - redstonetorchoff
         - rtorchoff
+        obtain: hacking
     '76':
-        name: 
+        name: Redstone Torch
         aliases: 
-        - redstonetorch
+        - redstonetorchon
         - rtorch
+        - rtorchon
     '77':
-        name: 
+        name: Stone Button
         aliases: 
         - button
-        - stonebutton
     '78':
-        name: 
+        name: Snow
         aliases: 
-        - snow
         - fallensnow
+        obtain: hacking
     '79':
-        name: 
+        name: ice
         aliases: 
-        - ice
+        obtain: creative
     '80':
-        name: 
+        name: Snow Block
         aliases: 
-        - snowblock
     '81':
-        name: 
+        name: Cactus
         aliases: 
-        - cactus
         - cacti
     '82':
-        name: 
+        name: Clay Block
         aliases: 
-        - clayblock
     '83':
-        name: 
+        name: Sugar Cane Block
         aliases: 
         - reedblock
-        - sugarcaneblock
         - caneblock
+        obtain: hacking
     '84':
-        name: 
+        name: Jukebox
         aliases: 
-        - jukebox
     '85':
-        name: 
+        name: Fence
         aliases: 
-        - fence
     '86':
-        name: 
+        name: Pumpkin
         aliases: 
-        - pumpkin
     '87':
-        name: 
+        name: Netherrack
         aliases: 
         - bloodstone
         - brimstone
         - hellsand
-        - netherrack
         - nethersand
         - netherstone
         - redsand
     '88':
-        name: 
+        name: Soul Sand
         aliases: 
         - mud
         - slowsand
-        - soulsand
     '89':
-        name: 
+        name: Glowstone Block
         aliases: 
         - glow
         - glowblock
         - glowstone
-        - glowstoneblock
         - lightblock
         - lightstone
     '90':
-        name: 
+        name: Portal
         aliases: 
-        - portal
         - portalblock
+        obtain: hacking
     '91':
-        name: 
+        name: Jack-O-Lantern
         aliases: 
         - jack
         - jackolantern
@@ -678,263 +642,277 @@ items:
         - pumpkinlantern
         - pumpkintorch
     '92':
-        name: 
+        name: Cake Block
         aliases: 
-        - cakeblock
+        obtain: hacking
     '93':
-        name: 
+        name: Redstone Repeater Off
         aliases: 
         - diodeoff
         - repeateroff
+        obtain: hacking
     '94':
-        name: 
+        name: Redstone Repeater On
         aliases: 
         - diodeon
         - repeateron
+        obtain: hacking
     '95':
-        name: 
+        name: Locked Chest
         aliases: 
         - aprilchest
         - foolchest
-        - lockedchest
         - mysterychest
+        obtain: hacking
     '96':
-        name: 
+        name: Trapdoor
         aliases: 
         - hatch
-        - trapdoor
     97;0:
-        name: 
+        name: Silverfish Stone
         aliases: 
-        - silverfishstone
+        - hiddensilverfish
+        obtain: hacking
+        # TODO: update wiki
     97;1:
-        name: 
+        name: Silverfish Cobblestone
         aliases: 
-        - silverfishcobblestone
+        obtain: hacking
+        # TODO: update wiki
     97;2:
-        name: 
+        name: Silverfish Stone Brick
         aliases: 
-        - silverfishstonebrick
+        obtain: hacking
+        # TODO: update wiki
     '98':
-        name: 
+        name: Stone Bricks
         aliases: 
         - dungeon
         - sbrick
         - stonebrick
     99;0:
-        name: 
+        name: Huge Brown Mushroom Pores
         aliases: 
         - bshroomcap
         - brownmushroomcap
-        - hugebrownmushroompores
+        - hugebrownmushroom
+        - hugebrownmushroomflesh
+        obtain: silktouch
     99;1:
-        name: 
+        name: Huge Brown Mushroom Top West North
         aliases: 
-        - bshroomcaptopwestnoth
+        - bshroomcaptopwestnorth
+        obtain: silktouch
     99;2:
-        name: 
+        name: Huge Brown Mushroom Top North
         aliases: 
         - bshroomcaptopnorth
+        obtain: silktouch
     99;3:
-        name: 
+        name: Huge Brown Mushroom Top North East
         aliases: 
         - bshroomcaptopnortheast
+        obtain: silktouch
     99;4:
-        name: 
+        name: Huge Brown Mushroom Top West
         aliases: 
         - bshroomcaptopwest
+        obtain: silktouch
     99;5:
-        name: 
+        name: Huge Brown Mushroom Top
         aliases: 
         - bshroomcaptop
+        obtain: silktouch
     99;6:
-        name: 
+        name: Huge Brown Mushroom Top East
         aliases: 
         - bshroomcaptopeast
+        obtain: silktouch
     99;7:
-        name: 
+        name: Huge Brown Mushroom Top South West
         aliases: 
         - bshroomcaptopsouthwest
+        obtain: silktouch
     99;8:
-        name: 
+        name: Huge Brown Mushroom Top South
         aliases: 
         - bshroomcaptopsouth
+        obtain: silktouch
     99;9:
-        name: 
+        name: Huge Brown Mushroom Top East South
         aliases: 
         - bshroomcaptopeastsouth
+        obtain: silktouch
     99;10:
-        name: 
+        name: Huge Brown Mushroom Pores
         aliases: 
         - bshroomstem
         - hugebrownmushroomstem
+        obtain: silktouch
     100;0:
-        name: 
+        name: Huge Red Mushroom Pores
         aliases: 
         - redmushroomcap
         - rshroomcap
-        - hugeredmushroompores
-    100;0:
-        name: 
-        aliases: 
-        - bshroomcap
-        - brownmushroomcap
-        - hugebrownmushroompores
+        - hugeredmushroomp
+        - hugeredmushroomflesh
+        obtain: silktouch
     100;1:
-        name: 
+        name: Huge Red Mushroom Top West North
         aliases: 
-        - rshroomcaptopwestnoth
+        - rshroomcaptopwestnorth
+        obtain: silktouch
     100;2:
-        name: 
+        name: Huge Red Mushroom Top North
         aliases: 
         - rshroomcaptopnorth
+        obtain: silktouch
     100;3:
-        name: 
+        name: Huge Red Mushroom Top North East
         aliases: 
         - rshroomcaptopnortheast
+        obtain: silktouch
     100;4:
-        name: 
+        name: Huge Red Mushroom Top West
         aliases: 
         - rshroomcaptopwest
+        obtain: silktouch
     100;5:
-        name: 
+        name: Huge Red Mushroom Top
         aliases: 
         - rshroomcaptop
+        obtain: silktouch
     100;6:
-        name: 
+        name: Huge Red Mushroom Top East
         aliases: 
         - rshroomcaptopeast
+        obtain: silktouch
     100;7:
-        name: 
+        name: Huge Red Mushroom Top South West
         aliases: 
         - rshroomcaptopsouthwest
+        obtain: silktouch
     100;8:
-        name: 
+        name: Huge Red Mushroom Top South
         aliases: 
         - rshroomcaptopsouth
+        obtain: silktouch
     100;9:
-        name: 
+        name: Huge red Mushroom Top East South
         aliases: 
         - rshroomcaptopeastsouth
+        obtain: silktouch
     100;10:
-        name: 
+        name: Huge Red Mushroom Stem
         aliases: 
         - rshroomstem
         - hugeredmushroomstem
+        obtain: silktouch
     '101':
-        name: 
+        name: Iron Bars
         aliases: 
         - ibars
-        - ironbars
-    '102':
-        name: 
+        - ironbar
+    '102': 
+        name: Glass Pane
         aliases: 
         - glasspane
         - pane
         - window
     '103':
-        name: 
+        name: Melon Block
         aliases: 
-        - melon
         - melonblock
+        - mblock
     '104':
-        name: 
+        name: Pumpkin Stem
         aliases: 
         - pstem
-        - pumpkinstem
+        obtain: hacking
     '105':
-        name: 
+        name: Melon Stem
         aliases: 
-        - melonstem
         - mstem
+        obtain: hacking
     '106':
-        name: 
+        name: Vines
         aliases: 
-        - vines
+        - vine
     '107':
-        name: 
+        name: Fence Gate
         aliases: 
         - gate
-        - fencegate
     '108':
-        name: 
+        name: Brick Stairs
         aliases: 
         - brickstair
-        - brickstairs
         - bstair
         - bstairs
     '109':
-        name: 
+        name: Stone Brick Stairs
         aliases: 
         - sbstair
         - sbstairs
         - stonebrickstair
         - stonebstair
         - stonebstairs
-        - stonebrickstairs
     '110':
-        name: 
+        name: Mycelium
         aliases: 
-        - mycelium
         - mycel
+        obtain: silktouch
     '111':
-        name: 
+        name: Lily Pad
         aliases: 
-        - lilypad
     '112':
-        name: 
+        name: Nether Brick
         aliases: 
         - nbrick
-        - netherbrick
     '113':
-        name: 
+        name: Nether Brick Fence
         aliases: 
         - nbrickfence
-        - netherbrickfence
         - netherfence
         - nfence
     '114':
-        name: 
+        name: Nether Brick Stairs
         aliases: 
         - nbrickstair
         - nbrickstairs
         - nbstair
         - nbstairs
         - netherbrickstair
-        - netherbrickstairs
     '115':
-        name: 
+        name: Nether Wart Block
         aliases: 
-        - netherwartblock
+        obtain: hacking
     '116':
-        name: 
+        name: Enchantment Table
         aliases: 
         - enchantmenttable
         - etable
     '117':
-        name: 
+        name: Brewing Stand Block
         aliases: 
-        - brewingstandblock
+        obtain: hacking
     '118':
-        name: 
+        name: Cauldron Block
         aliases: 
-        - cauldronblock
+        obtain: hacking
     '119':
-        name: 
+        name: End Portal
         aliases: 
-        - endportal
+        obtain: hacking
     '120':
-        name: 
+        name: End Portal Frame
         aliases: 
-        - endportalframe
+        obtain: hacking
     '121':
-        name: 
+        name: End Stone
         aliases: 
-        - endstone
     '122':
-        name: 
+        name: Dragon Egg
         aliases: 
-        - dragonegg
     '256':
         name: 
         aliases: 
