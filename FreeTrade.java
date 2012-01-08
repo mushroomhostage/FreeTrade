@@ -33,12 +33,15 @@ class ItemQuery
     static ConcurrentHashMap<String,String> codeName2Name;
 
     public ItemQuery(String s) {
-        Pattern p = Pattern.compile(
-            "^(\\d*)" +     // quantity
-            "([# :-]?)" +   // stack flag
-            "([^/]+)" +     // name
-            "/?([\\d%]*)" + // use
-            "/?([^/]*)$");  // enchant
+        //Pattern onp = Pattern.compile( "^(\\d+)"
+
+        Pattern p  = Pattern.compile(
+            "^(\\d*)" +             // quantity
+            "([# :;-]?)" +          // separator / stack flag
+            "([^/;]+)" +            // name
+            "([/;]?)" +             // separator / damage flag
+            "([\\d%]*)" +           // use / damage
+            "/?([^/]*)$");          // enchant
         Matcher m = p.matcher(s);
         int quantity;
 
@@ -49,8 +52,9 @@ class ItemQuery
         String quantityString = m.group(1);
         String isStackString = m.group(2);
         String nameString = m.group(3);
-        String usesString = m.group(4);
-        String enchString = m.group(5);
+        String dmgOrUsesString = m.group(4);
+        String usesString = m.group(5);
+        String enchString = m.group(6);
 
         log.info("q="+quantityString+", name="+nameString);
 
@@ -102,15 +106,25 @@ class ItemQuery
         short maxDamage = itemStack.getType().getMaxDurability();
         if (usesString != null && !usesString.equals("")) {
             short damage;
+            short value;
 
             if (usesString.endsWith("%")) {
                 String percentageString = usesString.substring(0, usesString.length() - 1);
                 double percentage = Double.parseDouble(percentageString);
 
-                damage = (short)(maxDamage - (short)(percentage / 100.0 * maxDamage));
+                value = (short)(percentage / 100.0 * maxDamage);
             } else {
-                damage = (short)(maxDamage - Short.parseShort(usesString));
+                value = Short.parseShort(usesString);
             }
+
+            // Normally, convenient for user to specify percent or times left (inverse of damage)
+            // Allow ; separator to specify damage itself
+            if (dmgOrUsesString.equals(";")) {
+                damage = value;
+            } else {
+                damage = (short)(maxDamage - value);
+            }
+
 
             if (damage > maxDamage) {
                 damage = maxDamage;     // Breaks right after one use
