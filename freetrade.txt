@@ -243,4 +243,10 @@ want player dpick/90% 2diamond
 14:42:23 [INFO] Not matched, worse damage old, 313 < 157
 (More damaged than wanted)
 
+>want agnitfom dsword//smiteV,knockback2,looting 64diamond
+16:39:09 [INFO] Enchantment: Enchantment[17, DAMAGE_UNDEAD], level=5
+16:39:09 [INFO] Enchantment: Enchantment[19, KNOCKBACK], level=2
+16:39:09 [INFO] Enchantment: Enchantment[21, LOOT_BONUS_MOBS], level=1
+16:39:09 [INFO] agnitfom wants 1-dsword/100%/SmiteV,KnockbackII,LootingI for 64-diamond
+16:39:09 [INFO] Wanted: agnitfom wants 1-dsword/100%/SmiteV,KnockbackII,LootingI for 64-diamond
 

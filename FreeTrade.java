@@ -107,6 +107,12 @@ class ItemQuery
             }
 
             // TODO: enchantments
+            if (enchString != null && !enchString.equals("")) {
+                EnchantQuery enchs = new EnchantQuery(enchString);
+
+                itemStack.addEnchantments(enchs.all);
+            }
+
 
             return;
         }
@@ -233,7 +239,7 @@ class ItemQuery
 
 
     public static String nameStack(ItemStack itemStack) {
-        String name, extra;
+        String name, usesString, enchString;
         Material m = itemStack.getType();
        
         // If all else fails, use generic name from Bukkit
@@ -256,9 +262,9 @@ class ItemQuery
                 }
             }
 
-            extra = "/" + percentage + "%";
+            usesString = "/" + percentage + "%";
         } else {
-            extra = "";
+            usesString = "";
         }
 
         // Find canonical name of item
@@ -288,9 +294,14 @@ class ItemQuery
             log.info("OddItem not found, no more specific name available for " + name + ";" + itemStack.getDurability());
         }
 
-        // TODO: enchantments
+        // Enchantments
+        Map<Enchantment,Integer> enchs = itemStack.getEnchantments();
+        enchString = EnchantQuery.nameEnchs(enchs);
+        if (!enchString.equals("")) {
+            enchString = "/" + enchString;
+        }
 
-        return itemStack.getAmount() + "-" + name + extra;
+        return itemStack.getAmount() + "-" + name + usesString + enchString;
     }
 
     // Return whether two item stacks have the same item, taking into account 'subtypes'
@@ -367,6 +378,10 @@ class EnchantQuery
     }
 
     public String toString() {
+        return nameEnchs(all);
+    }
+
+    public static String nameEnchs(Map<Enchantment,Integer> all) {
         StringBuffer names = new StringBuffer();
         Iterator it = all.entrySet().iterator();
 
@@ -383,7 +398,9 @@ class EnchantQuery
 
         // Remove the trailing comma
         // Would have liked to just build an array then join it, but not easier in Java either 
-        names.deleteCharAt(names.length() - 1);
+        if (names.length() > 1) { 
+            names.deleteCharAt(names.length() - 1);
+        }
 
         return names.toString();
     }
@@ -679,8 +696,6 @@ public class FreeTrade extends JavaPlugin {
 
     public void onEnable() {
         log.info(getDescription().getName() + " enabled");
-
-        log.info("e=" + new EnchantQuery("smiteV,lootingII,knockbackII"));
     }
 
     public void onDisable() {
