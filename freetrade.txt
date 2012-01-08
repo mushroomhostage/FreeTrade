@@ -289,4 +289,13 @@ want player 64d dpick//f3,e3,u3
 want agnitfom dpick//e3 64d
 (More enchantments, same level)
 
+want player 1d dpick/10%/fortune1
+want agnitfom dpick/0 1d
+17:25:30 [INFO] Player received 1-diamond from agnitfom
+17:25:30 [INFO] agnitfom received 1-dpickaxe/9%/FortuneI from Player
+17:25:30 [INFO] Closed order Player wants 1-diamond for 1-dpickaxe/9%/FortuneI
+(Wanted at least non-enchanted, got enchanted since its better and available)
+
+want agnitfom 10g for this
+('this' shortcut for stack in hand)
 

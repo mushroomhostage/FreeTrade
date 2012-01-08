@@ -120,6 +120,18 @@ class ItemQuery
         throw new UsageException("Unrecognized item specification: " + s);
     }
 
+    public ItemQuery(String s, Player p) {
+        if (s.equals("this")) {
+            itemStack = p.getItemInHand();
+            if (itemStack == null) {
+                throw new UsageException("No item in hand");
+            }
+        } else {
+            itemStack = (new ItemQuery(s)).itemStack;
+        }
+    }
+
+
     // Return whether an item degrades when used
     public static boolean isDurable(Material m) {
         return isTool(m) || isWeapon(m) || isArmor(m);
@@ -558,8 +570,8 @@ class Order
             giveString = giveString.replace("!", "");
         }
 
-        want = (new ItemQuery(wantString)).itemStack;
-        give = (new ItemQuery(giveString)).itemStack;
+        want = (new ItemQuery(wantString, p)).itemStack;
+        give = (new ItemQuery(giveString, p)).itemStack;
     }
 
     public Order(Player p, ItemStack w, ItemStack g, boolean e) {
