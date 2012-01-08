@@ -944,6 +944,7 @@ items:
         - apple
     '261':
         name: Bow
+        purpose: weapon
         aliases: 
     '262':
         name: Arrow
@@ -974,6 +975,7 @@ items:
         - g
     '267':
         name: Iron Sword
+        purpose: weapon
         aliases: 
         - isword
     '268':
@@ -1136,6 +1138,7 @@ items:
         aliases: 
     '298':
         name: Leather Cap
+        purpose: armor
         aliases: 
         - leatherhelm
         - leatherhelmet
@@ -1143,6 +1146,7 @@ items:
         - lhelmet
     '299':
         name: Leather Tunic
+        purpose: armor
         aliases: 
         - lchest
         - leatherchest
@@ -1151,18 +1155,21 @@ items:
         - lshirt
     '300':
         name: Leather Pants
+        purpose: armor
         aliases: 
         - leatherleggings
         - lleggings
         - lpants
     '301':
         name: Leather Boots
+        purpose: armor
         aliases: 
         - lboots
         - leathershoes
         - lshoes
     '302':
         name: Chain Helmet
+        purpose: armor
         aliases: 
         - chainhelm
         - chelm
@@ -1170,6 +1177,7 @@ items:
         obtain: creative
     '303':
         name: Chain Chestplate
+        purpose: armor
         aliases: 
         - cchest
         - chainchest
@@ -1178,12 +1186,14 @@ items:
         obtan: creative
     '304':
         name: Chain Leggings
+        purpose: armor
         aliases: 
         - chainpants
         - cpants
         obtain: creative
     '305':
         name: Chain Boots
+        purpose: armor
         aliases: 
         - cboots
         - cshoes
@@ -1191,12 +1201,14 @@ items:
         obtain: creative
     '306':
         name: Iron Helmet
+        purpose: armor
         aliases: 
         - ihelm
         - ihelmet
         - ironhelm
     '307':
         name: Iron Chestplate
+        purpose: armor
         aliases: 
         - ichest
         - ironchest
@@ -1204,24 +1216,28 @@ items:
         - ishirt
     '308':
         name: Iron Leggings
+        purpose: armor
         aliases: 
         - ileggings
         - ipants
         - ironpants
     '309':
         name: Iron Boots
+        purpose: armor
         aliases: 
         - iboots
         - ironshoes
         - ishoes
     '310':
         name: Diamond Helmet
+        purpose: armor
         aliases: 
         - dhelm
         - dhelmet
         - diamondhelm
     '311':
         name: Diamond Chestplate
+        purpose: armor
         aliases: 
         - dchest
         - diamondchest
@@ -1229,6 +1245,7 @@ items:
         - dshirt
     '312':
         name: Diamond Leggings
+        purpose: armor
         aliases: 
         - diamondpants
         - dleggings
@@ -1236,18 +1253,21 @@ items:
         - dpants
     '313':
         name: Diamond Boots
+        purpose: armor
         aliases: 
         - dboots
         - diamondshoes
         - dshoes
     '314':
         name: Gold Helmet
+        purpose: armor
         aliases: 
         - ghelm
         - ghelmet
         - goldhelm
     '315':
         name: Gold Chestplate
+        purpose: armor
         aliases: 
         - gchest
         - goldchest
@@ -1255,12 +1275,14 @@ items:
         - gshirt
     '316':
         name: Gold Leggings
+        purpose: armor
         aliases: 
         - gleggings
         - goldpants
         - gpants
     '317':
         name: Gold Boots
+        purpose: armor
         aliases: 
         - gboots
         - goldshoes
