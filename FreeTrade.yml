@@ -2125,41 +2125,48 @@ items:
         aliases: 
         - blocks
         - blocksdisc
+        obtain: creative
     '2259':
         name: Red Disc
         aliases: 
         - chirp 
         - chirpdisc 
+        obtain: creative
     '2260':
         name: Lime Disc
         aliases: 
         - far
         - fardisc
         - limegreendisc
+        obtain: creative
     '2261':
         name: Purple Disc
         aliases: 
         - mall
         - malldisc
         - purplerecord
+        obtain: creative
     '2262':
         name: Violet Disc
         aliases: 
         - mellohi
         - mellohidisc
         - violetrecord
+        obtain: creative
     '2263':
         name: Black Disc
         aliases: 
         - stal
         - staldisc
         - blackrecord
+        obtain: creative
     '2264':
         name: White Disc
         aliases: 
         - strad
         - straddisc
         - whiterecord
+        obtain: creative
     '2265':
         name: Sea Green Disc
         aliases: 
@@ -2167,10 +2174,12 @@ items:
         - warddisc
         - darkgreenrecord
         - seagreendisc
+        obtain: creative
     '2266':
         name: Broken Disc
         aliases: 
         - eleven
         - elevendisc
         - brokenrecord
+        obtain: creative
 listversion: 0
