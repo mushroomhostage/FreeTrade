@@ -812,7 +812,6 @@ items:
         name: Iron Bars
         aliases: 
         - ibars
-        - ironbar
     '102': 
         name: Glass Pane
         aliases: 
@@ -820,8 +819,9 @@ items:
         - pane
         - window
     '103':
-        name: Melon Block
+        name: Melon
         aliases: 
+        - melon
         - melonblock
         - mblock
     '104':
@@ -914,249 +914,210 @@ items:
         name: Dragon Egg
         aliases: 
     '256':
-        name: 
+        name: Iron Shovel
         aliases: 
-        - ironshovel
         - ishovel
     '257':
-        name: 
+        name: Iron Pickaxe
         aliases: 
         - ipick
         - ipickaxe
         - ironpick
-        - ironpickaxe
         - ip
     '258':
-        name: 
+        name: Iron Axe
         aliases: 
         - iaxe
-        - ironaxe
     '259':
-        name: 
+        name: Flint and Steel
         aliases: 
         - fands
         - firestarter
-        - flintandsteel
         - lighter
     '260':
-        name: 
+        name: Red Apple
         aliases: 
         - apple
     '261':
-        name: 
+        name: Bow
         aliases: 
-        - bow
     '262':
-        name: 
+        name: Arrow
         aliases: 
-        - arrow
         - a
     263;0:
-        name: 
+        name: Coal
         aliases: 
-        - coal
     263;1:
-        name: 
+        name: Charcoal
         aliases: 
-        - charcoal
     '264':
-        name: 
+        name: Diamond
         aliases: 
-        - diamond
         - d
+        - ds
     '265':
-        name: 
+        name: Iron Ingot
         aliases: 
         - iingot
         - ironbar
-        - ironingot
         - i
     '266':
-        name: 
+        name: Gold Ingot
         aliases: 
         - gingot
         - goldbar
-        - goldingot
         - g
     '267':
-        name: 
+        name: Iron Sword
         aliases: 
-        - ironsword
         - isword
     '268':
-        name: 
+        name: Wooden Sword
         aliases: 
         - woodsword
-        - woodensword
         - wsword
     '269':
-        name: 
+        name: Wooden Shovel
         aliases: 
         - woodshovel
         - wshovel
     '270':
-        name: 
+        name: Wooden Pickaxe
         aliases: 
         - woodenpick
-        - woodenpickaxe
         - woodpick
         - woodpickaxe
         - wpick
         - wpickaxe
         - wp
     '271':
-        name: 
+        name: Wooden Axe
         aliases: 
         - waxe
         - woodaxe
-        - woodenaxe
     '272':
-        name: 
+        name: Stone Sword
         aliases: 
         - ssword
-        - stonesword
     '273':
-        name: 
+        name: Stone Shovel
         aliases: 
         - sshovel
-        - stoneshovel
     '274':
-        name: 
+        name: Stone Pickaxe
         aliases: 
         - spick
         - spickaxe
         - stonepick
-        - stonepickaxe
         - sp
     '275':
-        name: 
+        name: Stone Axe
         aliases: 
         - saxe
-        - stoneaxe
     '276':
-        name: 
+        name: Diamond Sword
         aliases: 
-        - diamondsword
         - dsword
         - ds
     '277':
-        name: 
+        name: Diamond Shovel
         aliases: 
-        - diamondshovel
         - dshovel
     '278':
-        name: 
+        name: Diamond Pickaxe
         aliases: 
         - diamondpick
-        - diamondpickaxe
         - dpick
         - dpickaxe
         - dp
     '279':
-        name: 
+        name: Diamond Axe
         aliases: 
         - daxe
-        - diamondaxe
     '280':
-        name: 
+        name: Stick
         aliases: 
-        - stick
     '281':
-        name: 
+        name: Bowl
         aliases: 
-        - bowl
     '282':
-        name: 
+        name: Mushroom Soup
         aliases: 
-        - mushroomsoup
         - mushroomstew
         - soup
         - stew
     '283':
-        name: 
+        name: Gold Sword
         aliases: 
-        - goldsword
         - gsword
         - gs
     '284':
-        name: 
+        name: Gold Shovel
         aliases: 
-        - goldshovel
         - gshovel
     '285':
-        name: 
+        name: Gold Pickaxe
         aliases: 
         - goldpick
-        - goldpickaxe
         - gpick
         - gpickaxe
         - gp
     '286':
-        name: 
+        name: Gold Axe
         aliases: 
         - gaxe
-        - goldaxe
     '287':
-        name: 
+        name: String
         aliases: 
-        - string
     '288':
-        name: 
+        name: Feather
         aliases: 
-        - feather
     '289':
-        name: 
+        name: Gunpowder
         aliases: 
-        - gunpowder
         - sulfur
     '290':
-        name: 
+        name: Wooden Hoe
         aliases: 
         - whoe
-        - woodenhoe
         - woodhoe
     '291':
-        name: 
+        name: Stone Hoe
         aliases: 
         - shoe
-        - stonehoe
     '292':
-        name: 
+        name: Iron Hoe
         aliases: 
         - ihoe
-        - ironhoe
     '293':
-        name: 
+        name: Diamond Hoe
         aliases: 
         - dhoe
-        - diamondhoe
     '294':
-        name: 
+        name: Gold Hoe
         aliases: 
         - ghoe
-        - goldhoe
     '295':
-        name: 
+        name: Seeds
         aliases: 
         - seed
-        - seeds
+        - wheatseeds
     '296':
-        name: 
+        name: Wheat
         aliases: 
-        - wheat
     '297':
-        name: 
+        name: Bread
         aliases: 
-        - bread
     '298':
-        name: 
+        name: Leather Cap
         aliases: 
         - leatherhelm
         - leatherhelmet
         - lhelm
         - lhelmet
     '299':
-        name: 
+        name: Leather Tunic
         aliases: 
         - lchest
         - leatherchest
@@ -1164,273 +1125,241 @@ items:
         - leathershirt
         - lshirt
     '300':
-        name: 
+        name: Leather Pants
         aliases: 
         - leatherleggings
-        - leatherpants
         - lleggings
         - lpants
     '301':
-        name: 
+        name: Leather Boots
         aliases: 
         - lboots
-        - leatherboots
         - leathershoes
         - lshoes
     '302':
-        name: 
+        name: Chain Helmet
         aliases: 
         - chainhelm
-        - chainhelmet
         - chelm
         - chelmet
+        obtain: creative
     '303':
-        name: 
+        name: Chain Chestplate
         aliases: 
         - cchest
         - chainchest
-        - chainchestplate
         - chainshirt
         - cshirt
+        obtan: creative
     '304':
-        name: 
+        name: Chain Leggings
         aliases: 
         - chainpants
         - cpants
+        obtain: creative
     '305':
-        name: 
+        name: Chain Boots
         aliases: 
         - cboots
-        - chainboots
         - cshoes
         - chainshoes
+        obtain: creative
     '306':
-        name: 
+        name: Iron Helmet
         aliases: 
         - ihelm
         - ihelmet
         - ironhelm
-        - ironhelmet
     '307':
-        name: 
+        name: Iron Chestplate
         aliases: 
         - ichest
         - ironchest
-        - ironchestplate
         - ironshirt
         - ishirt
     '308':
-        name: 
+        name: Iron Leggings
         aliases: 
         - ileggings
         - ipants
-        - ironleggings
         - ironpants
     '309':
-        name: 
+        name: Iron Boots
         aliases: 
         - iboots
-        - ironboots
         - ironshoes
         - ishoes
     '310':
-        name: 
+        name: Diamond Helmet
         aliases: 
         - dhelm
         - dhelmet
         - diamondhelm
-        - diamondhelmet
     '311':
-        name: 
+        name: Diamond Chestplate
         aliases: 
         - dchest
         - diamondchest
-        - diamondchestplate
         - diamondshirt
         - dshirt
     '312':
-        name: 
+        name: Diamond Leggings
         aliases: 
-        - diamondleggings
         - diamondpants
         - dleggings
         - dlegging
         - dpants
     '313':
-        name: 
+        name: Diamond Boots
         aliases: 
         - dboots
-        - diamondboots
         - diamondshoes
         - dshoes
     '314':
-        name: 
+        name: Gold Helmet
         aliases: 
         - ghelm
         - ghelmet
         - goldhelm
-        - goldhelmet
     '315':
-        name: 
+        name: Gold Chestplate
         aliases: 
         - gchest
         - goldchest
         - goldshirt
         - gshirt
     '316':
-        name: 
+        name: Gold Leggings
         aliases: 
         - gleggings
-        - goldleggins
         - goldpants
         - gpants
     '317':
-        name: 
+        name: Gold Boots
         aliases: 
         - gboots
-        - goldboots
         - goldshoes
         - gshoes
     '318':
-        name: 
+        name: Flint
         aliases: 
-        - flint
     '319':
-        name: 
+        name: Raw Porkchop
         aliases: 
         - pork
         - porkchop
     '320':
-        name: 
+        name: Cooked Porkchop
         aliases: 
         - cookedpork
-        - cookedporkchop
     '321':
-        name: 
+        name: Painting
         aliases: 
         - painting
     '322':
-        name: 
+        name: Golden Apple
         aliases: 
         - gapple
         - goldapple
-        - goldenapple
     '323':
-        name: 
+        name: Sign
         aliases: 
-        - sign
     '324':
-        name: 
+        name: Wooden Door
         aliases: 
         - wdoor
         - wooddoor
-        - woddendoor
     '325':
-        name: 
+        name: Bucket
         aliases: 
         - bucket
     '326':
-        name: 
+        name: Water Bucket
         aliases: 
-        - waterbucker
         - wbucket
+        - waterb
     '327':
-        name: 
+        name: Lava Bucket
         aliases: 
-        - lavabucket
         - lbucket
+        - lavab
     '328':
-        name: 
+        name: Minecart
         aliases: 
         - cart
-        - minecart
     '329':
-        name: 
+        name: Saddle
         aliases: 
-        - saddle
     '330':
-        name: 
+        name: Iron Door
         aliases: 
         - idoor
-        - irondoor
     '331':
-        name: 
+        name: Redstone 
         aliases: 
         - rdust
-        - redstone
         - redstonedust
         - rsdust
     '332':
-        name: 
+        name: Snowball
         aliases: 
-        - snowball
     '333':
-        name: 
+        name: Boat
         aliases: 
-        - boat
     '334':
-        name: 
+        name: Leather
         aliases: 
         - hide
-        - leather
     '335':
-        name: 
+        name: Milk
         aliases: 
         - mbucket
         - milkbucket
-        - milk
     '336':
-        name: 
+        name: Clay Brick
         aliases: 
-        - brick
+        - claybrick
     '337':
-        name: 
+        name: Clay
         aliases: 
-        - clay
     '338':
-        name: 
+        name: Sugar Cane
         aliases: 
         - bamboo
         - reed
-        - sugarcane
     '339':
-        name: 
+        name: Paper
         aliases: 
-        - paper
     '340':
-        name: 
+        name: Book
         aliases: 
-        - book
     '341':
-        name: 
+        name: Slimeball
         aliases: 
         - slimeorb
         - slime
-        - slimeball
     '342':
-        name: 
+        name: Minecart Chest
         aliases: 
         - scart
         - sminecart
         - storagecart
         - storageminecart
     '343':
-        name: 
+        name: Minecart Furnace
         aliases: 
         - pcart
         - pminecart
         - poweredcart
         - poweredminecart
     '344':
-        name: 
+        name: Egg
         aliases: 
-        - egg
     '345':
-        name: 
+        name: Compass
         aliases: 
-        - compass
     '346':
-        name: 
+        name: Fishing Rod
         aliases: 
         - fishingpole
         - fishingrod
@@ -1438,929 +1367,808 @@ items:
         - rod
         - frod
     '347':
-        name: 
+        name: Clock
         aliases: 
-        - clock
         - watch
     '348':
-        name: 
+        name: Glowstone Dust
         aliases: 
         - gdust
         - glowdust
         - gsdust
-        - glowstonedust
         - ldust
         - lightstonedust
         - lsdust
         - lightdust
     '349':
-        name: 
+        name: Raw Fish
         aliases: 
         - fish
     '350':
-        name: 
+        name: Cooked Fish
         aliases: 
         - cookedfish
         - filet
     351;0:
-        name: 
+        name: Black Dye
         aliases: 
         - black
-        - blackdye
         - ink
         - inksac
         - inksack
     351;1:
-        name: 
+        name: Red Dye
         aliases: 
         - red
-        - reddye
         - rosered
     351;2:
-        name: 
+        name: Green Dye
         aliases: 
         - cactusgreen
         - green
-        - greendye
     351;3:
-        name: 
+        name: Brown Dye
         aliases: 
         - brown
-        - browndye
         - cocoabeans
     351;4:
-        name: 
+        name: Blue Dye
         aliases: 
         - blue
-        - bluedye
         - lapis
         - lapislazuli
     351;5:
-        name: 
+        name: Purple Dye
         aliases: 
         - purple
-        - purpledye
     351;6:
-        name: 
+        name: Cyan Dye
         aliases: 
         - cyan
-        - cyandye
     351;7:
-        name: 
+        name: Light Gray Dye
         aliases: 
         - lightgray
-        - lightgraydye
         - lightgrey
         - lightgreydye
         - silver
         - silverdye
     351;8:
-        name: 
+        name: Gray Dye
         aliases: 
         - gray
-        - graydye
         - grey
         - greydye
     351;9:
-        name: 
+        name: Pink Dye
         aliases: 
         - pink
-        - pinkdye
     351;10:
-        name: 
+        name: Lime Dye
         aliases: 
         - lime
-        - limedye
     351;11:
-        name: 
+        name: Yellow Dye
         aliases: 
         - dandelionyellow
         - yellow
-        - yellowdye
     351;12:
-        name: 
+        name: Light Blue Dye
         aliases: 
         - lightblue
-        - lightbluedye
         - skyblue
         - skybluedye
     351;13:
-        name: 
+        name: Magenta Dye
         aliases: 
         - magenta
-        - magentadye
     351;14:
-        name: 
+        name: Orange Dye
         aliases: 
         - orange
-        - orangedye
     351;15:
-        name: 
+        name: White Dye
         aliases: 
         - bonemeal
         - white
-        - whitedye
+        - bleach
     '352':
-        name: 
+        name: Bone
         aliases: 
-        - bone
     '353':
-        name: 
+        name: Sugar
         aliases: 
-        - sugar
+        - crack
     '354':
-        name: 
+        name: Cake
         aliases: 
-        - cake
     '355':
-        name: 
+        name: Bed
         aliases: 
-        - bed
     '356':
-        name: 
+        name: Redstone Repeater
         aliases: 
         - diode
         - repeater
     '357':
-        name: 
+        name: Cookie
         aliases: 
-        - cookie
     '358':
-        name: 
+        name: Map
         aliases: 
-        - map
     '359':
-        name: 
+        name: Shears
         aliases: 
         - scissors
-        - shears
     '360':
-        name: 
+        name: Melon Slice
         aliases: 
         - melonslice
         - mslice
         - m
     '361':
-        name: 
+        name: Pumpkin Seeds
         aliases: 
         - pseed
         - pseeds
         - pumpkinseed
-        - pumpkinseeds
     '362':
-        name: 
+        name: Melon Seeds
         aliases: 
         - melonseed
-        - melonseeds
         - mseed
         - mseeds
     '363':
-        name: 
+        name: Raw Beef
         aliases: 
         - beef
-        - rawbeef
     '364':
-        name: 
+        name: Steak
         aliases: 
-        - cookedbeef
         - steak
     '365':
-        name: 
+        name: Raw Chicken
         aliases: 
         - chicken
-        - rawchicken
     '366':
-        name: 
+        name: Cooked Chicken
         aliases: 
-        - cookedchicken
     '367':
-        name: 
+        name: Rotten Flesh
         aliases: 
         - rottenflesh
     '368':
-        name: 
+        name: Ender Pearl
         aliases: 
-        - enderpearl
         - pearl
         - e
     '369':
-        name: 
+        name: Blaze Rod
         aliases: 
-        - blazerod
         - brod
     '370':
-        name: 
+        name: Ghast Tear
         aliases: 
-        - ghasttear
         - tear
     '371':
-        name: 
+        name: Gold Nugget
         aliases: 
         - goldnugget
+        - gnugget
+        - gn
     '372':
-        name: 
+        name: Nether Wart
         aliases: 
         - netherwart
         - wart
         - nw
+    # Potions
     373;0:
-        name: 
+        name: Water Bottle
         aliases: 
-        - waterbottle
     373;16:
-        name: 
+        name: Awkward Potion
         aliases: 
-        - awkwardpotion
         - awkwardpot
         - awkward
     373;32:
-        name: 
+        name: Thick Potion
         aliases: 
-        - thickpotion
         - thickpot
         - thick
     373;64:
-        name: 
+        name: Mundane Potion Extended
         aliases: 
-        - mundanepotionextended
         - mundanepotx
     373;8192:
-        name: 
+        name: Mundane Potion
         aliases: 
-        - mundanepotion
         - mundanepot
         - mundane
     373;8193:
-        name: 
+        name: Regeneration Potion
         aliases: 
-        - regenerationpotion
         - regenpot
         - regen
     373;8257:
-        name: 
+        name: Regeneration Potion Extended
         aliases: 
-        - regenerationpotionextended
         - regenpotx
         - regenx
     373;8225:
-        name: 
+        name: Regeneration Potion II
         aliases: 
-        - regenerationpotionII
         - regenpotII
         - regenpot2
         - regenII
         - regen2
     373;8258:
-        name: 
+        name: Swiftness Potion
         aliases: 
-        - swiftnesspotion
         - swiftnesspot
         - swiftness
+        - swiftpot
+        - swift
     373;8195:
-        name: 
+        name: Fire Resistance Potion
         aliases: 
-        - fireresistancepotion
         - fireresistancepot
         - fireresistance
         - firepot
     373;8259:
-        name: 
+        name: Fire Resistance Potion Extended
         aliases: 
-        - fireresistancepotionextended
         - fireresistancepotx
         - fireresistancex
         - firepotx
     373;8197:
-        name: 
+        name: Healing Potion
         aliases: 
-        - healingpotion
         - healingpot
         - healpot
         - heal
     373;8229:
-        name: 
+        name: Healing Potion II
         aliases: 
-        - healingpotionII
         - healingpotII
         - healingpot2
         - heal2
         - healII
     373;8201:
-        name: 
+        name: Strength Potion
         aliases: 
-        - strengthpotion
         - strengthpot
         - strength
     373;8265:
-        name: 
+        name: Strength Potion Extended
         aliases: 
-        - strengthpotionextended
         - strengthpotx
         - strengthx
     373;8233:
-        name: 
+        name: Strength Potion II
         aliases: 
-        - strengthpotionII
         - strengthpot2
         - strengthpotII
         - strength2
         - strengthII
     373;8196:
-        name: 
+        name: Poison Potion
         aliases: 
         - poisonpotion
         - poisonpot
         - poison
     373;8260:
-        name: 
+        name: Poison Potion Extended
         aliases: 
-        - poisonpotionextended
         - poisonpotx
         - poisonx
     373;8228:
-        name: 
+        name: Poison Potion II
         aliases: 
-        - poisonpotionII
         - poisonpot2
         - poisonpotII
         - poison2
         - poisonII
     373;8200:
-        name: 
+        name: Weakness Potion
         aliases: 
-        - weaknesspotion
         - weaknesspot
         - weakness
     373;8264:
-        name: 
+        name: Weakness Potion Extended
         aliases: 
-        - weaknesspotionextended
         - weaknesspotx
         - weaknessx
     373;8202:
-        name: 
+        name: Slowness Potion
         aliases: 
-        - slownesspotion
         - slownesspot
         - slowness
     373;8204:
-        name: 
+        name: Harming Potion
         aliases: 
-        - harmingpotion
         - harmingpot
         - harmpot
         - harm
     373;8236:
-        name: 
+        name: Harming Potion II
         aliases: 
-        - harmingpotionII
         - harmingpot2
         - harmingpotII
         - harmII
         - harm2
+    # Splash potions
     373;16384:
-        name: 
+        name: Splash Mundane Potion
         aliases: 
-        - splashmundanepotion
         - spmundanepot
         - spmundane
     373;16385:
-        name: 
+        name: Splash Regeneration Potion
         aliases: 
-        - splashregenerationpotion
         - spregenpot
         - spregen
     373;16417:
-        name: 
+        name: Splash Regeneration Potion Extended
         aliases: 
-        - splashregenerationpotionextended
         - spregenpotx
         - spregenx
     373;16386:
-        name: 
+        name: Splash Regeneration Potion II
         aliases: 
-        - splashregenerationpotionII
         - spregenpotII
         - spregenpot2
         - spregenII
         - spregen2
     373;16450:
-        name: 
+        name: Splash Swiftness Potion
         aliases: 
         - splashswiftnesspotion
         - spswiftnesspot
         - spswiftness
+        - spswiftpot
+        - spswift
     373;16387:
-        name: 
+        name: Splash Fire Resistance Potion
         aliases: 
-        - splashfireresistancepotion
         - spfireresistancepot
         - spfireresistance
         - spfirepot
     373;16451:
-        name: 
+        name: Splash Fire Resistance Potion Extended
         aliases: 
-        - splashfireresistancepotionextended
         - spfireresistancepotx
         - spfireresistancepotx
         - spfirepotx
     373;16389:
-        name: 
+        name: Splash Healing Potion
         aliases: 
-        - splashhealingpotion
         - sphealingpot
         - sphealpot
         - spheal
     373;16421:
-        name: 
+        name: Splash Healing Potion II
         aliases: 
-        - splashhealingpotionII
         - sphealingpotII
         - sphealingpot2
         - spheal2
         - sphealII
     373;16393:
-        name: 
+        name: Splash Strength Potion
         aliases: 
-        - splashstrengthpotion
         - spstrengthpot
         - spstrength
     373;16457:
-        name: 
+        name: Splash Strength Potion Extended
         aliases: 
-        - splashstrengthpotionextended
         - spstrengthpotx
         - spstrengthx
     373;16425:
-        name: 
+        name: Splash Strength Potion II
         aliases: 
-        - splashstrengthpotionII
         - spstrengthpot2
         - spstrengthpotII
         - spstrength2
         - spstrengthII
     373;16388:
-        name: 
+        name: Splash Poison Potion
         aliases: 
-        - splashpoisonpotion
         - sppoisonpot
         - sppoison
     373;16452:
-        name: 
+        name: Splash Poison Potion Extended
         aliases: 
-        - splashpoisonpotionextended
         - sppoisonpotx
         - sppoisonx
     373;16420:
-        name: 
+        name: Splash Poison Potion II
         aliases: 
-        - splashpoisonpotionII
         - sppoisonpot2
         - sppoisonpotII
         - sppoison2
         - sppoisonII
     373;16392:
-        name: 
+        name: Splash Weakness Potion
         aliases: 
-        - splashweaknesspotion
         - spweaknesspot
         - spweakness
     373;16456:
-        name: 
+        name: Splash Weakness Potion Extended
         aliases: 
-        - splashweaknesspotionextended
         - spweaknesspotx
         - spweaknessx
     373;16394:
-        name: 
+        name: Splash Sloness Potion
         aliases: 
-        - splashslownesspotion
         - spslownesspot
         - spslowness
     373;16396:
-        name: 
+        name: Splash Harming Potion
         aliases: 
-        - splashharmingpotion
         - spharmingpot
         - spharmpot
         - spharm
     373;16428:
-        name: 
+        name: Splash Harming Potion II
         aliases: 
-        - splashharmingpotionII
         - spharmingpot2
         - spharmingpotII
         - spharmII
         - spharm2
+    # Unbrewable potions
     373;8289:
-        name: 
+        name: Regeneration Potion II
         aliases: 
         - regenerationpotionII
         - regenpotII
         - regenpot2
         - regen2
         - regenII
+        obtain: hacking
     373;8290:
-        name: 
+        name: Swiftness Potion II
         aliases: 
         - swiftnesspotionII
         - swiftnesspotII
         - swiftnesspot2
         - swiftnessII
         - swiftness2
+        obtain: hacking
     373;8297:
-        name: 
+        name: Strength Potion II
         aliases: 
-        - strengthpotionII
         - strengthpotII
         - strengthpot2
         - strength2
         - strengthII
+        obtain: hacking
     373;8292:
-        name: 
+        name: Poison Potion II
         aliases: 
-        - poisonpotionII
         - poisonpotII
         - poisonpot2
         - poison2
         - poisionII
+        obtain: hacking
     373;16481:
-        name: 
+        name: Splash Regeneration Potion II
         aliases: 
-        - splashregenerationpotionII
         - spregenpotII
         - spregenpot2
         - spregen2
         - spregenII
+        obtain: hacking
     373;16482:
-        name: 
+        name: Splash Swiftness Potion II
         aliases: 
-        - splashswiftnesspotionII
         - spswiftnesspotII
         - spswiftnesspot2
         - spswiftnessII
         - spswiftness2
+        obtain: hacking
     373;16489:
-        name: 
+        name: Splash Strength Potion II
         aliases: 
-        - splashstrengthpotionII
         - spstrengthpotII
         - spstrengthpot2
         - spstrength2
         - spstrengthII
+        obtain: hacking
     373;16484:
-        name: 
+        name: Splash Poison Potion II
         aliases: 
-        - splashpoisonpotionII
         - sppoisonpotII
         - sppoisonpot2
         - sppoison2
         - sppoisionII
+        obtain: hacking
+    # Unused potions
     373;6:
-        name: 
+        name: Clear Potion
         aliases: 
-        - clearpotion
+        obtain: hacking
     373;7:
-        name: 
+        name: Clear Potion II
         aliases: 
         - clearpotionx
+        - clearpotion2
+        obtain: hacking
     373;11:
-        name: 
+        name: Diffuse Potion
         aliases: 
-        - diffusepotion
+        obtain: hacking
     373;13:
-        name: 
+        name: Artless Potion
         aliases: 
-        - artlesspotion
+        obtain: hacking
     373;14:
-        name: 
+        name: Thin Potion
         aliases: 
-        - thinpotion
+        obtain: hacking
     373;15:
-        name: 
+        name: Thin Potion II
         aliases: 
         - thinpotionx
+        - thinpotion2
+        obtain: hacking
     373;22:
-        name: 
+        name: Bungling Potion
         aliases: 
-        - bunglingpotion
+        obtain: hacking
     373;23:
-        name: 
+        name: Bungling Potion II
         aliases: 
         - bunglingpotionx
+        - bunglintpotion2
+        obtain: hacking
     373;27:
-        name: 
+        name: Smooth Potion
         aliases: 
-        - smoothpotion
+        obtain: hacking
     373;29:
-        name: 
+        name: Suave Potion
         aliases: 
-        - suavepotion
+        obtain: hacking
     373;30:
-        name: 
+        name: Debonair Potion
         aliases: 
-        - debonairpotion
+        obtain: hacking
     373;31:
-        name: 
+        name: Debonair Potion II
         aliases: 
         - debonairpotionx
+        - debonairpotion2
+        obtain: hacking
     373;38:
-        name: 
+        name: Charming Potion
         aliases: 
-        - charmingpotion
+        obtain: hacking
     373;39:
-        name: 
+        name: Charming Potion II
         aliases: 
         - charmingpotionx
+        - charmingpotion2
+        obtain: hacking
     373;43:
-        name: 
+        name: Refined Potion
         aliases: 
-        - refinedpotion
+        obtain: hacking
     373;45:
-        name: 
+        name: Cordial Potion
         aliases: 
-        - cordialpotion
+        obtain: hacking
     373;46:
-        name: 
+        name: Sparkling Potion
         aliases: 
-        - sparkingpotion
+        obtain: hacking
     373;47:
-        name: 
+        name: Sparkling Potion II
         aliases: 
         - sparklingpotionx
+        - sparklingpotion2
+        obtain: hacking
     373;48:
-        name: 
+        name: Potent Potion
         aliases: 
-        - potentpotion
+        obtain: hacking
     373;54:
-        name: 
+        name: Rank Potion
         aliases: 
-        - rankpotion
+        obtain: hacking
     373;55:
-        name: 
+        name: Rank Potion II
         aliases: 
         - rankpotionx
+        - rankpotion2
+        obtain: hacking
     373;59:
-        name: 
+        name: Acrid Potion
         aliases: 
-        - acridpotion
+        obtain: hacking
     373;61:
-        name: 
+        name: Gross Potion
         aliases: 
-        - grosspotion
+        obtain: hacking
     373;62:
-        name: 
+        name: Stinky Potion
         aliases: 
-        - stinkypotion
+        obtain: hacking
     373;63:
-        name: 
+        name: Stinky Potion II
         aliases: 
         - stinkypotionx
+        - stinkypotion2
+        obtain: hacking
     '374':
-        name: 
+        name: Glass Bottle
         aliases: 
-        - glassbottle
     '375':
-        name: 
+        name: Spider Eye
         aliases: 
-        - spidereye
         - seye
     '376':
-        name: 
+        name: Fermented Spider Eye
         aliases: 
-        - fermentedspidereye
         - fermentedeye
         - fseye
     '377':
-        name: 
+        name: Blaze Powder
         aliases: 
-        - blazepowder
         - powder
+        - bp
+        - bpowder
     '378':
-        name: 
+        name: Magma Cream
         aliases: 
-        - magmacream
         - cream
+        - mcream
     '379':
-        name: 
+        name: Brewing Stand
         aliases: 
-        - brewingstand
         - stand
+        - bstand
     '380':
-        name: 
+        name: Cauldron
         aliases: 
-        - cauldron
     '381':
-        name: 
+        name: Eye of Ender
         aliases: 
-        - eyeofender
         - eeye
-    '382':
-        name: 
+    '382': 
+        name: Glistering Melon
         aliases: 
         - glisteringmelon
         - gmelon
+    # Spawn Egg
     # Damage value corresponds to entity ID; see http://www.minecraftwiki.net/wiki/Data_values#Entity_IDs
-        name: 
-        aliases: 
 #    383;1:
-        name: 
-        aliases: 
-    #    - droppeditemegg
+#    - droppeditemegg
 #    383;2:
-        name: 
-        aliases: 
-    #    - experienceorbegg
+#    - experienceorbegg
 #    383;10:
-        name: 
-        aliases: 
-    #    - shotarrowegg
+#    - shotarrowegg
 #    383;11:
-        name: 
-        aliases: 
-    #    - thrownsnowballegg
+#    - thrownsnowballegg
 #    383;12:
-        name: 
-        aliases: 
-    #    - ghastfireballegg
+#    - ghastfireballegg
 #    383;13:
-        name: 
-        aliases: 
-    #    - blazefireballegg
+#    - blazefireballegg
 #    383;14:
-        name: 
-        aliases: 
-    #    - thrownenderpearlegg
+#    - thrownenderpearlegg
 #    383;15:
-        name: 
-        aliases: 
-    #    - throwneyeofenderegg
+#    - throwneyeofenderegg
 #    383;20:
-        name: 
-        aliases: 
-    #    - primedtntegg
+#    - primedtntegg
 #    383;21:
-        name: 
-        aliases: 
-    #    - fallingblockegg
+#    - fallingblockegg
 #    383;40:
-        name: 
-        aliases: 
-    #    - minecartegg
+#    - minecartegg
 #    383;41:
-        name: 
-        aliases: 
-    #    - boategg
+#    - boategg
 #    383;50:
-        name: 
-        aliases: 
-    #    - creeperegg
+#    - creeperegg
 #    383;51:
-        name: 
-        aliases: 
-    #    - skeletonegg
+#    - skeletonegg
 #    383;52:
-        name: 
-        aliases: 
-    #    - spideregg
+#    - spideregg
 #    383;53:
-        name: 
-        aliases: 
-    #    - giantegg
+#    - giantegg
 #    383;54:
-        name: 
-        aliases: 
-    #    - zombieegg
+#    - zombieegg
 #    383;55:
-        name: 
-        aliases: 
-    #    - slimeegg
+#    - slimeegg
 #    383;56:
-        name: 
-        aliases: 
-    #    - ghastegg
+#    - ghastegg
 #    383;57:
-        name: 
-        aliases: 
-    #    - zombiepigmanegg
+#    - zombiepigmanegg
 #    383;60:
-        name: 
-        aliases: 
-    #    - silverfishegg
+#    - silverfishegg
 #    383;61:
-        name: 
-        aliases: 
-    #    - blazeegg
+#    - blazeegg
 #    383;62:
-        name: 
-        aliases: 
-    #    - magmacubeegg
+#    - magmacubeegg
 #    383;63:
-        name: 
-        aliases: 
-    #    - enderdragonegg
+#    - enderdragonegg
 #    383;90:
-        name: 
-        aliases: 
-    #    - pigegg
+#    - pigegg
 #    383;91:
-        name: 
-        aliases: 
-    #    - sheepegg
+#    - sheepegg
 #    393;92:
-        name: 
-        aliases: 
-    #    - cowegg
+#    - cowegg
 #    393;93:
-        name: 
-        aliases: 
-    #    - chickenegg
+#    - chickenegg
 #    393;94:
-        name: 
-        aliases: 
-    #    - squidegg
+#    - squidegg
 #    393;95:
-        name: 
-        aliases: 
-    #    - wolfegg
+#    - wolfegg
 #    393;96:
-        name: 
-        aliases: 
-    #    - mooshroomegg
+#    - mooshroomegg
 #    393;97:
-        name: 
-        aliases: 
-    #    - snowgolemegg
+#    - snowgolemegg
 #    393;120:
-        name: 
-        aliases: 
-    #    - villageregg
+#    - villageregg
 #    393;200:
-        name: 
-        aliases: 
-    #    - endercrystalegg
+#    - endercrystalegg
     '2256':
-        name: 
+        name: Gold Disc
         aliases: 
         - thirteen
         - yellowdisc
         - yellowrecord
     '2257':
-        name: 
+        name: Green Disc
         aliases: 
         - cat
-        - greendisc
         - greenrecord
     '2258':
-        name: 
+        name: Orange Disc
         aliases: 
         - blocks
         - blocksdisc
-        - redrecord 
     '2259':
-        name: 
+        name: Red Disc
         aliases: 
         - chirp 
         - chirpdisc 
-        - darkredrecord
     '2260':
-        name: 
+        name: Lime Disc
         aliases: 
         - far
         - fardisc
-        - yellowrecord
+        - limegreendisc
     '2261':
-        name: 
+        name: Purple Disc
         aliases: 
         - mall
         - malldisc
-        - bluerecord
+        - purplerecord
     '2262':
-        name: 
+        name: Violet Disc
         aliases: 
         - mellohi
         - mellohidisc
-        - purplerecord
+        - violetrecord
     '2263':
-        name: 
+        name: Black Disc
         aliases: 
         - stal
         - staldisc
         - blackrecord
     '2264':
-        name: 
+        name: White Disc
         aliases: 
         - strad
         - straddisc
         - whiterecord
     '2265':
-        name: 
+        name: Sea Green Disc
         aliases: 
         - ward
         - warddisc
         - darkgreenrecord
+        - seagreendisc
     '2266':
-        name: 
+        name: Broken Disc
         aliases: 
         - eleven
         - elevendisc
