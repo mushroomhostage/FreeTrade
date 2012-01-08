@@ -505,6 +505,10 @@ items:
     - bshroomstem
     - hugebrownmushroomstem
     100;0:
+    - redmushroomcap
+    - rshroomcap
+    - hugeredmushroompores
+    100;0:
     - bshroomcap
     - brownmushroomcap
     - hugebrownmushroompores
@@ -564,6 +568,7 @@ items:
     - stonebrickstairs
     '110':
     - mycelium
+    - mycel
     '111':
     - lilypad
     '112':
@@ -585,6 +590,7 @@ items:
     - netherwartblock
     '116':
     - enchantmenttable
+    - etable
     '117':
     - brewingstandblock
     '118':
@@ -754,6 +760,7 @@ items:
     '299':
     - lchest
     - leatherchest
+    - leatherchestplate
     - leathershirt
     - lshirt
     '300':
@@ -774,6 +781,7 @@ items:
     '303':
     - cchest
     - chainchest
+    - chainchestplate
     - chainshirt
     - cshirt
     '304':
@@ -792,6 +800,7 @@ items:
     '307':
     - ichest
     - ironchest
+    - ironchestplate
     - ironshirt
     - ishirt
     '308':
@@ -806,18 +815,20 @@ items:
     - ishoes
     '310':
     - dhelm
-    - dhelment
+    - dhelmet
     - diamondhelm
     - diamondhelmet
     '311':
     - dchest
     - diamondchest
+    - diamondchestplate
     - diamondshirt
     - dshirt
     '312':
     - diamondleggings
     - diamondpants
     - dleggings
+    - dlegging
     - dpants
     '313':
     - dboots
@@ -931,6 +942,7 @@ items:
     - fishingrod
     - pole
     - rod
+    - frod
     '347':
     - clock
     - watch
@@ -1061,6 +1073,7 @@ items:
     - rottenflesh
     '368':
     - enderpearl
+    - pearl
     - e
     '369':
     - blazerod
@@ -1074,6 +1087,7 @@ items:
     - netherwart
     - wart
     - nw
+    # Potions
     373;0:
     - waterbottle
     373;16:
@@ -1115,6 +1129,11 @@ items:
     - fireresistance
     - firepot
     373;8259:
+    - fireresistancepotionextended
+    - fireresistancepotx
+    - fireresistancex
+    - firepotx
+    373;8197:
     - healingpotion
     - healingpot
     - healpot
@@ -1176,6 +1195,7 @@ items:
     - harmingpotII
     - harmII
     - harm2
+    # Splash potions
     373;16384:
     - splashmundanepotion
     - spmundanepot
@@ -1203,6 +1223,11 @@ items:
     - spfireresistancepot
     - spfireresistance
     - spfirepot
+    373;16451:
+    - splashfireresistancepotionextended
+    - spfireresistancepotx
+    - spfireresistancepotx
+    - spfirepotx
     373;16389:
     - splashhealingpotion
     - sphealingpot
@@ -1265,6 +1290,7 @@ items:
     - spharmingpotII
     - spharmII
     - spharm2
+    # Unbrewable potions
     373;8289:
     - regenerationpotionII
     - regenpotII
@@ -1289,6 +1315,7 @@ items:
     - poisonpot2
     - poison2
     - poisionII
+    # Unbrewable splash potions
     373;16481:
     - splashregenerationpotionII
     - spregenpotII
@@ -1313,6 +1340,7 @@ items:
     - sppoisonpot2
     - sppoison2
     - sppoisionII
+    # Unused potions
     373;6:
     - clearpotion
     373;7:
@@ -1389,6 +1417,78 @@ items:
     '382':
     - glisteringmelon
     - gmelon
+    # Entity spawner eggs in 11w49a+
+    # Damage value corresponds to entity ID; see http://www.minecraftwiki.net/wiki/Data_values#Entity_IDs
+    # Not available in 1.0.1
+#    383;1:
+#    - droppeditemegg
+#    383;2:
+#    - experienceorbegg
+#    383;10:
+#    - shotarrowegg
+#    383;11:
+#    - thrownsnowballegg
+#    383;12:
+#    - ghastfireballegg
+#    383;13:
+#    - blazefireballegg
+#    383;14:
+#    - thrownenderpearlegg
+#    383;15:
+#    - throwneyeofenderegg
+#    383;20:
+#    - primedtntegg
+#    383;21:
+#    - fallingblockegg
+#    383;40:
+#    - minecartegg
+#    383;41:
+#    - boategg
+#    383;50:
+#    - creeperegg
+#    383;51:
+#    - skeletonegg
+#    383;52:
+#    - spideregg
+#    383;53:
+#    - giantegg
+#    383;54:
+#    - zombieegg
+#    383;55:
+#    - slimeegg
+#    383;56:
+#    - ghastegg
+#    383;57:
+#    - zombiepigmanegg
+#    383;60:
+#    - silverfishegg
+#    383;61:
+#    - blazeegg
+#    383;62:
+#    - magmacubeegg
+#    383;63:
+#    - enderdragonegg
+#    383;90:
+#    - pigegg
+#    383;91:
+#    - sheepegg
+#    393;92:
+#    - cowegg
+#    393;93:
+#    - chickenegg
+#    393;94:
+#    - squidegg
+#    393;95:
+#    - wolfegg
+#    393;96:
+#    - mooshroomegg
+#    393;97:
+#    - snowgolemegg
+#    393;120:
+#    - villageregg
+#    393;200:
+#    - endercrystalegg
+    # Music discs
     '2256':
     - thirteen
     - yellowdisc
@@ -1400,10 +1500,10 @@ items:
     '2258':
     - blocks
     - blocksdisc
-    - redrecord
+    - redrecord 
     '2259':
-    - chirp
-    - chirpdisc
+    - chirp 
+    - chirpdisc 
     - darkredrecord
     '2260':
     - far
