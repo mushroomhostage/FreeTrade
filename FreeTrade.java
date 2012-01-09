@@ -6,6 +6,8 @@ import java.util.regex.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
@@ -75,19 +77,20 @@ class ItemQuery
 
         if (nameString.contains("*")) {
             // Wildcard expressions
-            List<ItemStack> results = wildcardLookupName(nameString);
+            Set<ItemStack> results = wildcardLookupName(nameString);
             if (results.size() == 0) {
                 throw new UsageException("No items match pattern " + nameString);
             }
-            if (results.size() > 1) {
-                StringBuffer nameMatches = new StringBuffer();
-                for (ItemStack resultStack: results) {
-                    nameMatches.append(nameStack(resultStack).replace("1:","") + ", ");
-                }
+            StringBuffer nameMatches = new StringBuffer();
+            for (ItemStack resultStack: results) {
+                nameMatches.append(nameStack(resultStack).replace("1:","") + ", ");
+                // Use only item in set, if only one (falls through below)
+                itemStack = resultStack;
+            }
 
+            if (results.size() > 1) {
                 throw new UsageException("Found " + results.size() + " matching items: " + nameMatches);
             }
-            itemStack = results.get(0);
         } else {
             // First try built-in name lookup
             itemStack = directLookupName(nameString);
@@ -461,8 +464,8 @@ class ItemQuery
     }
 
     // Get all matches of aliases from a wildcard pattern
-    private static List<ItemStack> wildcardLookupName(String pattern) {
-        List<ItemStack> results = new ArrayList<ItemStack>();
+    private static Set<ItemStack> wildcardLookupName(String pattern) {
+        Set<ItemStack> results = new HashSet<ItemStack>();
 
         Iterator it = name2CodeName.entrySet().iterator();
         while (it.hasNext()) {
