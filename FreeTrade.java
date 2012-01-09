@@ -38,8 +38,8 @@ class ItemQuery
         Pattern p  = Pattern.compile(
             "^(\\d*)" +             // quantity
             "([# :;-]?)" +          // separator / stack flag
-            "([^/;]+)" +            // name
-            "([/;]?)" +             // separator / damage flag
+            "([^/\\\\]+)" +         // name
+            "([/\\\\]?)" +          // separator / damage flag
             "([\\d%]*)" +           // use / damage
             "/?([^/]*)$");          // enchant
         Matcher m = p.matcher(s);
@@ -117,9 +117,9 @@ class ItemQuery
                 value = Short.parseShort(usesString);
             }
 
-            // Normally, convenient for user to specify percent or times left (inverse of damage)
-            // Allow ; separator to specify damage itself
-            if (dmgOrUsesString.equals(";")) {
+            // Normally, convenient for user to specify percent or times left (inverse of damage), /
+            // Allow \ separator to specify damage itself
+            if (dmgOrUsesString.equals("\\")) {
                 damage = value;
             } else {
                 damage = (short)(maxDamage - value);
