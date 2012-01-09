@@ -6,9 +6,11 @@ import java.util.regex.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 import java.util.SortedSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.io.*;
@@ -24,7 +26,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.*;
 
 import info.somethingodd.bukkit.OddItem.OddItem;
-
 
 enum Obtainability 
 { 
@@ -292,9 +293,28 @@ class ItemQuery
         codeName2Name = new ConcurrentHashMap<String, String>();
         
         isDurableMap = new ConcurrentHashMap<Material, Boolean>();
+        obtainMap = new ConcurrentHashMap<String, Obtainability>();
+
+        HashSet<Obtainability> tradeableCategories = new HashSet<Obtainability>();
+
+        for (String obtainString: config.getStringList("tradeableCategories")) {
+            tradeableCategories.add(Obtainability.valueOf(obtainString.toUpperCase()));
+        }
 
         for (String codeName: itemsSection.getKeys(false)) {
             String properName = config.getString("items." + codeName + ".name");
+
+            // How this item can be obtained
+            String obtainString = config.getString("items." + codeName + ".obtain");
+            Obtainability obtain = (obtainString == null) ? Obtainability. NORMAL : Obtainability.valueOf(obtainString.toUpperCase());
+            if (!tradeableCategories.contains(obtain)) {
+                log.info("Excluding untradeable " + properName);
+                continue;
+                // XXX: TODO: This doesn't work, since it falls back to Bukkit/OddItem for item names! (which it then can't reverse)
+                // Need to come up with another way to exclude it
+            }
+
+            obtainMap.put(codeName, obtain);
 
             // Add aliases from config
             List<String> aliases = config.getStringList("items." + codeName + ".aliases");
@@ -324,9 +344,6 @@ class ItemQuery
                 isDurableMap.put(material, new Boolean(true));
             }
 
-            String obtainString = config.getString("items." + codeName + ".obtain");
-            Obtainability obtain = (obtainString == null) ? Obtainability. NORMAL : Obtainability.valueOf(obtainString.toUpperCase());
-            log.info("obtain="+obtain);
 
         }
         log.info("Loaded " + i + " item aliases");
