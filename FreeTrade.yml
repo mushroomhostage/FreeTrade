@@ -2,8 +2,8 @@ version: 1
 
 # What kinds of items to allow trading ('obtain' category)
 #tradeableCategories: [normal, silktouch, creative]                 # legitimate
-#tradeableCategories: [never, normal, silktouch, creative, hacking] # everything
-tradeableCategories: [normal, silktouch]                            # survival mode only
+tradeableCategories: [never, normal, silktouch, creative, hacking] # everything
+#tradeableCategories: [normal, silktouch]                           # survival mode only
 
 tradeableWhitelist: []
 tradeableBlacklist: []
