@@ -314,30 +314,18 @@ class ItemQuery
         }
 
         // Find canonical name of item
-        // TODO: better way? OddItem can have uncommon aliases we might pick..
-        if (Bukkit.getServer().getPluginManager().getPlugin("OddItem") != null) {
-            List<String> names;
-
-            // Compatibility note:
-            // OddItem 0.8.1 only has String method:
-            //  getAliases(java.lang.String) in info.somethingodd.bukkit.OddItem.OddItem cannot be applied to (org.bukkit.inventory.ItemStack)
-            //names = OddItem.getAliases(itemStack);
-            String codeName;
-            if (isDurable(m)) {
-                // durable items don't have unique names for each durability
-                codeName = itemStack.getTypeId() + ";0";
-            } else {
-                // durability here actually is overloaded to mean a different item
-                codeName = itemStack.getTypeId() + ";" + itemStack.getDurability();
-            }
-            try {
-                names = OddItem.getAliases(codeName);
-                name = names.get(names.size() - 1);
-            } catch (Exception e) {
-                log.info("OddItem doesn't know about " + codeName + ", using " + name);
-            }
+        String codeName;
+        if (isDurable(m)) {
+            // durable items don't have unique names for each durability
+            codeName = itemStack.getTypeId() + "";
         } else {
-            log.info("OddItem not found, no more specific name available for " + name + ";" + itemStack.getDurability());
+            // durability here actually is overloaded to mean a different item
+            codeName = itemStack.getTypeId() + ";" + itemStack.getDurability();
+        }
+
+        name = codeName2Name.get(codeName);
+        if (name == null) {
+            name = "unknown="+codeName;
         }
 
         // Enchantments
@@ -397,12 +385,13 @@ class ItemQuery
                 } 
             }
 
-            // Generate 'proper name' alias
-            String aliasProperName = properName.toLowerCase().replaceAll(" ", "");  // preprocessed for lookup
+            // Generate 'proper name' alias, preprocessed for lookup
+            String smushedProperName = properName.replaceAll(" ","");
+            String aliasProperName = smushedProperName.toLowerCase();
             log.info("\tname="+properName);
             name2CodeName.put(aliasProperName, codeName);
             i += 1;
-            codeName2Name.put(codeName, aliasProperName);
+            codeName2Name.put(codeName, smushedProperName);
 
             // Generate numeric alias
             name2CodeName.put(codeName, codeName);
