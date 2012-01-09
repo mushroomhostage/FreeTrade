@@ -936,6 +936,7 @@ class Market
 public class FreeTrade extends JavaPlugin {
     Logger log = Logger.getLogger("Minecraft");
     Market market = new Market();
+    boolean allowShortFormNothing = false;
 
     public void onEnable() {
         loadConfig();
@@ -963,6 +964,8 @@ public class FreeTrade extends JavaPlugin {
         if (config.getInt("version") < 1) {
             throw new UsageException("Configuration file version is outdated");
         }
+
+        allowShortFormNothing = config.getBoolean("allowShortForm", false);
 
 
         ItemQuery.loadConfig(config);
@@ -1031,16 +1034,22 @@ public class FreeTrade extends JavaPlugin {
             }
             n++;
         }
-        if (args.length < 2+n) {
+        if (args.length < 1+n) {
             return false;
         }
 
         String wantString, giveString;
         wantString = args[n];
-        if (args[n+1].equalsIgnoreCase("for")) {
-            giveString = args[n+2];
+
+        if (allowShortFormNothing && args.length < 2+n) {
+            // Ommited last arg, short form
+            giveString = "nothing";
         } else {
-            giveString = args[n+1];
+            if (args[n+1].equalsIgnoreCase("for")) {
+                giveString = args[n+2];
+            } else {
+                giveString = args[n+1];
+            }
         }
 
         Order order;
