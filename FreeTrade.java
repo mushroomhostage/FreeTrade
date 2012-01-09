@@ -67,6 +67,12 @@ class ItemQuery
             }
         }
 
+
+        // Name
+
+        // Allowed to be any case, with or without any word separators
+        nameString = nameString.replaceAll("[ _-]", "").toLowerCase();
+
         // TODO: wildcards, *, match one or if multiple list all matching (i.e. *pot*), for a search
 
         // First try built-in name lookup
