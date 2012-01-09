@@ -512,77 +512,29 @@ class EnchantQuery
         return names.toString();
     }
 
-    static Enchantment enchFromBaseName(String n) {
-        // TODO: something like OddItem for enchantment names! hideous, this
-        n = n.toLowerCase();
-        Enchantment ench = Enchantment.getByName(n);
+    static Enchantment enchFromBaseName(String name) {
+        // Built-in config file database..
+        name = name.toLowerCase();
+        Enchantment ench = name2Code.get(name);
+        if (ench != null) {
+            return ench;
+        }
+      
+        // Bukkit itself?
+        ench = Enchantment.getByName(name);
         if (ench != null) {
             return ench;
         }
 
-        // Armor
-        if (n.equals("protection") || n.equals("p")) {
-            return Enchantment.PROTECTION_ENVIRONMENTAL;
-        } else if (n.equals("fire-protection") || n.equals("fireprotection") || n.equals("fire") || n.equals("fp")) {
-            return Enchantment.PROTECTION_FIRE;
-        } else if (n.equals("feather-falling") || n.equals("featherfalling") || n.equals("feather") || n.equals("falling") || n.equals("fall") || n.equals("ff")) {
-            return Enchantment.PROTECTION_FALL;
-        } else if (n.equals("blast-protection") || n.equals("blastprotection") || n.equals("blast") || n.equals("explosion-protection") || n.equals("bp")) {
-            return Enchantment.PROTECTION_EXPLOSIONS;
-        } else if (n.equals("projectile-protection") || n.equals("projectileprotection") || n.equals("projectile") || n.equals("bp")) {
-            return Enchantment.PROTECTION_PROJECTILE;
-        } else if (n.equals("respiration") || n.equals("oxygen") || n.equals("r")) {
-            return Enchantment.OXYGEN; 
-        } else if (n.equals("aqua-affinity") || n.equals("aquaaffinity") || n.equals("aqua") || n.equals("waterworker") || n.equals("aa")) {
-            return Enchantment.WATER_WORKER;
-        // Weapons
-        } else if (n.equals("sharpness") || n.equals("damage-all") || n.equals("s")) {
-            return Enchantment.DAMAGE_ALL;
-        } else if (n.equals("smite") || n.equals("damage-undead") || n.equals("sm")) {
-            return Enchantment.DAMAGE_UNDEAD;
-        } else if (n.equals("bane-of-arthropods") || n.equals("bane") || n.equals("arthropods") || n.equals("b")) {
-            return Enchantment.DAMAGE_ARTHROPODS;
-        } else if (n.equals("knockback") || n.equals("k")) {
-            return Enchantment.KNOCKBACK; 
-        } else if (n.equals("fire-aspect") || n.equals("fireaspect") || n.equals("fire") || n.equals("fa")) {
-            return Enchantment.FIRE_ASPECT;
-        } else if (n.equals("looting") || n.equals("loot") || n.equals("loot-bonus-mobs") || n.equals("l")) {
-            return Enchantment.LOOT_BONUS_MOBS;
-        // Tools
-        } else if (n.equals("efficiency") || n.equals("dig-speed") || n.equals("e")) {
-            return Enchantment.DIG_SPEED;
-        } else if (n.equals("silk-touch") || n.equals("silktouch") || n.equals("silk") || n.equals("st")) {
-            return Enchantment.SILK_TOUCH;
-        } else if (n.equals("unbreaking") || n.equals("durability") || n.equals("u")) {
-            return Enchantment.DURABILITY;
-        } else if (n.equals("fortune") || n.equals("loot-bonus-blocks") || n.equals("f")) {
-            return Enchantment.LOOT_BONUS_BLOCKS;
-        } else {
-           throw new UsageException("Unrecognized enchantment name: " + n);
-        }
+        throw new UsageException("Unrecognized enchantment: " + name);
     }
 
     static String enchName(EnchantmentWrapper ench) {
-        switch (ench.getId()) {
-        case 0: return "Protection";
-        case 1: return "FireProtection";
-        case 2: return "FeatherFalling";
-        case 3: return "BlastProtection";
-        case 4: return "ProjectileProtection";
-        case 5: return "Respiration";
-        case 6: return "AquaAffinity";
-        case 16: return "Sharpness";
-        case 17: return "Smite";
-        case 18: return "BaneOfArthropods";
-        case 19: return "Knockback";
-        case 20: return "FireAspect";
-        case 21: return "Looting";
-        case 32: return "Efficiency";
-        case 33: return "SilkTouch";
-        case 34: return "Unbreaking";
-        case 35: return "Fortune";
-        default: return "Unknown(" + ench.getId() + ")";
+        String name = code2Name.get(ench);
+        if (name != null) {
+            return name;
         }
+        return "Unknown(" + ench.getId() + ")";
         // There is ench.getName(), but the names don't match in-game
     }
 
