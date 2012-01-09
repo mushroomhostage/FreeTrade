@@ -426,6 +426,9 @@ class EnchantQuery
 
     Map<Enchantment,Integer> all;
 
+    static ConcurrentHashMap<String, Enchantment> name2Code;
+    static ConcurrentHashMap<Enchantment, String> code2Name;
+
     public EnchantQuery(String allString) {
         all = new HashMap<Enchantment,Integer>();
 
@@ -634,6 +637,37 @@ class EnchantQuery
             }
        } 
        return true;
+    }
+
+    public static void loadConfig(YamlConfiguration config) {
+        Map<String,Object> configValues = config.getValues(true);
+        MemorySection enchantsSection = (MemorySection)configValues.get("enchants");
+        int i = 0;
+    
+        name2Code = new ConcurrentHashMap<String, Enchantment>();
+        code2Name = new ConcurrentHashMap<Enchantment, String>();
+        
+        for (String codeString: enchantsSection.getKeys(false)) {
+            Enchantment ench = Enchantment.getById(Integer.parseInt(codeString));
+            String properName = config.getString("enchants." + codeString + ".name");
+
+            List<String> aliases = config.getStringList("enchants." + codeString + ".aliases");
+
+            if (aliases != null) {
+                for (String alias: aliases) {
+                    name2Code.put(alias, ench);
+                    i += 1;
+                } 
+            }
+
+            // Generate 'proper name' alias, preprocessed for lookup
+            String smushedProperName = properName.replaceAll(" ","");
+            String aliasProperName = smushedProperName.toLowerCase();
+            name2Code.put(aliasProperName, ench);
+            i += 1;
+            code2Name.put(ench, smushedProperName);
+        }
+        log.info("Loaded " + i + " enchantment aliases");
     }
 }
 
@@ -903,7 +937,7 @@ public class FreeTrade extends JavaPlugin {
 
 
         ItemQuery.loadConfig(config);
-
+        EnchantQuery.loadConfig(config);
     }
 
     // Copy default configuration
