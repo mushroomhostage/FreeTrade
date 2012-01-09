@@ -90,7 +90,7 @@ class ItemQuery
                 throw new UsageException("Found " + results.size() + " matching items: " + nameMatches);
             }
             // Exactly one hit, use it
-            nameString = results.first();
+            nameString = results.first().toLowerCase();
         } 
         // First try built-in name lookup
         itemStack = directLookupName(nameString);
