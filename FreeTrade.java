@@ -73,10 +73,26 @@ class ItemQuery
         // Allowed to be any case, with or without any word separators
         nameString = nameString.replaceAll("[ _-]", "").toLowerCase();
 
-        // TODO: wildcards, *, match one or if multiple list all matching (i.e. *pot*), for a search
+        if (nameString.contains("*")) {
+            // Wildcard expressions
+            List<ItemStack> results = wildcardLookupName(nameString);
+            if (results.size() == 0) {
+                throw new UsageException("No items match pattern " + nameString);
+            }
+            if (results.size() > 1) {
+                StringBuffer nameMatches = new StringBuffer();
+                for (ItemStack resultStack: results) {
+                    nameMatches.append(nameStack(resultStack).replace("1:","") + ", ");
+                }
 
-        // First try built-in name lookup
-        itemStack = directLookupName(nameString);
+                throw new UsageException("Found " + results.size() + " matching items: " + nameMatches);
+            }
+            itemStack = results.get(0);
+        } else {
+            // First try built-in name lookup
+            itemStack = directLookupName(nameString);
+        }
+
         if (itemStack == null) {
             // If available, try OddItem for better names or clever suggestions
             if (Bukkit.getServer().getPluginManager().getPlugin("OddItem") != null) {
@@ -333,6 +349,10 @@ class ItemQuery
         if (name == null) {
             name = "unknown="+codeName;
         }
+        // Special case: 
+        if (itemStack.getType() == Material.MAP) {
+            name += "/" + itemStack.getDurability();
+        }
 
         // Enchantments
         if (EnchantQuery.hasEnchantments(itemStack)) {
@@ -438,6 +458,41 @@ class ItemQuery
         }
 
         return codeName2ItemStack(materialCode);
+    }
+
+    // Get all matches of aliases from a wildcard pattern
+    private static List<ItemStack> wildcardLookupName(String pattern) {
+        List<ItemStack> results = new ArrayList<ItemStack>();
+
+        Iterator it = name2CodeName.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+
+            String name = (String)pair.getKey();
+            String codeName = (String)pair.getValue();
+
+            if (matchesWildcard(pattern, name)) {
+                results.add(codeName2ItemStack(codeName));
+            }
+        }
+
+        return results;
+    }
+
+    // Return whether a wildcard pattern (with asterisks = anything) matches
+    private static boolean matchesWildcard(String needle, String haystack) {
+        String[] cards = needle.split("\\*");
+
+        for (String card : cards) {
+            int i = haystack.indexOf(card);
+            if (i == -1) {
+                return false;
+            }
+
+            haystack = haystack.substring(i + card.length());
+        }
+
+        return true;
     }
 
 }
@@ -724,7 +779,7 @@ class UsageException extends RuntimeException
 
 class Market
 {
-    ArrayList<Order> orders;
+    List<Order> orders;
     Logger log = Logger.getLogger("Minecraft");
 
     public Market() {
