@@ -6,8 +6,8 @@ import java.util.regex.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.TreeSet;
+import java.util.SortedSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
@@ -77,24 +77,23 @@ class ItemQuery
 
         if (nameString.contains("*")) {
             // Wildcard expressions
-            Set<ItemStack> results = wildcardLookupName(nameString);
+            SortedSet<String> results = wildcardLookupName(nameString);
             if (results.size() == 0) {
                 throw new UsageException("No items match pattern " + nameString);
             }
-            StringBuffer nameMatches = new StringBuffer();
-            for (ItemStack resultStack: results) {
-                nameMatches.append(nameStack(resultStack).replace("1:","") + ", ");
-                // Use only item in set, if only one (falls through below)
-                itemStack = resultStack;
-            }
-
             if (results.size() > 1) {
+                StringBuffer nameMatches = new StringBuffer();
+                for (String resultName: results) {
+                    nameMatches.append(resultName + ", ");
+                }
+
                 throw new UsageException("Found " + results.size() + " matching items: " + nameMatches);
             }
-        } else {
-            // First try built-in name lookup
-            itemStack = directLookupName(nameString);
-        }
+            // Exactly one hit, use it
+            nameString = results.first();
+        } 
+        // First try built-in name lookup
+        itemStack = directLookupName(nameString);
 
         if (itemStack == null) {
             // If available, try OddItem for better names or clever suggestions
@@ -463,9 +462,9 @@ class ItemQuery
         return codeName2ItemStack(materialCode);
     }
 
-    // Get all matches of aliases from a wildcard pattern
-    private static Set<ItemStack> wildcardLookupName(String pattern) {
-        Set<ItemStack> results = new HashSet<ItemStack>();
+    // Get proper names of all aliases matching a wildcard pattern
+    private static SortedSet<String> wildcardLookupName(String pattern) {
+        SortedSet<String> results = new TreeSet<String>();
 
         Iterator it = name2CodeName.entrySet().iterator();
         while (it.hasNext()) {
@@ -475,7 +474,7 @@ class ItemQuery
             String codeName = (String)pair.getValue();
 
             if (matchesWildcard(pattern, name)) {
-                results.add(codeName2ItemStack(codeName));
+                results.add(nameStack(codeName2ItemStack(codeName)).replace("1:",""));
             }
         }
 
