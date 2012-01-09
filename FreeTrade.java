@@ -889,7 +889,7 @@ class Market
             log.info("remaining want="+remainingWant+", give="+remainingGive);
 
             // They get what they want!
-            // TODO: ensure contains() before removing
+            // TODO: ensure contains() before removing, critical!
 
             // Calculate amount exchanged
             ItemStack exchWant = new ItemStack(oldOrder.want.getType(), Math.min(oldOrder.want.getAmount(), newOrder.give.getAmount()), newOrder.give.getDurability());
@@ -911,6 +911,12 @@ class Market
             Bukkit.getServer().broadcastMessage(newOrder.player.getDisplayName() + " received " + 
                 ItemQuery.nameStack(exchGive) + " from " + oldOrder.player.getDisplayName());
 
+            // TODO: if item received doesn't fit in inventory, drop on ground
+
+            // How did the items transport themselves between the players? Magic, as indicated by smoke.
+            oldOrder.player.playEffect(oldOrder.player.getLocation(), Effect.SMOKE, 0);
+            newOrder.player.playEffect(newOrder.player.getLocation(), Effect.SMOKE, 0);
+    
     
             // Remove oldOrder from orders, if complete, or add partial if incomplete
             if (remainingWant == 0) {
