@@ -474,7 +474,7 @@ class ItemQuery
             String codeName = (String)pair.getValue();
 
             if (matchesWildcard(pattern, name)) {
-                results.add(nameStack(codeName2ItemStack(codeName)).replace("1:",""));
+                results.add(codeName2Name.get(codeName).replace(" ",""));
             }
         }
 
