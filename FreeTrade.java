@@ -25,14 +25,24 @@ import org.bukkit.*;
 
 import info.somethingodd.bukkit.OddItem.OddItem;
 
+
+enum Obtainability 
+{ 
+    NORMAL, SILKTOUCH, CREATIVE, HACKING 
+};
+
 class ItemQuery
 {
+
     ItemStack itemStack;
     static Logger log = Logger.getLogger("Minecraft");
 
     // Map between item names/aliases and id;dmg string
     static ConcurrentHashMap<String,String> name2CodeName;
     static ConcurrentHashMap<String,String> codeName2Name;
+
+    static ConcurrentHashMap<String,Obtainability> obtainMap;
+    static ConcurrentHashMap<Material,Boolean> isDurableMap;
 
     public ItemQuery(String s) {
         //Pattern onp = Pattern.compile( "^(\\d+)"
@@ -186,122 +196,8 @@ class ItemQuery
 
     // Return whether an item degrades when used
     public static boolean isDurable(Material m) {
-        return isTool(m) || isWeapon(m) || isArmor(m);
+        return isDurableMap.containsKey(m);
     }
-
-
-    // Return whether the "damage"(durability) value is overloaded to mean
-    // a different kind of material, instead of actual damage on a tool
-    public static boolean dmgMeansSubtype(Material m) {
-        // TODO: should this check be inverted, just checking for tools/weapons/armor (isDurable??) and returning true instead?
-        switch (m) {
-        // Blocks
-        case SAPLING:
-        case LEAVES:
-        case LOG:
-        case WOOL:
-        case DOUBLE_STEP:
-        case STEP:
-        case SMOOTH_BRICK:
-
-        // Items
-        case COAL:
-        case INK_SACK:
-        case POTION:
-        case MAP:           // for some reason not indicated on http://www.minecraftwiki.net/wiki/Data_values
-        case MONSTER_EGGS:
-
-        // Materials not legitimately acquirable in inventory, but here for completeness
-        // (refer to Material enum, entries with MaterialData classes)
-        // See http://www.minecraftwiki.net/wiki/Data_values#Data for their data value usage
-
-        // Note that environmental data (age,orientation,etc.) on IDs used as both blocks
-        // but not required for items does NOT cause true to be returned here.
-        case WATER:                // item: WATER_BUCKET
-        case STATIONARY_WATER:
-        case LAVA:                 // item: LAVA_BUCKET
-        case STATIONARY_LAVA:
-        //case DISPENSER:          // orientation, but not relevant to item
-        case BED_BLOCK:            // item: BED
-        //case POWERED_RAIL:       // whether powered, but not relevant to item
-        //case DETECTOR_RAIL:      // whether detecting, but not relevant to item
-        case PISTON_STICKY_BASE:
-        case LONG_GRASS:           // TODO: http://www.minecraftwiki.net/wiki/Data_values#Tall_Grass, can enchanted tool acquire?
-        case PISTON_BASE:
-        case PISTON_EXTENSION:
-        //case TORCH:               // orientation, but not relevant to item
-        //case WOOD_STAIRS:         // orientation, but not relevant to item   
-        case REDSTONE_WIRE:         // item: REDSTONE
-        case CROPS:                 // item: SEEDS
-        case SOIL:                  // TODO: can silk touch acquire farmland?
-        //case FURNANCE:            // orientation, but not relevant to item
-        //case BURNING_FURNANCE:    // TODO: supposedly silk touch can acquire?
-        case SIGN_POST:             // item: SIGN
-        case WOODEN_DOOR:           // item: WOOD_DOOR (confusing!)
-        //case LADDER:              // orientation, but not relevant to item
-        //case RAILS:               // orientation, but not relevant to item 
-        //case COBBLESTONE_STAIRS:  // orientation, but not relevant to item
-        case WALL_SIGN:             // item: SIGN
-        //case LEVER:               // orientation & state, but not relevant to item
-        //case STONE_PLATE:         // state, but not relevant to item
-        case IRON_DOOR_BLOCK:       // item: IRON_DOOR
-        //case WOOD_PLATE:          // state, but not relevant to item
-        case REDSTONE_TORCH_OFF:  
-        //case REDSTONE_TORCH_ON:   // orientation, but not relevant to item
-        //case STONE_BUTTON:        // state, but not relevant to item
-        //case CACTUS:              // age, but not relevant to item
-        case SUGAR_CANE_BLOCK:      // item: 338
-        //case PUMPKIN:             // orientation, but not relevant to item
-        //case JACK_O_LATERN:       // orientation, but not relevant to item
-        case CAKE_BLOCK:            // item: CAKE
-        case DIODE_BLOCK_OFF:       // item: DIODE
-        case DIODE_BLOCK_ON:        // item: DIODE
-        //case TRAP_DOOR:           // orientation, but not relevant to type
-        //case ENDER_PORTAL_FRAME:    // TODO: has data, but no class in Bukkit? there are others
-            return true;
-
-        default:
-            return false;
-        }
-    }
-
-    public static boolean isTool(Material m) {
-        switch (m) {
-        case WOOD_PICKAXE:  case STONE_PICKAXE: case IRON_PICKAXE:  case GOLD_PICKAXE:  case DIAMOND_PICKAXE:
-        case WOOD_AXE:      case STONE_AXE:     case IRON_AXE:      case GOLD_AXE:      case DIAMOND_AXE:
-        case WOOD_SPADE:    case STONE_SPADE:   case IRON_SPADE:    case GOLD_SPADE:    case DIAMOND_SPADE:
-        case WOOD_HOE:      case STONE_HOE:     case IRON_HOE:      case GOLD_HOE:      case DIAMOND_HOE:
-        case FLINT_AND_STEEL:
-        case FISHING_ROD:
-            return true;
-        default:
-            return false;
-        }
-    }
-
-    public static boolean isWeapon(Material m) {
-        switch (m) {
-        case WOOD_SWORD:    case STONE_SWORD:   case IRON_SWORD:    case GOLD_SWORD: case DIAMOND_SWORD:
-        case BOW:
-            return true;
-        default:
-            return false;
-        }
-    }
-
-    public static boolean isArmor(Material m) {
-        switch (m) {
-        case LEATHER_BOOTS:     case IRON_BOOTS:      case GOLD_BOOTS:      case DIAMOND_BOOTS:
-        case LEATHER_LEGGINGS:  case IRON_LEGGINGS:   case GOLD_LEGGINGS:   case DIAMOND_LEGGINGS:
-        case LEATHER_CHESTPLATE:case IRON_CHESTPLATE: case GOLD_CHESTPLATE: case DIAMOND_CHESTPLATE:
-        case LEATHER_HELMET:    case IRON_HELMET:     case GOLD_HELMET:     case DIAMOND_HELMET:
-        // PUMPKIN is wearable on head, but isn't really armor, it doesn't take any damage
-            return true;
-        default:
-            return false;
-        }
-    }
-
 
 
     public static String nameStack(ItemStack itemStack) {
@@ -394,10 +290,10 @@ class ItemQuery
     
         name2CodeName = new ConcurrentHashMap<String, String>();
         codeName2Name = new ConcurrentHashMap<String, String>();
+        
+        isDurableMap = new ConcurrentHashMap<Material, Boolean>();
 
         for (String codeName: itemsSection.getKeys(false)) {
-            log.info("codeName="+codeName);
-
             String properName = config.getString("items." + codeName + ".name");
 
             String obtainString = config.getString("items." + codeName + ".obtain");
@@ -405,7 +301,6 @@ class ItemQuery
 
             // Add aliases from config
             List<String> aliases = config.getStringList("items." + codeName + ".aliases");
-            log.info("\taliases="+aliases);
             if (aliases != null) {
                 for (String alias: aliases) {
                     name2CodeName.put(alias, codeName);
@@ -416,7 +311,6 @@ class ItemQuery
             // Generate 'proper name' alias, preprocessed for lookup
             String smushedProperName = properName.replaceAll(" ","");
             String aliasProperName = smushedProperName.toLowerCase();
-            log.info("\tname="+properName);
             name2CodeName.put(aliasProperName, codeName);
             i += 1;
             codeName2Name.put(codeName, smushedProperName);
@@ -424,6 +318,15 @@ class ItemQuery
             // Generate numeric alias
             name2CodeName.put(codeName, codeName);
             i += 1;
+
+
+            // Whether loses durability when used or not
+            String purpose = config.getString("items." + codeName + ".purpose");
+            if (purpose != null && (purpose.equals("armor") || purpose.equals("tool") || purpose.equals("weapon"))) {
+                Material material = codeName2ItemStack(codeName).getType();
+                isDurableMap.put(material, new Boolean(true));
+            }
+
         }
         log.info("Loaded " + i + " item aliases");
 
