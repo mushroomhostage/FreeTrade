@@ -28,7 +28,7 @@ import info.somethingodd.bukkit.OddItem.OddItem;
 
 enum Obtainability 
 { 
-    NORMAL, SILKTOUCH, CREATIVE, HACKING 
+    NORMAL, SILKTOUCH, CREATIVE, HACKING, NEVER
 };
 
 class ItemQuery
@@ -296,9 +296,6 @@ class ItemQuery
         for (String codeName: itemsSection.getKeys(false)) {
             String properName = config.getString("items." + codeName + ".name");
 
-            String obtainString = config.getString("items." + codeName + ".obtain");
-            log.info("\tobtain="+obtainString);
-
             // Add aliases from config
             List<String> aliases = config.getStringList("items." + codeName + ".aliases");
             if (aliases != null) {
@@ -320,12 +317,16 @@ class ItemQuery
             i += 1;
 
 
-            // Whether loses durability when used or not
+            // Whether loses durability when used or not (include in trades)
             String purpose = config.getString("items." + codeName + ".purpose");
             if (purpose != null && (purpose.equals("armor") || purpose.equals("tool") || purpose.equals("weapon"))) {
                 Material material = codeName2ItemStack(codeName).getType();
                 isDurableMap.put(material, new Boolean(true));
             }
+
+            String obtainString = config.getString("items." + codeName + ".obtain");
+            Obtainability obtain = (obtainString == null) ? Obtainability. NORMAL : Obtainability.valueOf(obtainString.toUpperCase());
+            log.info("obtain="+obtain);
 
         }
         log.info("Loaded " + i + " item aliases");
