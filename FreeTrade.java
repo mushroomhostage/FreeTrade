@@ -321,15 +321,15 @@ class ItemQuery
 
         // Find canonical name of item
         String codeName;
-        if (isDurable(m)) {
-            // durable items don't have unique names for each durability
-            codeName = itemStack.getTypeId() + "";
-        } else {
+
+        codeName = itemStack.getTypeId() + "";
+        name = codeName2Name.get(codeName);
+        if (name == null) {
             // durability here actually is overloaded to mean a different item
             codeName = itemStack.getTypeId() + ";" + itemStack.getDurability();
+            name = codeName2Name.get(codeName);
         }
 
-        name = codeName2Name.get(codeName);
         if (name == null) {
             name = "unknown="+codeName;
         }
