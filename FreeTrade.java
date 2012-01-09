@@ -802,8 +802,16 @@ class Market
     }
 
     public void placeOrder(Order order) {
+
+        if (!order.player.hasPermission("freetrade.trade")) {
+            throw new UsageException("You are not allowed to trade");
+        }
+
         if (order.free) {
-            // TODO: permissions
+            if (!order.player.hasPermission("freetrade.conjure")) {
+                throw new UsageException("You must specify what you want to trade for");
+            }
+
             order.player.getInventory().addItem(order.want);
             return;
         }
@@ -936,7 +944,7 @@ class Market
 public class FreeTrade extends JavaPlugin {
     Logger log = Logger.getLogger("Minecraft");
     Market market = new Market();
-    boolean allowShortFormNothing = false;
+    YamlConfiguration config;
 
     public void onEnable() {
         loadConfig();
@@ -957,7 +965,7 @@ public class FreeTrade extends JavaPlugin {
             }
         }
 
-        YamlConfiguration config = YamlConfiguration.loadConfiguration(new File(filename));
+        config = YamlConfiguration.loadConfiguration(new File(filename));
         if (config == null) {
             throw new UsageException("Failed to load configuration file " + filename);
         }
@@ -965,7 +973,6 @@ public class FreeTrade extends JavaPlugin {
             throw new UsageException("Configuration file version is outdated");
         }
 
-        allowShortFormNothing = config.getBoolean("allowShortForm", false);
 
 
         ItemQuery.loadConfig(config);
@@ -1041,8 +1048,8 @@ public class FreeTrade extends JavaPlugin {
         String wantString, giveString;
         wantString = args[n];
 
-        if (allowShortFormNothing && args.length < 2+n) {
-            // Ommited last arg, short form
+        if (args.length < 2+n) {
+            // Omitted last arg, short form
             giveString = "nothing";
         } else {
             if (args[n+1].equalsIgnoreCase("for")) {
@@ -1056,14 +1063,14 @@ public class FreeTrade extends JavaPlugin {
 
         try {
             order = new Order(player, wantString, giveString);
+
+            sender.sendMessage(order.toString());
+            market.placeOrder(order);
         } catch (UsageException e) {
             log.info("Sending usage exception: " + player.getDisplayName() + " - " + e );
             player.sendMessage(e.getMessage());
             return false;
         } 
-
-        sender.sendMessage(order.toString());
-        market.placeOrder(order);
 
         return true;
     }

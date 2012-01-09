@@ -5,6 +5,18 @@ commands:
     want:
         description: Place an order for an item you want
         #permission: freetrade.want
-        usage: /want [item you want] for [item you will give in return]
+        aliases: w
+        usage: /<command> [item you want] for [item you will give in return]
 softdepend: [OddItem]
-foo: bar
+permissions:
+    freetrade.*:
+        children:
+            freetrade.trade: true
+            freetrade.conjure: false
+        default: true
+    freetrade.trade:
+        description: Allows you to trade with other players
+        default: true
+    freetrade.conjure:
+        description: Allows you to create items out of thin air
+        default: false

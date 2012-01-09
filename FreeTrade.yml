@@ -1,4 +1,7 @@
 version: 1
+tradeableCategories: [normal, silktouch, creative]
+tradeableWhitelist: []
+tradeableBlacklist: []
 enchants:
     # Armor
     '0':
@@ -673,7 +676,7 @@ items:
         - fallensnow
         obtain: hacking
     '79':
-        name: ice
+        name: Ice
         aliases: 
         obtain: creative
     '80':
