@@ -299,51 +299,14 @@ class ItemQuery
         }
 
         // Same enchantments
-        Map<Enchantment,Integer> enchsA = a.getEnchantments();
-        Iterator it = enchsA.entrySet().iterator();
-        log.info("isIdenticalItem? comparing enchs of "+nameStack(a)+" vs "+nameStack(b));
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
+        // Compare by name to avoid complex duplicate enchantment traversing code
+        String enchNameA = EnchantQuery.nameEnchs(a.getEnchantments());
+        String enchNameB = EnchantQuery.nameEnchs(b.getEnchantments());
 
-            Enchantment enchA = (Enchantment)pair.getKey();
-            int levelA = ((Integer)pair.getValue()).intValue();
-
-            log.info("iii? a has "+EnchantQuery.enchName(EnchantQuery.wrapEnch(enchA)) + " level " + levelA);
-
-            int levelB = b.getEnchantmentLevel(enchA);
-
-            log.info("iii? b  has "+levelB);
-
-            if (levelB != levelA) {
-                log.info("nope");
-                return false;
-            }
+        if (!enchNameA.equals(enchNameB)) {
+            return false;
         }
 
-        
-        Map<Enchantment,Integer> enchsB = a.getEnchantments();
-        it = enchsB.entrySet().iterator();
-        log.info("isIdenticalItem? comparing enchs of "+nameStack(b)+" vs "+nameStack(a));
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-
-            Enchantment enchB = (Enchantment)pair.getKey();
-            int levelB = ((Integer)pair.getValue()).intValue();
-
-            log.info("iii? b has "+EnchantQuery.enchName(EnchantQuery.wrapEnch(enchB)) + " level " + levelB);
-
-            int levelA = a.getEnchantmentLevel(enchB);
-
-            log.info("iii? b  has "+levelA);
-
-            if (levelA != levelB) {
-                log.info("nope");
-                return false;
-            }
-        }
-
-
-        log.info("yup");
         return true;
     }
 
@@ -570,7 +533,7 @@ class EnchantQuery
             EnchantmentWrapper ench = wrapEnch(pair.getKey());
             Integer level = (Integer)pair.getValue();
 
-            names.append(enchName(ench));
+            names.append(nameEnch(ench));
             names.append(levelToString(level));
             names.append(","); 
         }
@@ -615,7 +578,7 @@ class EnchantQuery
         throw new UsageException("Unrecognized enchantment: " + name);
     }
 
-    static String enchName(EnchantmentWrapper ench) {
+    static String nameEnch(EnchantmentWrapper ench) {
         String name = code2Name.get(ench);
         if (name != null) {
             return name;
@@ -663,7 +626,7 @@ class EnchantQuery
             int levelB = ((Integer)pair.getValue()).intValue();
 
             if (!itemA.containsEnchantment(Enchantment.getById(enchB.getId()))) {
-                log.info("Missing enchantment " + enchName(enchB) + " not on " + itemA + " (doesn't match " + itemB + ")");
+                log.info("Missing enchantment " + nameEnch(enchB) + " not on " + itemA + " (doesn't match " + itemB + ")");
                 return false;
             }
 
