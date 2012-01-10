@@ -1279,6 +1279,8 @@ items:
         - chainhelm
         - chelm
         - chelmet
+        - ccap
+        - chat
         obtain: creative
     '303':
         name: Chain Chestplate
@@ -1311,6 +1313,8 @@ items:
         - ihelm
         - ihelmet
         - ironhelm
+        - icap
+        - ihat
     '307':
         name: Iron Chestplate
         purpose: armor
@@ -1340,6 +1344,9 @@ items:
         - dhelm
         - dhelmet
         - diamondhelm
+        - dcap
+        - dhat
+        - dh
     '311':
         name: Diamond Chestplate
         purpose: armor
@@ -1348,6 +1355,7 @@ items:
         - diamondchest
         - diamondshirt
         - dshirt
+        - dc
     '312':
         name: Diamond Leggings
         purpose: armor
@@ -1356,6 +1364,7 @@ items:
         - dleggings
         - dlegging
         - dpants
+        - dl
     '313':
         name: Diamond Boots
         purpose: armor
@@ -1363,6 +1372,7 @@ items:
         - dboots
         - diamondshoes
         - dshoes
+        - db
     '314':
         name: Gold Helmet
         purpose: armor
