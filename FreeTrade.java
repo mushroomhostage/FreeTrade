@@ -868,9 +868,17 @@ class Market
         int remaining = items.getAmount();
 
         // Get maximum size per stack, then add individually
-        int stackSize = Math.abs(items.getType().getMaxStackSize());
-        // Surprisingly, this always returns -1, see http://forums.bukkit.org/threads/getmaxstacksize-always-return-1.1154/#post-13147
-        //int stackSize = Math.abs(items.getMaxStackSize());
+        // Prevents non-stackable items (potions, signs, boats, etc.) and semi-stackable
+        // (enderpearls, eggs, snowballs, etc.) from being stacked to 64
+        int stackSize;
+
+        if (player.hasPermission("freetrade.bigstacks")) {
+            stackSize = remaining;
+        } else {
+            stackSize = Math.abs(items.getType().getMaxStackSize());
+            // Surprisingly, this always returns -1, see http://forums.bukkit.org/threads/getmaxstacksize-always-return-1.1154/#post-13147
+            //int stackSize = Math.abs(items.getMaxStackSize());
+        }
 
         do
         {
@@ -884,13 +892,8 @@ class Market
                 remaining = 0;
             }
        
-            log.info("add stack "+oneStack.getAmount());
             player.getInventory().addItem(oneStack);
         } while (remaining > 0);
-
-
-        // TODO: important: un-stack items. This lets you stack potions, tools, signs, boats, etc., should not.
-        // TODO: permissions, configurable to selectively enable stacked trading
 
         // TODO: if player is full, naturallyDropItems()
     }

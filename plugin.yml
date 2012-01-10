@@ -12,11 +12,12 @@ permissions:
     freetrade.*:
         children:
             freetrade.trade: true
-            freetrade.conjure: true
+            freetrade.conjure: false
+            freetrade.bigstacks: false
         default: true
     freetrade.trade:
         description: Allows you to trade with other players
-        default: true
     freetrade.conjure:
         description: Allows you to create items out of thin air
-        default: false
+    freetrade.bigstacks:
+        description: Allows you to stack items in any amount
