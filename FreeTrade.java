@@ -735,23 +735,6 @@ class Market
 
         sender.sendMessage("To add or fulfill an order:");
 
-        // test removing 
-        if (sender instanceof Player) {
-            Player player = (Player)sender;
-            PlayerInventory inv = player.getInventory();
-
-            sender.sendMessage("inv="+inv);
-
-            ItemStack[] contents = inv.getContents();
-            for (ItemStack slot: contents) {
-                if (slot != null)  {
-                    sender.sendMessage("slot="+ItemQuery.nameStack(slot));
-                    slot.setAmount(slot.getAmount() - 1);
-                }
-            }
-
-        }
-
         return false;
     }
 
@@ -826,20 +809,15 @@ class Market
 
         for (ItemStack slot: inventory) {
             if (ItemQuery.isIdenticalItem(slot, goners)) {
-                log.info("old slot="+slot.getAmount());
                 if (remaining > slot.getAmount()) {
                     remaining -= slot.getAmount();
                     slot.setAmount(0);
-                    // TODO: fix, no effect.. player.getInventory().clear(i);
                 } else if (remaining > 0) {
                     slot.setAmount(slot.getAmount() - remaining);
-                    // TODO: set partial
                     remaining = 0;
                 } else {
                     slot.setAmount(0);
-                    // TODO: fix, no effect.. player.getInventory().clear(i);
                 }
-                log.info("new slot="+slot.getAmount());
 
                 // If removed whole slot, need to explicitly clear it
                 // ItemStacks with amounts of 0 are interpreted as 1 (possible Bukkit bug?)
