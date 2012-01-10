@@ -12,7 +12,7 @@ permissions:
     freetrade.*:
         children:
             freetrade.trade: true
-            freetrade.conjure: false
+            freetrade.conjure: true
         default: true
     freetrade.trade:
         description: Allows you to trade with other players

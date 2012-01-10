@@ -298,6 +298,7 @@ class ItemQuery
             return false;
         }
 
+        // XXX: This is broken
         // Same enchantments
         Map<Enchantment,Integer> enchsA = a.getEnchantments();
         Iterator it = enchsA.entrySet().iterator();
@@ -486,7 +487,8 @@ class EnchantQuery
 
             // Odd, what's the point of having a separate 'wrapper' class?
             // Either way, it has useful methods for us
-            EnchantmentWrapper enchWrapper = new EnchantmentWrapper(ench.getId());
+            //EnchantmentWrapper enchWrapper = new EnchantmentWrapper(ench.getId());
+            EnchantmentWrapper enchWrapper = wrapEnch(ench);
 
             if (level > enchWrapper.getMaxLevel()) {
                 level = ench.getMaxLevel();
@@ -504,7 +506,7 @@ class EnchantQuery
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
 
-            EnchantmentWrapper ench = (EnchantmentWrapper)pair.getKey();
+            EnchantmentWrapper ench = wrapEnch(pair.getKey());
             Integer level = (Integer)pair.getValue();
 
             if (!ench.canEnchantItem(item)) {
@@ -532,7 +534,9 @@ class EnchantQuery
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
 
-            EnchantmentWrapper ench = (EnchantmentWrapper)pair.getKey();
+            Object obj = pair.getKey();
+
+            EnchantmentWrapper ench = wrapEnch(pair.getKey());
             Integer level = (Integer)pair.getValue();
 
             names.append(enchName(ench));
@@ -548,6 +552,20 @@ class EnchantQuery
 
         return names.toString();
     }
+
+    // Get an EnchantmentWrapper from either an EnchantmentWrapper or Enchantment
+    // Not sure why Bukkit chose to have two classes, but EnchantmentWrapper is more functional
+    public static EnchantmentWrapper wrapEnch(Object obj) {
+        if (obj instanceof EnchantmentWrapper) {
+            return (EnchantmentWrapper)obj;
+        }
+
+        Enchantment ench = (Enchantment)obj;
+
+        return new EnchantmentWrapper(ench.getId());
+    }
+
+
 
     static Enchantment enchFromBaseName(String name) {
         // Built-in config file database..
