@@ -868,10 +868,9 @@ class Market
         int remaining = items.getAmount();
 
         // Get maximum size per stack, then add individually
-        // If Bukkit doesn't know, it'll return -1, which we Abs to 1
-        // For some reason, it doesn't know eggs, enderpearls, snowballs, cobble (actually, anything!)
-        // But it works anyways, since addItem() will stack in the inventory
-        int stackSize = Math.abs(items.getMaxStackSize());
+        int stackSize = Math.abs(items.getType().getMaxStackSize());
+        // Surprisingly, this always returns -1, see http://forums.bukkit.org/threads/getmaxstacksize-always-return-1.1154/#post-13147
+        //int stackSize = Math.abs(items.getMaxStackSize());
 
         do
         {
