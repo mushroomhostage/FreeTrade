@@ -202,7 +202,7 @@ class ItemQuery
 
 
     public static String nameStack(ItemStack itemStack) {
-        if (itemStack == null) {
+        if (isNothing(itemStack)) {
             return "nothing";
         }
 
@@ -418,6 +418,9 @@ class ItemQuery
         return true;
     }
 
+    public static boolean isNothing(ItemStack itemStack) {
+        return itemStack == null || itemStack.getType() == Material.AIR;
+    }
 }
 
 class EnchantQuery
@@ -644,13 +647,7 @@ class Order
 
         want = (new ItemQuery(wantString, p)).itemStack;
 
-        if (giveString.equals("nothing") || giveString.equals("-")) {
-            // TODO: permissions
-            free = true;
-            give = null;
-        } else {
-            give = (new ItemQuery(giveString, p)).itemStack;
-        }
+        give = (new ItemQuery(giveString, p)).itemStack;
     }
 
     public Order(Player p, ItemStack w, ItemStack g, boolean e) {
@@ -714,7 +711,7 @@ class Market
             throw new UsageException("You are not allowed to trade");
         }
 
-        if (order.free) {
+        if (ItemQuery.isNothing(order.give)) {
             if (!order.player.hasPermission("freetrade.conjure")) {
                 throw new UsageException("You must specify what you want to trade for");
             }
@@ -733,6 +730,59 @@ class Market
         Bukkit.getServer().broadcastMessage("Wanted: " + order);
         orders.add(order);
     }
+
+    // TODO
+    public static void transferItems(Player fromPlayer, Player toPlayer, ItemStack items) {
+    }
+
+    // Remove items from player's inventory, return # of items player had < amount
+    // Based on OddItem
+    public static int takeItems(Player player, ItemStack goners) {
+        ItemStack[] inventory = player.getInventory().getContents();
+
+        int remaining = goners.getAmount();
+
+        for (ItemStack slot: inventory) {
+            // TODO: durability
+            // TODO: enchantments
+            if (ItemQuery.isSameType(slot, goners)) {
+                if (remaining > slot.getAmount()) {
+                    remaining -= slot.getAmount();
+                    slot.setAmount(0);
+                } else if (remaining > 0) {
+                    slot.setAmount(slot.getAmount() - remaining);
+                    remaining = 0;
+                } else {
+                    slot.setAmount(0);
+                }
+            }
+
+            if (remaining == 0) {
+                break;
+            }
+        }
+        return remaining;
+    }
+
+    // Return whether player has at least the items in the stack
+    public static boolean hasItems(Player player, ItemStack items) {
+        ItemStack[] inventory = player.getInventory().getContents();
+
+        int remaining = items.getAmount();
+
+        for (ItemStack slot: inventory) {
+            if (ItemQuery.isSameType(slot, items)) {
+
+                // TODO: durability
+                // TODO: enchantments
+                remaining -= slot.getAmount();
+            }
+        }
+        
+        return remaining <= 0;
+    }
+
+
 
     public boolean matchOrder(Order newOrder) {
         for (int i = 0; i < orders.size(); i++) {
@@ -796,9 +846,8 @@ class Market
             log.info("remaining want="+remainingWant+", give="+remainingGive);
 
             // They get what they want!
-            // TODO: ensure contains() before removing, critical!
 
-            // Calculate amount exchanged
+            // Calculate amount that can be exchanged
             ItemStack exchWant = new ItemStack(oldOrder.want.getType(), Math.min(oldOrder.want.getAmount(), newOrder.give.getAmount()), newOrder.give.getDurability());
             ItemStack exchGive = new ItemStack(oldOrder.give.getType(), Math.min(oldOrder.give.getAmount(), newOrder.want.getAmount()), oldOrder.give.getDurability());
 
@@ -807,6 +856,8 @@ class Market
 
             log.info("exchWant="+ItemQuery.nameStack(exchWant));
             log.info("exchGive="+ItemQuery.nameStack(exchGive));
+
+            // TODO: ensure contains() before removing, critical!
 
             oldOrder.player.getInventory().addItem(exchWant);
             newOrder.player.getInventory().remove(exchWant);
@@ -962,8 +1013,8 @@ public class FreeTrade extends JavaPlugin {
         wantString = args[n];
 
         if (args.length < 2+n) {
-            // Omitted last arg, short form
-            giveString = "nothing";
+            // Omitted last arg, use item in hand
+            giveString = "this";
         } else {
             if (args[n+1].equalsIgnoreCase("for")) {
                 giveString = args[n+2];
