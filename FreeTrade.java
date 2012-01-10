@@ -298,21 +298,52 @@ class ItemQuery
             return false;
         }
 
-        // XXX: This is broken
         // Same enchantments
         Map<Enchantment,Integer> enchsA = a.getEnchantments();
         Iterator it = enchsA.entrySet().iterator();
+        log.info("isIdenticalItem? comparing enchs of "+nameStack(a)+" vs "+nameStack(b));
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
 
             Enchantment enchA = (Enchantment)pair.getKey();
-            int level = ((Integer)pair.getValue()).intValue();
+            int levelA = ((Integer)pair.getValue()).intValue();
 
-            if (b.getEnchantmentLevel(enchA) != level) {
+            log.info("iii? a has "+EnchantQuery.enchName(EnchantQuery.wrapEnch(enchA)) + " level " + levelA);
+
+            int levelB = b.getEnchantmentLevel(enchA);
+
+            log.info("iii? b  has "+levelB);
+
+            if (levelB != levelA) {
+                log.info("nope");
                 return false;
             }
         }
 
+        
+        Map<Enchantment,Integer> enchsB = a.getEnchantments();
+        it = enchsB.entrySet().iterator();
+        log.info("isIdenticalItem? comparing enchs of "+nameStack(b)+" vs "+nameStack(a));
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+
+            Enchantment enchB = (Enchantment)pair.getKey();
+            int levelB = ((Integer)pair.getValue()).intValue();
+
+            log.info("iii? b has "+EnchantQuery.enchName(EnchantQuery.wrapEnch(enchB)) + " level " + levelB);
+
+            int levelA = a.getEnchantmentLevel(enchB);
+
+            log.info("iii? b  has "+levelA);
+
+            if (levelA != levelB) {
+                log.info("nope");
+                return false;
+            }
+        }
+
+
+        log.info("yup");
         return true;
     }
 
