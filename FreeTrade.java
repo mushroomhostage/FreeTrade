@@ -284,6 +284,13 @@ class ItemQuery
     // Return whether two item stacks are identical - except for amount!
     // Compares type, durability, enchantments
     public static boolean isIdenticalItem(ItemStack a, ItemStack b) {
+        if (a == null || b == null) {
+            return false;
+        }
+        if (a == null && b == null) {
+            return true;
+        }
+
         if (a.getType() != b.getType()) {
             return false;
         }
@@ -760,11 +767,27 @@ class Market
         orders.add(order);
     }
 
-    // TODO
+    // Transfer items from one player to another
     public static void transferItems(Player fromPlayer, Player toPlayer, ItemStack items) {
+        int missing = takeItems(fromPlayer, items);
+
+        if (missing > 0) {
+            // TODO: try to prevent this from happening, by watching inventory changes, player death, etc
+            throw new UsageException("Player " + fromPlayer.getDisplayName() + " doesn't have " + ItemQuery.nameStack(items) + ", missing " + missing);
+            // TODO: also, detect earlier and cancel order
+            // TODO: and, make atomic.., roll back items
+        }
+
+        recvItems(toPlayer, items);
+
+        // How did the items transport themselves between the players? Magic, as indicated by smoke.
+        toPlayer.playEffect(toPlayer.getLocation(), Effect.SMOKE, 0);
+
+        Bukkit.getServer().broadcastMessage(toPlayer.getDisplayName() + " received " + 
+            ItemQuery.nameStack(items) + " from " + fromPlayer.getDisplayName());
     }
 
-    // Remove items from player's inventory, return # of items player had < amount
+    // Remove items from player's inventory, return # of items player had < amount (insufficient items)
     // Based on OddItem
     public static int takeItems(Player player, ItemStack goners) {
         ItemStack[] inventory = player.getInventory().getContents();
@@ -798,10 +821,7 @@ class Market
         int remaining = items.getAmount();
 
         for (ItemStack slot: inventory) {
-            if (ItemQuery.isSameType(slot, items)) {
-
-                // TODO: durability
-                // TODO: enchantments
+            if (ItemQuery.isIdenticalItem(slot, items)) {
                 remaining -= slot.getAmount();
             }
         }
@@ -809,6 +829,15 @@ class Market
         return remaining <= 0;
     }
 
+    // Have a player receive items in their inventory
+    public static void recvItems(Player player, ItemStack items) {
+        player.getInventory().addItem(items);
+
+        // TODO: important: un-stack items. This lets you stack potions, tools, signs, boats, etc., should not.
+        // TODO: permissions, configurable to selectively enable stacked trading
+
+        // TODO: if player is full, naturallyDropItems()
+    }
 
 
     public boolean matchOrder(Order newOrder) {
@@ -877,15 +906,16 @@ class Market
             // Calculate amount that can be exchanged
             ItemStack exchWant = new ItemStack(oldOrder.want.getType(), Math.min(oldOrder.want.getAmount(), newOrder.give.getAmount()), newOrder.give.getDurability());
             ItemStack exchGive = new ItemStack(oldOrder.give.getType(), Math.min(oldOrder.give.getAmount(), newOrder.want.getAmount()), oldOrder.give.getDurability());
-
             exchWant.addEnchantments(newOrder.give.getEnchantments());
             exchGive.addEnchantments(oldOrder.give.getEnchantments());
 
             log.info("exchWant="+ItemQuery.nameStack(exchWant));
             log.info("exchGive="+ItemQuery.nameStack(exchGive));
 
-            // TODO: ensure contains() before removing, critical!
+            transferItems(newOrder.player, oldOrder.player, exchWant);
+            transferItems(oldOrder.player, newOrder.player, exchGive);
 
+            /*
             oldOrder.player.getInventory().addItem(exchWant);
             newOrder.player.getInventory().remove(exchWant);
             Bukkit.getServer().broadcastMessage(oldOrder.player.getDisplayName() + " received " + 
@@ -895,13 +925,9 @@ class Market
             oldOrder.player.getInventory().remove(exchGive);
             Bukkit.getServer().broadcastMessage(newOrder.player.getDisplayName() + " received " + 
                 ItemQuery.nameStack(exchGive) + " from " + oldOrder.player.getDisplayName());
+            */
 
-            // TODO: if item received doesn't fit in inventory, drop on ground
-
-            // How did the items transport themselves between the players? Magic, as indicated by smoke.
-            oldOrder.player.playEffect(oldOrder.player.getLocation(), Effect.SMOKE, 0);
-            newOrder.player.playEffect(newOrder.player.getLocation(), Effect.SMOKE, 0);
-    
+   
     
             // Remove oldOrder from orders, if complete, or add partial if incomplete
             if (remainingWant == 0) {
