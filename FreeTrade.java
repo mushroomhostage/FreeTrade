@@ -281,6 +281,35 @@ class ItemQuery
         return a.getDurability() == b.getDurability();
     }
 
+    // Return whether two item stacks are identical - except for amount!
+    // Compares type, durability, enchantments
+    public static boolean isIdenticalItem(ItemStack a, ItemStack b) {
+        if (a.getType() != b.getType()) {
+            return false;
+        }
+
+        // Same subtype -or- durability for tools
+        if (a.getDurability() != b.getDurability()) {
+            return false;
+        }
+
+        // Same enchantments
+        Map<Enchantment,Integer> enchsA = a.getEnchantments();
+        Iterator it = enchsA.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+
+            Enchantment enchA = (Enchantment)pair.getKey();
+            int level = ((Integer)pair.getValue()).intValue();
+
+            if (b.getEnchantmentLevel(enchA) != level) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 
     // Configuration
 
@@ -743,9 +772,7 @@ class Market
         int remaining = goners.getAmount();
 
         for (ItemStack slot: inventory) {
-            // TODO: durability
-            // TODO: enchantments
-            if (ItemQuery.isSameType(slot, goners)) {
+            if (ItemQuery.isIdenticalItem(slot, goners)) {
                 if (remaining > slot.getAmount()) {
                     remaining -= slot.getAmount();
                     slot.setAmount(0);
