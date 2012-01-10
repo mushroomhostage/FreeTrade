@@ -12,7 +12,7 @@ permissions:
     freetrade.*:
         children:
             freetrade.trade: true
-            freetrade.conjure: false
+            freetrade.conjure: true
             freetrade.bigstacks: false
         default: true
     freetrade.trade:

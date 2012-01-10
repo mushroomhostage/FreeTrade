@@ -892,10 +892,19 @@ class Market
                 remaining = 0;
             }
        
-            player.getInventory().addItem(oneStack);
-        } while (remaining > 0);
+            HashMap<Integer,ItemStack> excess = player.getInventory().addItem(oneStack);
 
-        // TODO: if player is full, naturallyDropItems()
+            // If player's inventory if full, drop excess items on the floor
+            Iterator it = excess.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry pair = (Map.Entry)it.next();
+
+                int unknown = ((Integer)pair.getKey()).intValue(); // hmm? always 0
+                ItemStack excessItems = (ItemStack)pair.getValue();
+
+                player.getWorld().dropItemNaturally(player.getLocation(), excessItems);
+            }
+        } while (remaining > 0);
     }
 
 
