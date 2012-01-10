@@ -761,7 +761,7 @@ class Market
                 throw new UsageException("You must specify or select what you want to trade for");
             }
 
-            order.player.getInventory().addItem(order.want);
+            recvItems(order.player, order.want);
             return;
         }
 
@@ -865,7 +865,30 @@ class Market
 
     // Have a player receive items in their inventory
     public static void recvItems(Player player, ItemStack items) {
-        player.getInventory().addItem(items);
+        int remaining = items.getAmount();
+
+        // Get maximum size per stack, then add individually
+        // If Bukkit doesn't know, it'll return -1, which we Abs to 1
+        // For some reason, it doesn't know eggs, enderpearls, snowballs, cobble (actually, anything!)
+        // But it works anyways, since addItem() will stack in the inventory
+        int stackSize = Math.abs(items.getMaxStackSize());
+
+        do
+        {
+            ItemStack oneStack = items.clone();
+
+            if (remaining > stackSize) {
+                oneStack.setAmount(stackSize);
+                remaining -= stackSize;
+            } else {
+                oneStack.setAmount(remaining);
+                remaining = 0;
+            }
+       
+            log.info("add stack "+oneStack.getAmount());
+            player.getInventory().addItem(oneStack);
+        } while (remaining > 0);
+
 
         // TODO: important: un-stack items. This lets you stack potions, tools, signs, boats, etc., should not.
         // TODO: permissions, configurable to selectively enable stacked trading
