@@ -735,6 +735,23 @@ class Market
 
         sender.sendMessage("To add or fulfill an order:");
 
+        // test removing 
+        if (sender instanceof Player) {
+            Player player = (Player)sender;
+            PlayerInventory inv = player.getInventory();
+
+            sender.sendMessage("inv="+inv);
+
+            ItemStack[] contents = inv.getContents();
+            for (ItemStack slot: contents) {
+                if (slot != null)  {
+                    sender.sendMessage("slot="+ItemQuery.nameStack(slot));
+                    slot.setAmount(slot.getAmount() - 1);
+                }
+            }
+
+        }
+
         return false;
     }
 
@@ -823,8 +840,12 @@ class Market
                     // TODO: fix, no effect.. player.getInventory().clear(i);
                 }
                 log.info("new slot="+slot.getAmount());
-                // TODO: this works, but crashes the server afterwards, why?
-                //player.getInventory().setItem(i, slot);
+
+                // If removed whole slot, need to explicitly clear it
+                // ItemStacks with amounts of 0 are interpreted as 1 (possible Bukkit bug?)
+                if (slot.getAmount() == 0) {
+                    player.getInventory().clear(i);
+                }
             }
 
             i += 1;
@@ -833,11 +854,6 @@ class Market
                 break;
             }
         }
-
-        player.saveData();
-        player.loadData();
-
-        player.updateInventory();
 
         return remaining;
     }
