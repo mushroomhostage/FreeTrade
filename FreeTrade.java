@@ -69,8 +69,6 @@ class ItemQuery
         String usesString = m.group(5);
         String enchString = m.group(6);
 
-        log.info("q="+quantityString+", name="+nameString);
-
         if (quantityString.equals("")) {
             quantity = 1;
         } else {
@@ -682,7 +680,6 @@ class Order
         }
 
         want = (new ItemQuery(wantString, p)).itemStack;
-
         give = (new ItemQuery(giveString, p)).itemStack;
     }
 
@@ -722,7 +719,7 @@ class UsageException extends RuntimeException
 class Market
 {
     List<Order> orders;
-    Logger log = Logger.getLogger("Minecraft");
+    static Logger log = Logger.getLogger("Minecraft");
 
     public Market() {
         // TODO: load from file, save to file
@@ -749,11 +746,15 @@ class Market
 
         if (ItemQuery.isNothing(order.give)) {
             if (!order.player.hasPermission("freetrade.conjure")) {
-                throw new UsageException("You must specify what you want to trade for");
+                throw new UsageException("You must specify or select what you want to trade for");
             }
 
             order.player.getInventory().addItem(order.want);
             return;
+        }
+
+        if (!hasItems(order.player, order.give)) {
+            throw new UsageException("You don't have " + ItemQuery.nameStack(order.give) + " to give");
         }
 
         if (matchOrder(order)) {
@@ -769,13 +770,21 @@ class Market
 
     // Transfer items from one player to another
     public static void transferItems(Player fromPlayer, Player toPlayer, ItemStack items) {
+        if (!hasItems(fromPlayer, items)) {
+            throw new UsageException("Player " + fromPlayer.getDisplayName() + " doesn't have " + ItemQuery.nameStack(items));
+        }
+
         int missing = takeItems(fromPlayer, items);
 
         if (missing > 0) {
+            // Rollback order
+            // TODO: verify
+            items.setAmount(items.getAmount() - missing);
+            recvItems(fromPlayer, items);
+
             // TODO: try to prevent this from happening, by watching inventory changes, player death, etc
-            throw new UsageException("Player " + fromPlayer.getDisplayName() + " doesn't have " + ItemQuery.nameStack(items) + ", missing " + missing);
+            throw new UsageException("Player " + fromPlayer.getDisplayName() + " doesn't have enough " + ItemQuery.nameStack(items) + ", missing " + missing + ", reverted");
             // TODO: also, detect earlier and cancel order
-            // TODO: and, make atomic.., roll back items
         }
 
         recvItems(toPlayer, items);
@@ -793,19 +802,29 @@ class Market
         ItemStack[] inventory = player.getInventory().getContents();
 
         int remaining = goners.getAmount();
+        int i = 0;
 
         for (ItemStack slot: inventory) {
             if (ItemQuery.isIdenticalItem(slot, goners)) {
+                log.info("old slot="+slot.getAmount());
                 if (remaining > slot.getAmount()) {
                     remaining -= slot.getAmount();
                     slot.setAmount(0);
+                    // TODO: fix, no effect.. player.getInventory().clear(i);
                 } else if (remaining > 0) {
                     slot.setAmount(slot.getAmount() - remaining);
+                    // TODO: set partial
                     remaining = 0;
                 } else {
                     slot.setAmount(0);
+                    // TODO: fix, no effect.. player.getInventory().clear(i);
                 }
+                log.info("new slot="+slot.getAmount());
+                // TODO: this works, but crashes the server afterwards, why?
+                player.getInventory().setItem(i, slot);
             }
+
+            i += 1;
 
             if (remaining == 0) {
                 break;
