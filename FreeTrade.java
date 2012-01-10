@@ -799,6 +799,9 @@ class Market
     // Remove items from player's inventory, return # of items player had < amount (insufficient items)
     // Based on OddItem
     public static int takeItems(Player player, ItemStack goners) {
+
+        player.saveData();
+
         ItemStack[] inventory = player.getInventory().getContents();
 
         int remaining = goners.getAmount();
@@ -821,7 +824,7 @@ class Market
                 }
                 log.info("new slot="+slot.getAmount());
                 // TODO: this works, but crashes the server afterwards, why?
-                player.getInventory().setItem(i, slot);
+                //player.getInventory().setItem(i, slot);
             }
 
             i += 1;
@@ -830,6 +833,12 @@ class Market
                 break;
             }
         }
+
+        player.saveData();
+        player.loadData();
+
+        player.updateInventory();
+
         return remaining;
     }
 
