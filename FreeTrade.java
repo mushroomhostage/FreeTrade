@@ -24,6 +24,8 @@ import org.bukkit.inventory.*;
 import org.bukkit.enchantments.*;
 import org.bukkit.configuration.*;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.player.*;
+import org.bukkit.event.*;
 import org.bukkit.*;
 
 import info.somethingodd.bukkit.OddItem.OddItem;
@@ -816,7 +818,6 @@ class Market
     }
 
     public void placeOrder(Order order) {
-
         if (!order.player.hasPermission("freetrade.trade")) {
             throw new UsageException("You are not allowed to trade");
         }
@@ -833,6 +834,8 @@ class Market
         if (!hasItems(order.player, order.give)) {
             throw new UsageException("You don't have " + ItemQuery.nameStack(order.give) + " to give");
         }
+
+        // TODO: if asking for identical want, different give, then update give? (Updating orders)
 
         if (matchOrder(order)) {
             // Executed
@@ -1091,13 +1094,35 @@ class Market
     }
 }
 
+class TraderListener extends PlayerListener
+{
+    Logger log = Logger.getLogger("Minecraft");
+
+    public void onPlayerDropItem(PlayerDropItemEvent event)
+    {
+        log.info("onPlayerDropItem");
+    }
+    
+    public void onInventoryOpen(PlayerInventoryEvent event)
+    {
+        log.info("onInventoryOpen");
+    }
+}
+
 public class FreeTrade extends JavaPlugin {
     Logger log = Logger.getLogger("Minecraft");
     Market market = new Market();
     YamlConfiguration config;
 
+    TraderListener listener;
+
     public void onEnable() {
         loadConfig();
+
+        listener = new TraderListener();
+
+        Bukkit.getServer().getPluginManager().registerEvent(Event.Type.PLAYER_INVENTORY, listener, Event.Priority.Lowest, this);
+
         log.info(getDescription().getName() + " enabled");
     }
 
