@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListSet;
 import java.io.*;
 
 import org.bukkit.plugin.java.JavaPlugin;
@@ -308,6 +309,11 @@ class ItemQuery
         }
 
         return true;
+    }
+
+    // Identical and same amounts too
+    public static boolean isIdenticalStack(ItemStack a, ItemStack b) {
+        return isIdenticalItem(a, b) && a.getAmount() == b.getAmount();
     }
 
 
@@ -672,7 +678,7 @@ class EnchantQuery
     }
 }
 
-class Order
+class Order implements Comparable
 {
     Player player;
     ItemStack want, give;
@@ -711,6 +717,17 @@ class Order
         return player.getDisplayName() + " wants " + ItemQuery.nameStack(want) + " for " + ItemQuery.nameStack(give) + (exact ? " (exact)" : "");
     }
 
+    // Required for ConcurrentSkipListSet - Comparable interface
+    public int compareTo(Object obj) {
+        if (obj instanceof Order) {
+            return -1;
+        }
+        Order rhs = (Order)obj;
+
+        return toString().compareTo(rhs.toString());
+
+        //return player.getName().compareTo(rhs.player.getName()) || ItemQuery.isIdenticalStack(want, rhs.want) || ItemQuery.isIdenticalStack(give, rhs.give);
+    }
 
 }
 
@@ -734,24 +751,56 @@ class UsageException extends RuntimeException
 
 class Market
 {
-    List<Order> orders;
+    ConcurrentSkipListSet<Order> orders;
     static Logger log = Logger.getLogger("Minecraft");
 
     public Market() {
         // TODO: load from file, save to file
-        orders = new ArrayList<Order>();
+        //orders = new ArrayList<Order>();
+        orders = new ConcurrentSkipListSet<Order>();
     }
 
     public boolean showOutstanding(CommandSender sender) {
         sender.sendMessage("Open orders:");
-
-        for (int i = 0; i < orders.size(); i++) {
-            sender.sendMessage(i + ". " + orders.get(i));
+           
+        int i = 0;
+        for (Order order: orders) {
+            i += 1;
+            sender.sendMessage(i + ". " + order);
         }
 
         sender.sendMessage("To add or fulfill an order:");
 
         return false;
+    }
+
+    public void cancelOrder(Player player, String s) {
+        if (s == null || s.equals("-")) {
+            cancelOrders(player);
+            return;
+        }
+
+        ItemStack wanted = (new ItemQuery(s, player)).itemStack;
+
+        for (Order order: orders) {
+            if (order.player.equals(player) && ItemQuery.isIdenticalItem(order.want, wanted)) {
+                cancelOrder(order);
+            }
+        }
+    }
+
+    // Cancel all orders for a player
+    public void cancelOrders(Player player) {
+        for (Order order: orders) {
+            if (order.player.equals(player)) {
+                cancelOrder(order);
+            }
+        }
+    }
+
+    public void cancelOrder(Order order) {
+        log.info("Closing order " + order);
+        orders.remove(order);
     }
 
     public void placeOrder(Order order) {
@@ -913,8 +962,9 @@ class Market
 
 
     public boolean matchOrder(Order newOrder) {
-        for (int i = 0; i < orders.size(); i++) {
-            Order oldOrder = orders.get(i);
+        int i = 0;
+        for (Order oldOrder: orders) {
+            i += 1;
 
             //log.info("oldOrder: " + oldOrder);
             //log.info("newOrder: " + newOrder);
@@ -1006,8 +1056,7 @@ class Market
                 // This order is finished, old player got everything they wanted
                 // Note: remainingWant can be negative if they got more than they bargained for
                 // (other player offered a better deal than expected). Either way, done deal.
-                orders.remove(oldOrder);
-                log.info("Closed order " + oldOrder);
+                cancelOrder(oldOrder);
                 return true;
             } else if (remainingWant > 0) {
                 oldOrder.want.setAmount(remainingWant);
@@ -1016,8 +1065,8 @@ class Market
                 Bukkit.getServer().broadcastMessage("Updated order: " + oldOrder);
                 return true;
             } else if (remainingWant < 0) {
-                orders.remove(oldOrder);
-                orders.remove("Closed order " + oldOrder);
+                // TODO: test better
+                cancelOrder(oldOrder);
 
                 newOrder.want.setAmount(-remainingGive);
                 newOrder.give.setAmount(-remainingWant);
@@ -1151,10 +1200,16 @@ public class FreeTrade extends JavaPlugin {
         Order order;
 
         try {
-            order = new Order(player, wantString, giveString);
+            if (wantString.equals("-")) {
+                market.cancelOrder(player, null);
+            } else if (giveString.equals("-")) {
+                market.cancelOrder(player, giveString);
+            } else { 
+                order = new Order(player, wantString, giveString);
 
-            sender.sendMessage(order.toString());
-            market.placeOrder(order);
+                sender.sendMessage(order.toString());
+                market.placeOrder(order);
+            }
         } catch (UsageException e) {
             log.info("Sending usage exception: " + player.getDisplayName() + " - " + e );
             player.sendMessage(e.getMessage());
