@@ -787,10 +787,10 @@ class Zone
     }
 
     public Zone(List<Object> objs) {
-        minX = Integer.parseInt((String)objs.get(0));
-        minZ = Integer.parseInt((String)objs.get(1));
-        maxX = Integer.parseInt((String)objs.get(2));
-        maxZ = Integer.parseInt((String)objs.get(3));
+        minX = ((Integer)objs.get(0)).intValue();
+        minZ = ((Integer)objs.get(1)).intValue();
+        maxX = ((Integer)objs.get(2)).intValue();
+        maxZ = ((Integer)objs.get(3)).intValue();
     }
 
     public String toString() {
@@ -806,11 +806,22 @@ class Market
 {
     ConcurrentSkipListSet<Order> orders;
     static Logger log = Logger.getLogger("Minecraft");
+    Zone tradeZone = null;
 
     public Market() {
         // TODO: load from file, save to file
         //orders = new ArrayList<Order>();
         orders = new ConcurrentSkipListSet<Order>();
+    }
+
+    public void loadConfig(YamlConfiguration config) {
+        // TODO: figure out how to fix 'unchecked conversion' warning. getList() returns a List<Object>, so...
+        List<Object> tradeZoneObj = config.getList("tradeZone");
+
+        if (tradeZoneObj != null) {
+            tradeZone = new Zone(tradeZoneObj);
+            log.info("Enforcing trade zone: " + tradeZone);
+        }
     }
 
     public boolean showOutstanding(CommandSender sender) {
@@ -873,9 +884,9 @@ class Market
             throw new UsageException("You are not allowed to trade");
         }
 
-        //List tradeZone = config.getList("tradeZone");
-        //if (tradeZone != null) {
-        //}
+        if (tradeZone != null && !tradeZone.within(order.player.getLocation())) {
+            throw new UsageException("You must be within the trade zone " + tradeZone + " to trade");
+        }
 
         if (ItemQuery.isNothing(order.give)) {
             if (!order.player.hasPermission("freetrade.conjure")) {
@@ -1176,12 +1187,14 @@ class TraderListener extends PlayerListener
 
 public class FreeTrade extends JavaPlugin {
     Logger log = Logger.getLogger("Minecraft");
-    Market market = new Market();
+    Market market;
     YamlConfiguration config;
 
     TraderListener listener;
 
     public void onEnable() {
+        market = new Market();
+
         loadConfig();
 
         listener = new TraderListener();
@@ -1217,6 +1230,7 @@ public class FreeTrade extends JavaPlugin {
 
         ItemQuery.loadConfig(config);
         EnchantQuery.loadConfig(config);
+        market.loadConfig(config);
     }
 
     // Copy default configuration
