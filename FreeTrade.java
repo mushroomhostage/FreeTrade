@@ -774,6 +774,34 @@ class Transaction
     // TODO: log to file
 }
 
+// TODO: ought to be a built-in class for this (or in WorldGuard?)
+class Zone
+{
+    int minX, minZ, maxX, maxZ;
+
+    public Zone(int mx, int mz, int xx, int xz) {
+        minX = mx;
+        minZ = mz;
+        maxX = xx;
+        maxZ = xz;
+    }
+
+    public Zone(List<Object> objs) {
+        minX = Integer.parseInt((String)objs.get(0));
+        minZ = Integer.parseInt((String)objs.get(1));
+        maxX = Integer.parseInt((String)objs.get(2));
+        maxZ = Integer.parseInt((String)objs.get(3));
+    }
+
+    public String toString() {
+        return minX + "<x<" + maxX + ", " + minZ + "<z<" + maxZ;
+    }
+
+    public boolean within(Location loc) {
+        return loc.getX() > minX && loc.getX() < maxX && loc.getZ() > minZ && loc.getZ() < maxZ;
+    }
+}
+
 class Market
 {
     ConcurrentSkipListSet<Order> orders;
@@ -844,6 +872,10 @@ class Market
         if (!order.player.hasPermission("freetrade.trade")) {
             throw new UsageException("You are not allowed to trade");
         }
+
+        //List tradeZone = config.getList("tradeZone");
+        //if (tradeZone != null) {
+        //}
 
         if (ItemQuery.isNothing(order.give)) {
             if (!order.player.hasPermission("freetrade.conjure")) {
