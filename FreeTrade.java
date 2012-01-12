@@ -751,6 +751,29 @@ class UsageException extends RuntimeException
     }
 }
 
+// Completed order record
+class Transaction
+{
+    Player playerA, playerB;
+    ItemStack itemsA, itemsB;   // received by corresponding player
+
+    public Transaction(Player pa, ItemStack a, Player pb, ItemStack b) {
+        playerA = pa; 
+        playerB = pb;
+        itemsA = a;
+        itemsB = b;
+        // TODO: timestamp
+    }
+
+    public String toString() {
+        // CSV
+        // TODO: items more easily parseable?
+        return playerA.getName() + "," + ItemQuery.nameStack(itemsA) + "," + playerB.getName() + "," + ItemQuery.nameStack(itemsB);
+    }
+    
+    // TODO: log to file
+}
+
 class Market
 {
     ConcurrentSkipListSet<Order> orders;
@@ -947,6 +970,8 @@ class Market
             // Surprisingly, this always returns -1, see http://forums.bukkit.org/threads/getmaxstacksize-always-return-1.1154/#post-13147
             //int stackSize = Math.abs(items.getMaxStackSize());
         }
+        // TODO: optional "huge stacks", beyond 64. setAmount(200) in inventory slot. Seems to work.
+
 
         do
         {
@@ -1052,6 +1077,9 @@ class Market
             transferItems(newOrder.player, oldOrder.player, exchWant);
             transferItems(oldOrder.player, newOrder.player, exchGive);
 
+            Transaction t = new Transaction(oldOrder.player, exchWant, newOrder.player, exchGive);
+            log.info("t="+t);
+
             /*
             oldOrder.player.getInventory().addItem(exchWant);
             newOrder.player.getInventory().remove(exchWant);
@@ -1094,6 +1122,7 @@ class Market
     }
 }
 
+// Watch trader for things they might to do invalidate their orders
 class TraderListener extends PlayerListener
 {
     Logger log = Logger.getLogger("Minecraft");
@@ -1108,6 +1137,9 @@ class TraderListener extends PlayerListener
     {
         log.info("onInventoryOpen");
     }
+
+    // TODO: player death, drop events
+    // TODO: player an item, changes damage, or uses up (either way invalidates order)
 }
 
 public class FreeTrade extends JavaPlugin {
