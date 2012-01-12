@@ -781,26 +781,34 @@ class Market
         }
 
         ItemStack wanted = (new ItemQuery(s, player)).itemStack;
+        int i = 0;
 
         for (Order order: orders) {
             if (order.player.equals(player) && ItemQuery.isIdenticalItem(order.want, wanted)) {
                 cancelOrder(order);
+                i += 1;
             }
         }
+        player.sendMessage("Canceled " + i + " orders");
     }
 
     // Cancel all orders for a player
     public void cancelOrders(Player player) {
+        int i = 0;
         for (Order order: orders) {
             if (order.player.equals(player)) {
                 cancelOrder(order);
+                i += 1;
             }
         }
+        player.sendMessage("Canceled all your " + i + " orders");
     }
 
     public void cancelOrder(Order order) {
-        log.info("Closing order " + order);
-        orders.remove(order);
+        if (!orders.remove(order)) {
+            throw new UsageException("Failed to find order to cancel: " + order);
+        }
+        Bukkit.getServer().broadcastMessage("Closed order " + order);
     }
 
     public void placeOrder(Order order) {
