@@ -1259,6 +1259,9 @@ public class FreeTrade extends JavaPlugin {
         if (args.length < 2+n) {
             // Omitted last arg, use item in hand
             giveString = "this";
+        } else if (args.length > 2+n) {
+            // Too many args, don't try to interpret
+            return false;
         } else {
             if (args[n+1].equalsIgnoreCase("for")) {
                 giveString = args[n+2];
