@@ -719,7 +719,7 @@ class Order implements Comparable
 
     // Required for ConcurrentSkipListSet - Comparable interface
     public int compareTo(Object obj) {
-        if (obj instanceof Order) {
+        if (!(obj instanceof Order)) {
             return -1;
         }
         Order rhs = (Order)obj;
@@ -806,6 +806,10 @@ class Market
 
     public void cancelOrder(Order order) {
         if (!orders.remove(order)) {
+            for (Order o: orders) {
+                log.info("Compare " + o + " = " + o.compareTo(order));
+            }
+
             throw new UsageException("Failed to find order to cancel: " + order);
         }
         Bukkit.getServer().broadcastMessage("Closed order " + order);
