@@ -1101,6 +1101,7 @@ class TraderListener extends PlayerListener
     public void onPlayerDropItem(PlayerDropItemEvent event)
     {
         log.info("onPlayerDropItem");
+        // TODO: re-validate order, see if still have
     }
     
     public void onInventoryOpen(PlayerInventoryEvent event)
@@ -1121,7 +1122,7 @@ public class FreeTrade extends JavaPlugin {
 
         listener = new TraderListener();
 
-        Bukkit.getServer().getPluginManager().registerEvent(Event.Type.PLAYER_INVENTORY, listener, Event.Priority.Lowest, this);
+        Bukkit.getServer().getPluginManager().registerEvent(Event.Type.PLAYER_DROP_ITEM, listener, Event.Priority.Lowest, this);
 
         log.info(getDescription().getName() + " enabled");
     }
