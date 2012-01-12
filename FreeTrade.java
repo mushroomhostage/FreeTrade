@@ -693,6 +693,10 @@ class Order
 
         want = (new ItemQuery(wantString, p)).itemStack;
         give = (new ItemQuery(giveString, p)).itemStack;
+
+        if (ItemQuery.isIdenticalItem(want, give)) {
+            throw new UsageException("You can't trade items for themselves");
+        }
     }
 
     public Order(Player p, ItemStack w, ItemStack g, boolean e) {
