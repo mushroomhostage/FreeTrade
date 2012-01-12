@@ -1213,9 +1213,10 @@ public class FreeTrade extends JavaPlugin {
 
         try {
             if (wantString.equals("-")) {
+                log.info("cancelall");
                 market.cancelOrder(player, null);
             } else if (giveString.equals("-")) {
-                market.cancelOrder(player, giveString);
+                market.cancelOrder(player, wantString);
             } else { 
                 order = new Order(player, wantString, giveString);
 
