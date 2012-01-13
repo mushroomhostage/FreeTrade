@@ -45,7 +45,7 @@ class ItemQuery
     static ConcurrentHashMap<String,String> name2CodeName;
     static ConcurrentHashMap<String,String> codeName2Name;
 
-    static ConcurrentHashMap<String,Obtainability> obtainMap;
+    static ConcurrentHashMap<String,Boolean> isTradableMap;
     static ConcurrentHashMap<Material,Boolean> isDurableMap;
 
     public ItemQuery(String s) {
@@ -318,6 +318,16 @@ class ItemQuery
         return isIdenticalItem(a, b) && a.getAmount() == b.getAmount();
     }
 
+    // Return whether item is configured to be allowed to be traded
+    public static boolean isTradable(ItemStack items) {
+        // Stored by code name, so have to lookup without and with durability
+        if (isTradableMap.containsKey(items.getTypeId() + "")) {
+            return true;
+        }
+
+        return isTradableMap.containsKey(items.getTypeId() + ";" + items.getDurability());
+    }
+
 
     // Configuration
 
@@ -330,7 +340,7 @@ class ItemQuery
         codeName2Name = new ConcurrentHashMap<String, String>();
         
         isDurableMap = new ConcurrentHashMap<Material, Boolean>();
-        obtainMap = new ConcurrentHashMap<String, Obtainability>();
+        isTradableMap = new ConcurrentHashMap<String, Boolean>();
 
         HashSet<Obtainability> tradeableCategories = new HashSet<Obtainability>();
 
@@ -344,14 +354,13 @@ class ItemQuery
             // How this item can be obtained
             String obtainString = config.getString("items." + codeName + ".obtain");
             Obtainability obtain = (obtainString == null) ? Obtainability. NORMAL : Obtainability.valueOf(obtainString.toUpperCase());
-            if (!tradeableCategories.contains(obtain)) {
-                log.info("Excluding untradeable " + properName);
-                continue;
-                // XXX: TODO: This doesn't work, since it falls back to Bukkit/OddItem for item names! (which it then can't reverse)
-                // Need to come up with another way to exclude it
-            }
+            boolean tradable = tradeableCategories.contains(obtain);
 
-            obtainMap.put(codeName, obtain);
+            // TODO: whitelist, blacklist (with wildcards! search)
+            if (tradable) {
+                log.info("tradable="+codeName);
+                isTradableMap.put(codeName, tradable);
+            }
 
             // Add aliases from config
             List<String> aliases = config.getStringList("items." + codeName + ".aliases");
@@ -901,6 +910,13 @@ class Market
 
         // TODO: if asking for identical want, different give, then update give? (Updating orders)
         // Not sure, might want to try asking for all different things for same item if really want it..
+
+        if (!ItemQuery.isTradable(order.want)) {
+            throw new UsageException("Trading " + ItemQuery.nameStack(order.want) + " is prohibited");
+        }
+        if (!ItemQuery.isTradable(order.give)) {
+            throw new UsageException("Trading " + ItemQuery.nameStack(order.give) + " is prohibited");
+        }
 
         // You can only give what you have
         if (!hasItems(order.player, order.give)) {
