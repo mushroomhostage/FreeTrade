@@ -1,14 +1,15 @@
 version: 1
 
-tradeZone: [-1000, -1000, 1000, 1000]
+# Only allow trades within this X/Z aree
+#tradeZone: [-1000,-1000,1000,1000]
 
 # What kinds of items to allow trading ('obtain' category)
-#tradeableCategories: [normal, silktouch, creative]                 # legitimate
-tradeableCategories: [never, normal, silktouch, creative, hacking] # everything
-#tradeableCategories: [normal, silktouch]                           # survival mode only
+#tradableCategories: [normal, silktouch, creative]                 # legitimate
+#tradableCategories: [never, normal, silktouch, creative, hacking] # everything
+tradableCategories: [normal, silktouch]                           # survival mode only
 
-tradeableWhitelist: []
-tradeableBlacklist: []
+tradableWhitelist: []
+tradableBlacklist: []
 
 enchants:
     # Armor

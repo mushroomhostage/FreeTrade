@@ -42,9 +42,11 @@ class ItemQuery
     static Logger log = Logger.getLogger("Minecraft");
 
     // Map between item names/aliases and id;dmg string
+    // TODO: switch to more appropriate data structures, ItemStacks?
     static ConcurrentHashMap<String,String> name2CodeName;
     static ConcurrentHashMap<String,String> codeName2Name;
 
+    // TODO: switch to sets
     static ConcurrentHashMap<String,Boolean> isTradableMap;
     static ConcurrentHashMap<Material,Boolean> isDurableMap;
 
@@ -320,12 +322,8 @@ class ItemQuery
 
     // Return whether item is configured to be allowed to be traded
     public static boolean isTradable(ItemStack items) {
-        // Stored by code name, so have to lookup without and with durability
-        if (isTradableMap.containsKey(items.getTypeId() + "")) {
-            return true;
-        }
-
-        return isTradableMap.containsKey(items.getTypeId() + ";" + items.getDurability());
+        // Durability always stored, but 0 for durable items
+        return isTradableMap.containsKey(items.getTypeId() + ";" + (isDurable(items.getType()) ? 0 : items.getDurability()));
     }
 
 
@@ -340,12 +338,12 @@ class ItemQuery
         codeName2Name = new ConcurrentHashMap<String, String>();
         
         isDurableMap = new ConcurrentHashMap<Material, Boolean>();
-        isTradableMap = new ConcurrentHashMap<String, Boolean>();
+        ConcurrentHashMap<String,Boolean> isTradableMapUnfiltered = new ConcurrentHashMap<String, Boolean>();
 
-        HashSet<Obtainability> tradeableCategories = new HashSet<Obtainability>();
+        HashSet<Obtainability> tradableCategories = new HashSet<Obtainability>();
 
-        for (String obtainString: config.getStringList("tradeableCategories")) {
-            tradeableCategories.add(Obtainability.valueOf(obtainString.toUpperCase()));
+        for (String obtainString: config.getStringList("tradableCategories")) {
+            tradableCategories.add(Obtainability.valueOf(obtainString.toUpperCase()));
         }
 
         for (String codeName: itemsSection.getKeys(false)) {
@@ -354,12 +352,10 @@ class ItemQuery
             // How this item can be obtained
             String obtainString = config.getString("items." + codeName + ".obtain");
             Obtainability obtain = (obtainString == null) ? Obtainability. NORMAL : Obtainability.valueOf(obtainString.toUpperCase());
-            boolean tradable = tradeableCategories.contains(obtain);
-
+            boolean tradable = tradableCategories.contains(obtain);
             // TODO: whitelist, blacklist (with wildcards! search)
             if (tradable) {
-                log.info("tradable="+codeName);
-                isTradableMap.put(codeName, tradable);
+                isTradableMapUnfiltered.put(codeName.contains(";") ? codeName : codeName + ";0", tradable);
             }
 
             // Add aliases from config
@@ -394,6 +390,29 @@ class ItemQuery
         }
         log.info("Loaded " + i + " item aliases");
 
+        // Whitelist tradable items
+        for (String whiteString: config.getStringList("tradableWhitelist")) {
+            ItemStack itemStack = directLookupName(whiteString);
+
+            isTradableMapUnfiltered.put(itemStack.getTypeId() + ";" + itemStack.getDurability(), true);
+        }
+
+
+        // Filter through blacklist
+        isTradableMap = new ConcurrentHashMap<String, Boolean>();
+        SKIP: for (String tradableCodeName: isTradableMapUnfiltered.keySet()) {
+            // Is this blacklisted?
+            for (String blackString: config.getStringList("tradableBlacklist")) {
+                ItemStack itemStack = directLookupName(blackString);
+
+                if (tradableCodeName.equals(itemStack.getTypeId() + ";" + itemStack.getDurability())) {
+                    continue SKIP;
+                }
+            }
+
+            // No, add to real list
+            isTradableMap.put(tradableCodeName, true);
+        }
     }
 
     // Parse a material code string with optional damage value (ex: 35;11)
