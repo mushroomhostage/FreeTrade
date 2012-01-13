@@ -440,7 +440,7 @@ class ItemQuery
             String name = (String)pair.getKey();
             String codeName = (String)pair.getValue();
 
-            if (matchesWildcard(pattern, name)) {
+            if (matchesWildcard(pattern, name) && isTradableMap.containsKey(codeName)) {
                 results.add(codeName2Name.get(codeName).replace(" ",""));
             }
         }
