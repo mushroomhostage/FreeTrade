@@ -899,7 +899,6 @@ class Market
             throw new UsageException("You must be within the trade zone " + tradeZone + " to trade");
         }
 
-
         // TODO: if asking for identical want, different give, then update give? (Updating orders)
         // Not sure, might want to try asking for all different things for same item if really want it..
 
@@ -1182,13 +1181,12 @@ class TraderListener extends PlayerListener
 
     public void onPlayerDropItem(PlayerDropItemEvent event)
     {
-        log.info("onPlayerDropItem");
-        // TODO: re-validate order, see if still have
-
-        for (Order order: market.orders) {
+        // Re-validate order, see if they dropped an item they were going to give
+        for (Order order: market.orders) {      // TODO: hash lookup of player? Performance
             if (order.player.equals(event.getPlayer())) {
                 if (!Market.hasItems(order.player, order.give)) {
-                    log.info("Dropped an item in an order!");
+                    order.player.sendMessage("Order invalidated by item drop");
+                    market.cancelOrder(order);
                 }
             }
         }
