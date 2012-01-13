@@ -880,14 +880,7 @@ class Market
     }
 
     public void placeOrder(Order order) {
-        if (!order.player.hasPermission("freetrade.trade")) {
-            throw new UsageException("You are not allowed to trade");
-        }
-
-        if (tradeZone != null && !tradeZone.within(order.player.getLocation())) {
-            throw new UsageException("You must be within the trade zone " + tradeZone + " to trade");
-        }
-
+        // Admin conjuring permission
         if (ItemQuery.isNothing(order.give)) {
             if (!order.player.hasPermission("freetrade.conjure")) {
                 throw new UsageException("You must specify or select what you want to trade for");
@@ -896,6 +889,16 @@ class Market
             recvItems(order.player, order.want);
             return;
         }
+
+        // Trade restrictions
+        if (!order.player.hasPermission("freetrade.trade")) {
+            throw new UsageException("You are not allowed to trade");
+        }
+
+        if (tradeZone != null && !tradeZone.within(order.player.getLocation())) {
+            throw new UsageException("You must be within the trade zone " + tradeZone + " to trade");
+        }
+
 
         if (!hasItems(order.player, order.give)) {
             throw new UsageException("You don't have " + ItemQuery.nameStack(order.give) + " to give");
