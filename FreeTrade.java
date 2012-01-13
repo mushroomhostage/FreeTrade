@@ -186,7 +186,7 @@ class ItemQuery
 
     public ItemQuery(String s, Player p) {
         if (s.equals("this")) {
-            itemStack = p.getItemInHand();
+            itemStack = p.getItemInHand().clone();
             if (itemStack == null) {
                 throw new UsageException("No item in hand");
             }
@@ -900,11 +900,13 @@ class Market
         }
 
 
+        // TODO: if asking for identical want, different give, then update give? (Updating orders)
+        // Not sure, might want to try asking for all different things for same item if really want it..
+
+        // You can only give what you have
         if (!hasItems(order.player, order.give)) {
             throw new UsageException("You don't have " + ItemQuery.nameStack(order.give) + " to give");
         }
-
-        // TODO: if asking for identical want, different give, then update give? (Updating orders)
 
         if (matchOrder(order)) {
             // Executed
@@ -1172,18 +1174,26 @@ class Market
 class TraderListener extends PlayerListener
 {
     Logger log = Logger.getLogger("Minecraft");
+    Market market;
+
+    public TraderListener(Market m) {
+        market = m;
+    }
 
     public void onPlayerDropItem(PlayerDropItemEvent event)
     {
         log.info("onPlayerDropItem");
         // TODO: re-validate order, see if still have
+
+        for (Order order: market.orders) {
+            if (order.player.equals(event.getPlayer())) {
+                if (!Market.hasItems(order.player, order.give)) {
+                    log.info("Dropped an item in an order!");
+                }
+            }
+        }
     }
     
-    public void onInventoryOpen(PlayerInventoryEvent event)
-    {
-        log.info("onInventoryOpen");
-    }
-
     // TODO: player death, drop events
     // TODO: player an item, changes damage, or uses up (either way invalidates order)
 }
@@ -1200,7 +1210,7 @@ public class FreeTrade extends JavaPlugin {
 
         loadConfig();
 
-        listener = new TraderListener();
+        listener = new TraderListener(market);
 
         Bukkit.getServer().getPluginManager().registerEvent(Event.Type.PLAYER_DROP_ITEM, listener, Event.Priority.Lowest, this);
 
