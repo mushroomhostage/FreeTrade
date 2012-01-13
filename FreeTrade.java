@@ -930,6 +930,8 @@ class Market
         // TODO: if asking for identical want, different give, then update give? (Updating orders)
         // Not sure, might want to try asking for all different things for same item if really want it..
 
+        // Restricted by admin?
+        // TODO: show reason (unobtainable, blacklisted)
         if (!ItemQuery.isTradable(order.want)) {
             throw new UsageException("Trading " + ItemQuery.nameStack(order.want) + " is prohibited");
         }
