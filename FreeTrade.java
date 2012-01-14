@@ -925,6 +925,16 @@ class Market
             return;
         }
 
+        // Item obliteration destruction permission
+        if (ItemQuery.isNothing(order.want)) {
+            if (!order.player.hasPermission("freetrade.obliterate")) {
+                throw new UsageException("You do not have permission to trade items for nothing");
+                // tip: throw in lava or cacti instead
+            }
+            takeItems(order.player, order.give);
+            return;
+        }
+
         // Trade restrictions
         if (!order.player.hasPermission("freetrade.trade")) {
             throw new UsageException("You are not allowed to trade");
