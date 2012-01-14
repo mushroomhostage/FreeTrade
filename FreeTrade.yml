@@ -3,13 +3,22 @@ version: 1
 # Only allow trades within this X/Z aree
 #tradeZone: [-1000,-1000,1000,1000]
 
-# What kinds of items to allow trading ('obtain' category)
+# What categories of items to allow trading (by 'obtain' category)
 #tradableCategories: [normal, silktouch, creative]                 # legitimate
 #tradableCategories: [never, normal, silktouch, creative, hacking] # everything
 tradableCategories: [normal, silktouch]                           # survival mode only
 
+# Certain items to allow or disallow trading
 tradableWhitelist: []
 tradableBlacklist: []
+
+# If non-zero, require a 'trade terminal' to be within X blocks of
+# player before they can trade
+tradeTerminalRadius: 3
+#tradeTerminalRadius: 0     # trade anywhere
+
+# Material for the 'trade terminal'
+tradeTerminalBlock: lapisblock
 
 enchants:
     # Armor

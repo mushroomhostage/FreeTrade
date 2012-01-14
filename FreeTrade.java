@@ -814,7 +814,7 @@ class Zone
         maxZ = xz;
     }
 
-    public Zone(List<Object> objs) {
+    public Zone(List objs) {
         minX = ((Integer)objs.get(0)).intValue();
         minZ = ((Integer)objs.get(1)).intValue();
         maxX = ((Integer)objs.get(2)).intValue();
@@ -834,7 +834,10 @@ class Market
 {
     ConcurrentSkipListSet<Order> orders;
     static Logger log = Logger.getLogger("Minecraft");
+
     Zone tradeZone = null;
+    int tradeTerminalRadius = 0;
+    Material tradeTerminalMaterial;
 
     public Market() {
         // TODO: load from file, save to file
@@ -844,12 +847,15 @@ class Market
 
     public void loadConfig(YamlConfiguration config) {
         // TODO: figure out how to fix 'unchecked conversion' warning. getList() returns a List<Object>, so...
-        List<Object> tradeZoneObj = config.getList("tradeZone");
+        List tradeZoneObj = config.getList("tradeZone");
 
         if (tradeZoneObj != null) {
             tradeZone = new Zone(tradeZoneObj);
             log.info("Enforcing trade zone: " + tradeZone);
         }
+
+        tradeTerminalRadius = config.getInt("tradeTerminalRadius");
+        tradeTerminalMaterial = (new ItemQuery(config.getString("tradeTerminalBlock"))).itemStack.getType();  // limitation: type only
     }
 
     public boolean showOutstanding(CommandSender sender) {
@@ -926,6 +932,23 @@ class Market
         if (tradeZone != null && !tradeZone.within(order.player.getLocation())) {
             throw new UsageException("You must be within the trade zone " + tradeZone + " to trade");
         }
+
+        
+        // TODO: Trade machine nearby? (if enabled)
+        if (tradeTerminalRadius != 0) {
+            Location location = order.player.getLocation();
+            World world = order.player.getWorld();
+            log.info("blockat="+world.getBlockAt(location));
+            log.info("blockat 0,-1,0="+world.getBlockAt(location.add(0,-1,0)));
+            log.info("blockat 1,0,0="+world.getBlockAt(location.add(1,0,0)));
+            log.info("blockat 0,0,1="+world.getBlockAt(location.add(0,0,1)));
+            log.info("blockat 1,0,1="+world.getBlockAt(location.add(1,0,1)));
+            log.info("blockat -1,0,-1="+world.getBlockAt(location.add(-1,0,-1)));
+            log.info("blockat -1,0,0="+world.getBlockAt(location.add(-1,0,0)));
+            log.info("blockat 0,0,-1="+world.getBlockAt(location.add(0,0,-1)));
+            // TODO: check if lapis block nearby
+        }
+
 
         // TODO: if asking for identical want, different give, then update give? (Updating orders)
         // Not sure, might want to try asking for all different things for same item if really want it..
