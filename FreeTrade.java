@@ -26,6 +26,7 @@ import org.bukkit.configuration.*;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.player.*;
 import org.bukkit.event.*;
+import org.bukkit.block.*;
 import org.bukkit.*;
 
 import info.somethingodd.bukkit.OddItem.OddItem;
@@ -938,15 +939,28 @@ class Market
         if (tradeTerminalRadius != 0) {
             Location location = order.player.getLocation();
             World world = order.player.getWorld();
-            log.info("blockat="+world.getBlockAt(location));
-            log.info("blockat 0,-1,0="+world.getBlockAt(location.add(0,-1,0)));
-            log.info("blockat 1,0,0="+world.getBlockAt(location.add(1,0,0)));
-            log.info("blockat 0,0,1="+world.getBlockAt(location.add(0,0,1)));
-            log.info("blockat 1,0,1="+world.getBlockAt(location.add(1,0,1)));
-            log.info("blockat -1,0,-1="+world.getBlockAt(location.add(-1,0,-1)));
-            log.info("blockat -1,0,0="+world.getBlockAt(location.add(-1,0,0)));
-            log.info("blockat 0,0,-1="+world.getBlockAt(location.add(0,0,-1)));
-            // TODO: check if lapis block nearby
+           
+            int r = tradeTerminalRadius;
+            int ox = location.getBlockX(), oy = location.getBlockY(), oz = location.getBlockZ();
+            log.info("original= "+ox+","+oy+","+oz);
+            boolean found = false;
+
+            DONE: for (int x = -r; x < r; x += 1) {
+                for (int y = -r; y < r; y += 1) {
+                    for (int z = -r; z < r; z += 1) {
+                        Block block = world.getBlockAt(x+ox, y+oy, z+oz);
+                        //log.info("blockat("+x+","+y+","+z+") = " + block);
+                        if (block.getType().equals(tradeTerminalMaterial)) {
+                            found = true;
+                        }
+                    }
+                }
+            }
+            log.info("Found = " + found);
+            if (!found) {
+                throw new UsageException("You are not within " + tradeTerminalRadius + " blocks of a " +
+                    ItemQuery.codeName2Name.get(tradeTerminalMaterial.getId() + "") + " trading terminal");
+            }
         }
 
 
