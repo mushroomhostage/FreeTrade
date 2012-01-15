@@ -4,7 +4,6 @@ version: 1
 commands:
     want:
         description: Place an order for an item you want
-        #permission: freetrade.want
         aliases: w
         usage: /<command> [item you want] for [item you will give in return]
 softdepend: [OddItem]
@@ -13,14 +12,18 @@ permissions:
         children:
             freetrade.trade: true
             freetrade.obliterate: true
-            freetrade.conjure: false
-            freetrade.bigstacks: false
-        default: true
+            freetrade.conjure: true
+            freetrade.bigstacks: true
+        default: false
     freetrade.trade:
         description: Allows you to trade with other players
+        default: true
     freetrade.obliterate:
         description: Allows you to trade items in return for nothing
+        default: true
     freetrade.conjure:
         description: Allows you to create items out of thin air
+        default: op
     freetrade.bigstacks:
         description: Allows you to stack items in any amount
+        default: op
