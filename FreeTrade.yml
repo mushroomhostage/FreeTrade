@@ -18,7 +18,10 @@ tradeTerminalRadius: 5
 #tradeTerminalRadius: 0     # trade anywhere
 
 # Material for the 'trade terminal'
-tradeTerminalBlock: lapisblock
+tradeTerminalBlock: sponge
+#tradeTerminalBlock: lapisblock
+
+tradeTerminalCraftable: true
 
 enchants:
     # Armor

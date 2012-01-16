@@ -839,6 +839,7 @@ class Market
     Zone tradeZone = null;
     int tradeTerminalRadius = 0;
     Material tradeTerminalMaterial;
+    ItemStack tradeTerminalBlock;
 
     public Market() {
         // TODO: load from file, save to file
@@ -856,7 +857,23 @@ class Market
         }
 
         tradeTerminalRadius = config.getInt("tradeTerminalRadius");
-        tradeTerminalMaterial = (new ItemQuery(config.getString("tradeTerminalBlock"))).itemStack.getType();  // limitation: type only
+        tradeTerminalBlock = (new ItemQuery(config.getString("tradeTerminalBlock"))).itemStack;
+        tradeTerminalMaterial = tradeTerminalBlock.getType();  // limitation: type only
+
+        if (config.getBoolean("tradeTerminalCraftable")) {
+            // Two ways to create trade terminal: 
+            // 2 enderpearls (for teleporting items, sending and receiving end)
+            // 4 lapis lazuli ore (watery-looking material, travels through the aether)
+            // into a sponge, sucks the items through to their destination
+            // TODO: configurable recipes
+            ShapelessRecipe recipe = new ShapelessRecipe(tradeTerminalBlock);
+            recipe.addIngredient(2, Material.ENDER_PEARL);
+            Bukkit.getServer().addRecipe(recipe);
+
+            recipe = new ShapelessRecipe(tradeTerminalBlock);
+            recipe.addIngredient(4, Material.LAPIS_ORE);
+            Bukkit.getServer().addRecipe(recipe);
+        }
     }
 
     public boolean showOutstanding(CommandSender sender) {
@@ -1320,8 +1337,6 @@ public class FreeTrade extends JavaPlugin {
         if (config.getInt("version") < 1) {
             throw new UsageException("Configuration file version is outdated");
         }
-
-
 
         ItemQuery.loadConfig(config);
         EnchantQuery.loadConfig(config);
