@@ -117,6 +117,27 @@ enchants:
         aliases:
         - lootbonusblocks
         - f
+    # Bow
+    '48':
+        name: Power
+        aliases:
+        - pow
+        - po
+    '49':
+        name: Punch
+        aliases:
+        - pun
+        - pu
+    '50':
+        name: Flame
+        aliases:
+        - fla
+        - fl
+    '51':
+        name: Infinity
+        aliases:
+        - inf
+        - in
 items:
     '0':
         name: Air
@@ -2219,6 +2240,7 @@ items:
         - gmelon
     # Spawn Egg
     # Damage value corresponds to entity ID; see http://www.minecraftwiki.net/wiki/Data_values#Entity_IDs
+    # TODO
 #    383;1:
 #    - droppeditemegg
 #    383;2:
