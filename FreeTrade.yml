@@ -1595,6 +1595,7 @@ items:
         - ink
         - inksac
         - inksack
+        - squidink
     351;1:
         name: Red Dye
         aliases: 
@@ -2240,75 +2241,174 @@ items:
         - gmelon
     # Spawn Egg
     # Damage value corresponds to entity ID; see http://www.minecraftwiki.net/wiki/Data_values#Entity_IDs
-    # TODO
-#    383;1:
-#    - droppeditemegg
-#    383;2:
-#    - experienceorbegg
-#    383;10:
-#    - shotarrowegg
-#    383;11:
-#    - thrownsnowballegg
-#    383;12:
-#    - ghastfireballegg
-#    383;13:
-#    - blazefireballegg
-#    383;14:
-#    - thrownenderpearlegg
-#    383;15:
-#    - throwneyeofenderegg
-#    383;20:
-#    - primedtntegg
-#    383;21:
-#    - fallingblockegg
-#    383;40:
-#    - minecartegg
-#    383;41:
-#    - boategg
-#    383;50:
-#    - creeperegg
-#    383;51:
-#    - skeletonegg
-#    383;52:
-#    - spideregg
-#    383;53:
-#    - giantegg
-#    383;54:
-#    - zombieegg
-#    383;55:
-#    - slimeegg
-#    383;56:
-#    - ghastegg
-#    383;57:
-#    - zombiepigmanegg
-#    383;60:
-#    - silverfishegg
-#    383;61:
-#    - blazeegg
-#    383;62:
-#    - magmacubeegg
-#    383;63:
-#    - enderdragonegg
-#    383;90:
-#    - pigegg
-#    383;91:
-#    - sheepegg
-#    393;92:
-#    - cowegg
-#    393;93:
-#    - chickenegg
-#    393;94:
-#    - squidegg
-#    393;95:
-#    - wolfegg
-#    393;96:
-#    - mooshroomegg
-#    393;97:
-#    - snowgolemegg
-#    393;120:
-#    - villageregg
-#    393;200:
-#    - endercrystalegg
+    383;1:
+        name: Dropped Item Spawner Egg
+        aliases:
+        - droppeditemegg
+        - droppeditem
+    383;2:
+        name: Experience Orb Spawner Egg
+        aliases:
+        - experienceorbegg
+        - exporbegg
+        - exporb
+    383;10:
+        name: Shot Arrow Spawner Egg
+        aliases: 
+        - shotarrowegg
+        - shotarrow
+    383;11:
+        name: Thrown Snowball Spawner Egg
+        aliases: 
+        - thrownsnowballegg
+        - thrownsnowball
+    383;12:
+        name: Ghast Fireball Spawner Egg
+        aliases:
+        - ghastfireballegg
+        - ghastfireball
+    383;13:
+        name: Blaze Fireball Spawner Egg
+        aliases: 
+        - blazefireballegg
+        - blazefireball
+    383;14:
+        name: Thrown Enderpearl Spawner Egg
+        aliases: 
+        - thrownenderpearlegg
+        - thrownenderpearl
+        - thrownpearl
+    383;15:
+        name: Thrown Eye of Ender Spawner Egg
+        aliases: 
+        - throwneyeofenderegg
+        - throwneyeofender
+    383;20:
+        name: Primed TNT Spawner Egg
+        aliases: 
+        - primedtntegg
+        - primedtnt
+    383;21:
+        name: Falling Block Spawner Egg
+        aliases: 
+        - fallingblockegg
+        - fallingblock
+    383;40:
+        name: Minecart Spawner Egg
+        aliases: 
+        - minecartegg
+    383;41:
+        name: Boat Spawner Egg
+        aliases: 
+        - boategg
+    383;50:
+        name: Creeper Spawner Egg
+        aliases: 
+        - creeperegg
+        - creeper
+    383;51:
+        name: Skeleton Spawner Egg
+        aliases: 
+        - skeletonegg
+        - skeleton
+    383;52:
+        name: Spider Spawner Egg
+        aliases: 
+        - spideregg
+        - spider
+    383;53:
+        name: Giant Spawner Egg
+        aliases: 
+        - giantegg
+        - giant
+    383;54:
+        name: Zombie Spawner Egg
+        aliases: 
+        - zombieegg
+        - zombie
+    383;55:
+        name: Slime Spawner Egg
+        aliases: 
+        - slimeegg
+    383;56:
+        name: Ghast Spawner Egg
+        aliases: 
+        - ghastegg
+        - ghast
+    383;57:
+        name: Zombie Pigman Spawner Egg
+        aliases: 
+        - zombiepigmanegg
+        - zombiepigman
+        - pigman
+    383;60:
+        name: Silverfish Spawner Egg
+        aliases: 
+        - silverfishegg
+    383;61:
+        name: Blaze Spawner Spawner Egg
+        aliases: 
+        - blazeegg
+    383;62:
+        name: Magma Cube Spawner Egg
+        aliases: 
+        - magmacubeegg
+    383;63:
+        name: Ender Dragon Spawner Egg
+        aliases: 
+        - enderdragonegg
+        - enderdragon
+        - dragon
+    383;90:
+        name: Pig Spawner Egg
+        aliases: 
+        - pigegg
+        - pig
+    383;91:
+        name: Sheep Spawner Egg
+        aliases: 
+        - sheepegg
+        - sheep
+    393;92:
+        name: Cow Spawner Egg
+        aliases: 
+        - cowegg
+        - cow
+    393;93:
+        name: Chicken Spawner Egg
+        aliases: 
+        #- chickenegg    # TODO: resolve confusion vs. egg
+    393;94:
+        name: Squid Spawner Egg
+        aliases:
+        - squidegg
+        - squid
+    393;95:
+        name: Wolf Spawner Egg
+        aliases:
+        - wolfegg
+        - wolf
+    393;96:
+        name: Mooshroom Spawner Egg
+        aliases:
+        - mooshroomegg
+        - mooshroom
+    393;97:
+        name: Snow Golem Spawner Egg
+        aliases: 
+        - snowgolemegg
+        - snowgolem
+        - golem
+    393;120:
+        name: Villager Spawner Egg
+        aliases: 
+        - villageregg
+        - villager
+        - npc
+    393;200:
+        name: Ender Crystal Spawner Egg
+        aliases: 
+        - endercrystalegg
     '2256':
         name: Gold Disc
         aliases: 
