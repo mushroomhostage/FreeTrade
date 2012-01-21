@@ -133,7 +133,6 @@ class ItemQuery
             throw new UsageException("Unrecognized item name: " + nameString);
         }
 
-
         // Quantity, shorthand 10# = 10 stacks
         if (isStackString.equals("#")) {
             quantity *= Math.abs(itemStack.getType().getMaxStackSize());

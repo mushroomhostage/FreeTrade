@@ -2369,43 +2369,43 @@ items:
         aliases: 
         - sheepegg
         - sheep
-    393;92:
+    383;92:
         name: Cow Spawner Egg
         aliases: 
         - cowegg
         - cow
-    393;93:
+    383;93:
         name: Chicken Spawner Egg
         aliases: 
         #- chickenegg    # TODO: resolve confusion vs. egg
-    393;94:
+    383;94:
         name: Squid Spawner Egg
         aliases:
         - squidegg
         - squid
-    393;95:
+    383;95:
         name: Wolf Spawner Egg
         aliases:
         - wolfegg
         - wolf
-    393;96:
+    383;96:
         name: Mooshroom Spawner Egg
         aliases:
         - mooshroomegg
         - mooshroom
-    393;97:
+    383;97:
         name: Snow Golem Spawner Egg
         aliases: 
         - snowgolemegg
         - snowgolem
         - golem
-    393;120:
+    383;120:
         name: Villager Spawner Egg
         aliases: 
         - villageregg
         - villager
         - npc
-    393;200:
+    383;200:
         name: Ender Crystal Spawner Egg
         aliases: 
         - endercrystalegg
