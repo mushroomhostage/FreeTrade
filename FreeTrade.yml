@@ -145,6 +145,7 @@ items:
         - empty
         - sky
         - nothing
+        - x
         obtain: never
     '1':
         name: Stone
@@ -2222,6 +2223,7 @@ items:
         aliases: 
         - cream
         - mcream
+        - magma
     '379':
         name: Brewing Stand
         aliases: 
@@ -2242,173 +2244,264 @@ items:
     # Spawn Egg
     # Damage value corresponds to entity ID; see http://www.minecraftwiki.net/wiki/Data_values#Entity_IDs
     383;1:
-        name: Dropped Item Spawner Egg
+        name: Spawn Dropped Item
         aliases:
+        - droppeditemspawneregg
         - droppeditemegg
         - droppeditem
+        - spawnitem
+        obtain: hacking
     383;2:
-        name: Experience Orb Spawner Egg
+        name: Spawn Experience Orb
         aliases:
+        - experienceorbspawneregg
         - experienceorbegg
         - exporbegg
         - exporb
+        obtain: hacking
     383;10:
-        name: Shot Arrow Spawner Egg
+        name: Spawn Arrow
         aliases: 
+        - shotarrowspawneregg
         - shotarrowegg
         - shotarrow
+        obtain: hacking
     383;11:
-        name: Thrown Snowball Spawner Egg
+        name: Spawn Snowball
         aliases: 
+        - thrownsnowballspawneregg
         - thrownsnowballegg
         - thrownsnowball
+        obtain: hacking
     383;12:
-        name: Ghast Fireball Spawner Egg
+        name: Spawn Ghast Fireball
         aliases:
+        - spawnsmallfireball
+        - spawnentitysmallfireballname  # "Spawn entity.SmallFireball.name" in 1.1
+        - ghastfireballspawneregg
         - ghastfireballegg
         - ghastfireball
+        - smallfireball
+        obtain: hacking
     383;13:
-        name: Blaze Fireball Spawner Egg
+        name: Spawn Blaze Fireball
         aliases: 
+        - blazefireballspawneregg
         - blazefireballegg
         - blazefireball
+        obtain: hacking
     383;14:
-        name: Thrown Enderpearl Spawner Egg
+        name: Spawn Thrown Enderpearl
         aliases: 
+        - thrownenderpearlspawneregg
         - thrownenderpearlegg
         - thrownenderpearl
         - thrownpearl
+        obtain: hacking
     383;15:
-        name: Thrown Eye of Ender Spawner Egg
+        name: Spawn Thrown Eye of Ender Signal
         aliases: 
+        - throwneyeofendersignalspawneregg
         - throwneyeofenderegg
         - throwneyeofender
+        - throwneye
+        obtain: hacking
     383;20:
-        name: Primed TNT Spawner Egg
+        name: Spawn Primed TNT
         aliases: 
+        - spawnblockoftnt
+        - primedtntspawneregg
         - primedtntegg
         - primedtnt
+        obtain: hacking
     383;21:
-        name: Falling Block Spawner Egg
+        name: Spawn Falling Block
         aliases: 
+        - fallingblockspawneregg
         - fallingblockegg
         - fallingblock
+        obtain: hacking
     383;40:
-        name: Minecart Spawner Egg
+        name: Spawn Minecart
         aliases: 
+        - minecartspawneregg
         - minecartegg
+        obtain: hacking
     383;41:
-        name: Boat Spawner Egg
+        name: Spawn Boat
         aliases: 
+        - boatspawneregg
         - boategg
+        obtain: hacking
     383;50:
-        name: Creeper Spawner Egg
+        name: Spawn Creeper
         aliases: 
+        - creeperspawneregg
         - creeperegg
         - creeper
+        obtain: creative
     383;51:
-        name: Skeleton Spawner Egg
+        name: Spawn Skeleton
         aliases: 
+        - skeletonspawneregg
         - skeletonegg
         - skeleton
+        obtain: creative
     383;52:
-        name: Spider Spawner Egg
+        name: Spawn Spider
         aliases: 
+        - spiderspawneregg
         - spideregg
         - spider
+        obtain: creative
     383;53:
-        name: Giant Spawner Egg
+        name: Spawn Giant
         aliases: 
+        - giantspawneregg
         - giantegg
         - giant
+        obtain: hacking
     383;54:
-        name: Zombie Spawner Egg
+        name: Spawn Zombie
         aliases: 
+        - zombiespawneregg
         - zombieegg
         - zombie
+        obtain: creative
     383;55:
-        name: Slime Spawner Egg
+        name: Spawn Slime
         aliases: 
+        - slimespawneregg
         - slimeegg
+        - slimegg
+        obtain: creative
     383;56:
-        name: Ghast Spawner Egg
+        name: Spawn Ghast
         aliases: 
+        - ghastspawneregg
         - ghastegg
         - ghast
+        obtain: creative
     383;57:
-        name: Zombie Pigman Spawner Egg
+        name: Spawn Zombie Pigman
         aliases: 
+        - zombiepigmanspawneregg
         - zombiepigmanegg
         - zombiepigman
         - pigman
+        obtain: creative
+    383;58:
+        name: Spawn Enderman
+        aliases:
+        - endermanspawneregg
+        - enderman
+    383;59:
+        name: Spawn Cave Spider
+        aliases:
+        - cavespiderspawneregg
+        - cavespider
+        - cspider
     383;60:
-        name: Silverfish Spawner Egg
+        name: Spawn Silverfish
         aliases: 
+        - silverfishspawneregg
         - silverfishegg
+        obtain: creative
     383;61:
-        name: Blaze Spawner Spawner Egg
+        name: Spawn Blaze
         aliases: 
+        - blazespawneregg
         - blazeegg
+        obtain: creative
     383;62:
-        name: Magma Cube Spawner Egg
+        name: Spawn Magma Cube
         aliases: 
+        - magmacubespawneregg
         - magmacubeegg
+        - magmacube
+        obtain: creative
     383;63:
-        name: Ender Dragon Spawner Egg
+        name: Spawn Enderdragon
         aliases: 
+        - enderdragonspawneregg
         - enderdragonegg
         - enderdragon
         - dragon
+        obtain: creative
     383;90:
-        name: Pig Spawner Egg
+        name: Spawn Pig
         aliases: 
+        - pigspawneregg
         - pigegg
         - pig
+        obtain: creative
     383;91:
-        name: Sheep Spawner Egg
+        name: Spawn Sheep
         aliases: 
+        - sheepspawneregg
         - sheepegg
         - sheep
+        obtain: creative
     383;92:
-        name: Cow Spawner Egg
+        name: Spawn Cow
         aliases: 
+        - cowspawneregg
         - cowegg
         - cow
+        obtain: creative
     383;93:
-        name: Chicken Spawner Egg
+        name: Spawn Chicken
         aliases: 
-        #- chickenegg    # TODO: resolve confusion vs. egg
+        - chickenspawneregg
+        #- chickenegg    # too similar to the non-spawner (laid) egg
+        #- chicken      # too similar to the meat
+        - livechicken
+        obtain: creative
     383;94:
-        name: Squid Spawner Egg
+        name: Spawn Squid
         aliases:
+        - squidspawneregg
         - squidegg
         - squid
+        obtain: creative
     383;95:
-        name: Wolf Spawner Egg
+        name: Spawn Wolf
         aliases:
+        - wolfspawneregg
         - wolfegg
         - wolf
+        obtain: creative
     383;96:
-        name: Mooshroom Spawner Egg
+        name: Spawn Mooshroom
         aliases:
+        - mooshroomspawneregg
         - mooshroomegg
         - mooshroom
+        obtain: creative
     383;97:
-        name: Snow Golem Spawner Egg
+        name: Spawn Snow Golem 
         aliases: 
+        - snowgolemspawneregg
         - snowgolemegg
         - snowgolem
+        - snowman
+        - spawnsnowman
         - golem
+        obtain: creative
     383;120:
-        name: Villager Spawner Egg
+        name: Spawn Villager
         aliases: 
+        - villagerspawneregg
         - villageregg
         - villager
         - npc
+        obtain: creative
     383;200:
-        name: Ender Crystal Spawner Egg
+        name: Spawn Ender Crystal
         aliases: 
+        - endercrystalspawneregg
         - endercrystalegg
+        obtain: hacking
     '2256':
         name: Gold Disc
         aliases: 
