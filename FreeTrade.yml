@@ -826,12 +826,21 @@ items:
         aliases: 
         obtain: hacking
         # TODO: update wiki
-    '98':
+    98;0:
         name: Stone Bricks
         aliases: 
         - dungeon
         - sbrick
         - stonebrick
+    98;1:
+        name: Mossy Stone Bricks
+        aliases:
+        - mossystonebrick
+    98;2:
+        name: Cracked Stone Bricks
+        aliases:
+        - crackedstonebrick
+        - crackedstone
     99;0:
         name: Huge Brown Mushroom Pores
         aliases: 
