@@ -611,6 +611,8 @@ items:
         - crafttable
         - workbench
         - worktable
+        - ctable
+        - wtable
     '59':
         name: Crop Block
         aliases: 
@@ -628,10 +630,12 @@ items:
     '61':
         name: Furnace
         aliases: 
+        - oven
     '62':
         name: Burning Furnace
         aliases: 
         - litfurnace
+        - litoven
         obtain: silktouch
     '63':
         name: Sign Post
@@ -691,6 +695,7 @@ items:
         name: Redstone Ore
         aliases: 
         - redstoneore
+        - rore
         obtain: silktouch
     '74':
         name: Glowing Redstone Ore
@@ -698,6 +703,7 @@ items:
         - glowingrore
         - redstoneorelit
         - rorelit
+        - grore
         obtain: silktouch
     '75':
         name: Redstone Torch Off
@@ -770,10 +776,12 @@ items:
         - glowstone
         - lightblock
         - lightstone
+        - gsb
     '90':
         name: Portal
         aliases: 
         - portalblock
+        - netherportal
         obtain: hacking
     '91':
         name: Jack-O-Lantern
@@ -810,6 +818,7 @@ items:
         name: Trapdoor
         aliases: 
         - hatch
+    # Bukkit very misleading calls block 97 'monster eggs' even though its only for silverfish
     97;0:
         name: Silverfish Stone
         aliases: 
@@ -832,6 +841,8 @@ items:
         - dungeon
         - sbrick
         - stonebrick
+        - smoothbrick
+        - smoothbricks
     98;1:
         name: Mossy Stone Bricks
         aliases:
@@ -969,6 +980,7 @@ items:
         - glasspane
         - pane
         - window
+        - thinglass
     '103':
         name: Melon
         aliases: 
@@ -1023,6 +1035,7 @@ items:
         name: Nether Brick Fence
         aliases: 
         - nbrickfence
+        - nbfence
         - netherfence
         - nfence
     '114':
@@ -1117,12 +1130,14 @@ items:
         aliases: 
         - iingot
         - ironbar
+        - ii
         - i
     '266':
         name: Gold Ingot
         aliases: 
         - gingot
         - goldbar
+        - gi
         - g
     '267':
         name: Iron Sword
@@ -1221,16 +1236,19 @@ items:
         purpose: weapon
         aliases: 
         - gsword
+        - goldensword
         - gs
     '284':
         name: Gold Shovel
         purpose: tool
         aliases: 
+        - goldenshovel
         - gshovel
     '285':
         name: Gold Pickaxe
         purpose: tool
         aliases: 
+        - goldenpickaxe
         - goldpick
         - gpick
         - gpickaxe
@@ -1239,6 +1257,7 @@ items:
         name: Gold Axe
         purpose: tool
         aliases: 
+        - goldenaxe
         - gaxe
     '287':
         name: String
@@ -1250,6 +1269,7 @@ items:
         name: Gunpowder
         aliases: 
         - sulfur
+        - sulphur
     '290':
         name: Wooden Hoe
         purpose: tool
@@ -1276,6 +1296,7 @@ items:
         purpose: tool
         aliases: 
         - ghoe
+        - goldenhoe
     '295':
         name: Seeds
         aliases: 
@@ -1425,6 +1446,7 @@ items:
         aliases: 
         - ghelm
         - ghelmet
+        - goldenhelmet
         - goldhelm
     '315':
         name: Gold Chestplate
@@ -1433,6 +1455,7 @@ items:
         - gchest
         - goldchest
         - goldshirt
+        - goldenchestplate
         - gshirt
     '316':
         name: Gold Leggings
@@ -1440,6 +1463,7 @@ items:
         aliases: 
         - gleggings
         - goldpants
+        - goldenleggings
         - gpants
     '317':
         name: Gold Boots
@@ -1447,6 +1471,7 @@ items:
         aliases: 
         - gboots
         - goldshoes
+        - goldenboots
         - gshoes
     '318':
         name: Flint
@@ -1456,6 +1481,7 @@ items:
         aliases: 
         - pork
         - porkchop
+        - rawpork
     '320':
         name: Cooked Porkchop
         aliases: 
@@ -1508,6 +1534,7 @@ items:
         - rdust
         - redstonedust
         - rsdust
+        - dust
     '332':
         name: Snowball
         aliases: 
@@ -1535,9 +1562,11 @@ items:
         aliases: 
         - bamboo
         - reed
+        - cane
     '339':
         name: Paper
         aliases: 
+        - papyrus
     '340':
         name: Book
         aliases: 
@@ -1546,6 +1575,7 @@ items:
         aliases: 
         - slimeorb
         - slime
+        - sball
     '342':
         name: Minecart Chest
         aliases: 
@@ -1563,6 +1593,8 @@ items:
     '344':
         name: Egg
         aliases: 
+        - chickenegg
+        # Not spawner or dragon egg
     '345':
         name: Compass
         aliases: 
@@ -2432,11 +2464,12 @@ items:
     383;63:
         name: Spawn Enderdragon
         aliases: 
+        - spawndragon
         - enderdragonspawneregg
         - enderdragonegg
         - enderdragon
         - dragon
-        obtain: creative
+        obtain: hacking
     383;90:
         name: Spawn Pig
         aliases: 
@@ -2496,7 +2529,8 @@ items:
         - snowman
         - spawnsnowman
         - golem
-        obtain: creative
+        #obtain: creative   # even though it works
+        obtain: hacking
     383;120:
         name: Spawn Villager
         aliases: 
