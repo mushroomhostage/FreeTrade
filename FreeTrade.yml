@@ -576,6 +576,13 @@ items:
         - mobspawner
         - spawner
         obtain: hacking
+        # TODO: support data/tag values used by other mods to acquire monster spawners
+        # Creaturebox - http://dev.bukkit.org/server-mods/creaturebox/
+        # Used to use durability, but says was broken in CB 1575+, "temporary solution"
+        # is using enchantments to store: http://tinyurl.com/7mb2hqv
+        # Add items here, once creaturebox decides on a convention
+        # ItemStack.addUnsafeEnchant OXYGEN, with old mob ids (0-~22) for level
+        # TODO: see also Mob Spawner Changer http://forums.bukkit.org/threads/misc-mech-mob-spawner-changer-v0-3-change-what-a-mob-spawner-spawns-1337.26038/
     '53':
         name: Wooden Stairs
         aliases: 
@@ -1567,9 +1574,12 @@ items:
         name: Paper
         aliases: 
         - papyrus
+        # TODO: support numbered papers, for Writable http://dev.bukkit.org/server-mods/writable/
     '340':
         name: Book
         aliases: 
+        # TODO: support numbered books, for BookWorm http://dev.bukkit.org/server-mods/bookworm/
+        # TODO: get titles, too! if possible
     '341':
         name: Slimeball
         aliases: 
@@ -1738,6 +1748,8 @@ items:
     '358':
         name: Map
         aliases: 
+        # TODO: some way to tag this as a numerical item, map#1, map#2, etc. in vanilla
+        # TODO: support special maps used by other plugins, like enchantment durability in Courier: http://dev.bukkit.org/server-mods/courier/
     '359':
         name: Shears
         aliases: 
