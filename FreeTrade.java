@@ -801,6 +801,17 @@ class Order implements Comparable
         return player.getDisplayName() + " wants " + ItemQuery.nameStack(want) + " for " + ItemQuery.nameStack(give);
     }
 
+    // Convert to a command that can be executed to recreate the order
+    public String serialize() {
+        // TODO: would be nice to return a String[] instead
+        String cmd = "want " + 
+            player.getName() + " " + 
+            ItemQuery.nameStack(want) + " " +
+            ItemQuery.nameStack(give);
+
+        return cmd;
+    }
+
     // Required for ConcurrentSkipListSet - Comparable interface
     public int compareTo(Object obj) {
         if (!(obj instanceof Order)) {
@@ -812,7 +823,6 @@ class Order implements Comparable
 
         //return player.getName().compareTo(rhs.player.getName()) || ItemQuery.isIdenticalStack(want, rhs.want) || ItemQuery.isIdenticalStack(give, rhs.give);
     }
-
 }
 
 // Exception to be reported back to player as invalid usage
@@ -942,6 +952,14 @@ class Market
 
         return false;
     }
+
+    // TODO: save to disk
+    public void serialize() {
+        for (Order order: orders) {
+            log.info(order.serialize());
+        }
+    }
+
 
     public void cancelOrder(Player player, String s) {
         if (s == null || s.equals("-")) {
@@ -1393,12 +1411,17 @@ public class FreeTrade extends JavaPlugin {
 
         listener = new TraderListener(market);
 
+        // TODO: reload orders from disk
+
         Bukkit.getServer().getPluginManager().registerEvent(Event.Type.PLAYER_DROP_ITEM, listener, Event.Priority.Lowest, this);
 
         log.info(getDescription().getName() + " enabled");
     }
 
     public void onDisable() {
+        // TODO: save to disk
+        market.serialize();
+
         log.info(getDescription().getName() + " disabled");
     }
 
