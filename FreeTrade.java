@@ -1176,15 +1176,23 @@ class Market
 
         do
         {
-            ItemStack oneStack = items.clone();
+            int amount;
 
             if (remaining > stackSize) {
-                oneStack.setAmount(stackSize);
+                amount = stackSize;
                 remaining -= stackSize;
             } else {
-                oneStack.setAmount(remaining);
+                amount = remaining;
                 remaining = 0;
             }
+
+            // https://bukkit.atlassian.net/browse/BUKKIT-621
+            // ItemStack cannot clone all items, uses addEnchantment instead of addUnsafeEnchantment
+            //ItemStack oneStack = items.clone();
+            // Workaround: clone ourselves
+            ItemStack oneStack = new ItemStack(items.getType(), amount, items.getDurability());
+            oneStack.addUnsafeEnchantments(items.getEnchantments());
+
        
             HashMap<Integer,ItemStack> excess = player.getInventory().addItem(oneStack);
 
