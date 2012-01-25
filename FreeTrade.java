@@ -434,7 +434,7 @@ class ItemQuery
     }
 
     // Parse a material code string with optional damage value (ex: 35;11)
-    private static ItemStack codeName2ItemStack(String codeName) {
+    public static ItemStack codeName2ItemStack(String codeName) {
         Pattern p = Pattern.compile("^(\\d+)[;:/]?(\\d*)([+]?.*)$");
         Matcher m = p.matcher(codeName);
         int typeCode;
@@ -762,20 +762,10 @@ class Order implements Comparable
 {
     Player player;
     ItemStack want, give;
-    boolean exact;
     boolean free;
 
     public Order(Player p, String wantString, String giveString) {
         player = p;
-
-        if (wantString.contains("!")) {
-            exact = true;
-            wantString = wantString.replace("!", "");
-        }
-        if (giveString.contains("!")) {
-            exact = true;
-            giveString = giveString.replace("!", "");
-        }
 
         want = (new ItemQuery(wantString, p)).itemStack;
         give = (new ItemQuery(giveString, p)).itemStack;
@@ -785,16 +775,15 @@ class Order implements Comparable
         }
     }
 
-    public Order(Player p, ItemStack w, ItemStack g, boolean e) {
+    public Order(Player p, ItemStack w, ItemStack g) {
         player = p;
         want = w;
         give = g;
-        exact = e;
     }
 
     public String toString() {
         // TODO: pregenerate in initialization as description, no need to relookup
-        return player.getDisplayName() + " wants " + ItemQuery.nameStack(want) + " for " + ItemQuery.nameStack(give) + (exact ? " (exact)" : "");
+        return player.getDisplayName() + " wants " + ItemQuery.nameStack(want) + " for " + ItemQuery.nameStack(give);
     }
 
     // Required for ConcurrentSkipListSet - Comparable interface
