@@ -427,11 +427,15 @@ class ItemQuery
             // No, add to real list
             isTradableMap.put(tradableCodeName, true);
         }
+
+        // XXX
+        ItemStack item = codeName2ItemStack("52;1+33@50+2@1");
+        log.info("XXX="+nameStack(item));
     }
 
     // Parse a material code string with optional damage value (ex: 35;11)
     private static ItemStack codeName2ItemStack(String codeName) {
-        Pattern p = Pattern.compile("^(\\d+)[;:/]?(\\d*)$");
+        Pattern p = Pattern.compile("^(\\d+)[;:/]?(\\d*)([+]?.*)$");
         Matcher m = p.matcher(codeName);
         int typeCode;
         short dmgCode;
@@ -441,14 +445,46 @@ class ItemQuery
             throw new UsageException("Invalid item code format: " + codeName);
         }
 
+        // typeid
         typeCode = Integer.parseInt(m.group(1));
+        // ;damagevalue 
         if (m.group(2) != null && !m.group(2).equals("")) {
             dmgCode = Short.parseShort(m.group(2));
         } else {
             dmgCode = 0;
         }
             
-        return new ItemStack(typeCode, 1, dmgCode);
+        ItemStack item = new ItemStack(typeCode, 1, dmgCode);
+
+        // +enchantcode@enchantlevel...
+        if (m.group(3) != null && !m.group(3).equals("")) {
+            String[] parts = m.group(3).split("[+]");
+
+            for (String part: parts) {
+                if (part.length() == 0) {
+                    continue;
+                }
+
+                String[] idAndLevel = part.split("@");
+                if (idAndLevel.length != 2) {
+                    throw new UsageException("Invalid item code: " + codeName + ", enchantment spec: " + part);
+                }
+                int id, level;
+                try {
+                    id = Integer.parseInt(idAndLevel[0]);
+                    level = Integer.parseInt(idAndLevel[1]);
+                } catch (Exception e) {
+                    throw new UsageException("Invalid item code: " + codeName + ", enchantment id/level: " + part);
+                }
+
+                Enchantment ench = Enchantment.getById(id);
+
+                // Add unsafe, since plugins might want to (ab)use enchantment for other purposes
+                item.addUnsafeEnchantment(ench, level);
+            }
+        }
+
+        return item;
     }
 
     // Get an ItemStack directly from one of its names or aliases, or null
@@ -1351,8 +1387,8 @@ public class FreeTrade extends JavaPlugin {
             throw new UsageException("Configuration file version is outdated");
         }
 
-        ItemQuery.loadConfig(config);
         EnchantQuery.loadConfig(config);
+        ItemQuery.loadConfig(config);
         market.loadConfig(config);
     }
 
