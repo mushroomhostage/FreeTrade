@@ -50,6 +50,7 @@ class ItemQuery
     // TODO: switch to sets
     static ConcurrentHashMap<String,Boolean> isTradableMap;
     static ConcurrentHashMap<Material,Boolean> isDurableMap;
+    static ConcurrentHashMap<Material,Boolean> isEnchantableMap;
 
     public ItemQuery(String s) {
         //Pattern onp = Pattern.compile( "^(\\d+)"
@@ -202,6 +203,11 @@ class ItemQuery
     public static boolean isDurable(Material m) {
         return isDurableMap.containsKey(m);
     }
+   
+    // Return whether an item can be legitimately enchanted
+    public static boolean isEnchantable(Material m) {
+        return isEnchantableMap.containsKey(m);
+    }
 
 
     public static String nameStack(ItemStack itemStack) {
@@ -338,6 +344,7 @@ class ItemQuery
         codeName2Name = new ConcurrentHashMap<String, String>();
         
         isDurableMap = new ConcurrentHashMap<Material, Boolean>();
+        isEnchantableMap = new ConcurrentHashMap<Material, Boolean>();
         ConcurrentHashMap<String,Boolean> isTradableMapUnfiltered = new ConcurrentHashMap<String, Boolean>();
 
         HashSet<Obtainability> tradableCategories = new HashSet<Obtainability>();
@@ -381,12 +388,19 @@ class ItemQuery
 
             // Whether loses durability when used or not (include in trades)
             String purpose = config.getString("items." + codeName + ".purpose");
-            if (purpose != null && (purpose.equals("armor") || purpose.equals("tool") || purpose.equals("weapon"))) {
-                Material material = codeName2ItemStack(codeName).getType();
+            Material material = codeName2ItemStack(codeName).getType();
+            boolean durable = purpose != null && (purpose.equals("armor") || purpose.equals("tool") || purpose.equals("weapon"));
+
+            if (durable) {
                 isDurableMap.put(material, new Boolean(true));
             }
 
+            // Items are enchantable if durable, unless overridden (for shears, etc.)
+            boolean enchantable = config.getBoolean("items." + codeName + ".enchant", durable);
 
+            if (enchantable) {
+                isEnchantableMap.put(material, new Boolean(true));
+            }
         }
         log.info("Loaded " + i + " item aliases");
 

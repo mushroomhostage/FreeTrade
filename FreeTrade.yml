@@ -583,6 +583,10 @@ items:
         # Add items here, once creaturebox decides on a convention
         # ItemStack.addUnsafeEnchant OXYGEN, with old mob ids (0-~22) for level
         # TODO: see also Mob Spawner Changer http://forums.bukkit.org/threads/misc-mech-mob-spawner-changer-v0-3-change-what-a-mob-spawner-spawns-1337.26038/
+        # TODO: and support SILK_TOUCH entity ID level enchantment for http://dev.bukkit.org/server-mods/silkspawners/
+        # 1. durability w/ entityID (pre-1.0, broken at least as of CraftBukkit 1.0.1-R1)
+        # 2. OXYGEN w/ legacyID (creaturebox unofficial releases)
+        # 3. SILK_TOUCH w/ entityID (SilkSpawners) - I think this is the best
     '53':
         name: Wooden Stairs
         aliases: 
@@ -1105,6 +1109,7 @@ items:
     '259':
         name: Flint and Steel
         purpose: tool
+        enchant: false
         aliases: 
         - fands
         - firestarter
@@ -1280,27 +1285,32 @@ items:
     '290':
         name: Wooden Hoe
         purpose: tool
+        enchant: false
         aliases: 
         - whoe
         - woodhoe
     '291':
         name: Stone Hoe
         purpose: tool
+        enchant: false
         aliases: 
         - shoe
     '292':
         name: Iron Hoe
         purpose: tool
+        enchant: false
         aliases: 
         - ihoe
     '293':
         name: Diamond Hoe
         purpose: tool
+        enchant: false
         aliases: 
         - dhoe
     '294':
         name: Gold Hoe
         purpose: tool
+        enchant: false
         aliases: 
         - ghoe
         - goldenhoe
@@ -1611,6 +1621,7 @@ items:
     '346':
         name: Fishing Rod
         purpose: tool
+        enchant: false
         aliases: 
         - fishingpole
         - fishingrod
@@ -1752,6 +1763,7 @@ items:
         # TODO: support special maps used by other plugins, like enchantment durability in Courier: http://dev.bukkit.org/server-mods/courier/
     '359':
         name: Shears
+        enchant: false
         aliases: 
         - scissors
     '360':
