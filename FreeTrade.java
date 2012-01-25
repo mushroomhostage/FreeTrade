@@ -179,11 +179,11 @@ class ItemQuery
             // TODO: only assume 0 for wants. For gives, need to use value from inventory! Underspecified
         }
 
-        // TODO: enchantments
+        // Enchantments
         if (enchString != null && !enchString.equals("")) {
             EnchantQuery enchs = new EnchantQuery(enchString);
 
-            itemStack.addEnchantments(enchs.all);
+            itemStack.addUnsafeEnchantments(enchs.all);
         }
     }
 
@@ -767,8 +767,23 @@ class Order implements Comparable
     public Order(Player p, String wantString, String giveString) {
         player = p;
 
-        want = (new ItemQuery(wantString, p)).itemStack;
-        give = (new ItemQuery(giveString, p)).itemStack;
+        if (wantString.startsWith("!")) {
+            if (!player.hasPermission("freetrade.rawitems")) {
+                throw new UsageException("You do not have permission to request raw items");
+            }
+            want = ItemQuery.codeName2ItemStack(wantString.replace("!", ""));
+        } else {
+            want = (new ItemQuery(wantString, p)).itemStack;
+        }
+
+        if (giveString.startsWith("!")) {
+            if (!player.hasPermission("freetrade.rawitems")) {
+                throw new UsageException("You do not have permission to request raw items");
+            }
+            give = ItemQuery.codeName2ItemStack(giveString.replace("!", ""));
+        } else {
+            give = (new ItemQuery(giveString, p)).itemStack;
+        }
 
         if (ItemQuery.isIdenticalItem(want, give)) {
             throw new UsageException("You can't trade items for themselves");
@@ -1254,8 +1269,8 @@ class Market
             // Calculate amount that can be exchanged
             ItemStack exchWant = new ItemStack(oldOrder.want.getType(), Math.min(oldOrder.want.getAmount(), newOrder.give.getAmount()), newOrder.give.getDurability());
             ItemStack exchGive = new ItemStack(oldOrder.give.getType(), Math.min(oldOrder.give.getAmount(), newOrder.want.getAmount()), oldOrder.give.getDurability());
-            exchWant.addEnchantments(newOrder.give.getEnchantments());
-            exchGive.addEnchantments(oldOrder.give.getEnchantments());
+            exchWant.addUnsafeEnchantments(newOrder.give.getEnchantments());
+            exchGive.addUnsafeEnchantments(oldOrder.give.getEnchantments());
 
             log.info("exchWant="+ItemQuery.nameStack(exchWant));
             log.info("exchGive="+ItemQuery.nameStack(exchGive));
