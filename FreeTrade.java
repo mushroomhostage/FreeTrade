@@ -1228,12 +1228,16 @@ class Market
             double newRatio = (double)newOrder.give.getAmount() / newOrder.want.getAmount();
             double oldRatio = (double)oldOrder.want.getAmount() / oldOrder.give.getAmount();
 
+
             // Offering a better or equal deal? (Quantity = relative value)
             log.info("ratio " + newRatio + " >= " + oldRatio);
             if (!(newRatio >= oldRatio)) { 
                 log.info("Not matched, worse relative value");
                 continue;
             }
+
+            // TODO: refactor into ItemStackX compareTo(), so can check if item is 'better than' other item
+            // Generalized to 'betterness'
 
             // Is item less damaged or equally damaged than wanted? (Durability)
             if (ItemQuery.isDurable(newOrder.give.getType())) {
@@ -1249,21 +1253,38 @@ class Market
                 }
             }
 
-            // TODO: enchantment checks
-            if (!EnchantQuery.equalOrBetter(newOrder.give, oldOrder.want)) {
-                log.info("Not matched, insufficient magic new " + EnchantQuery.nameEnchs(newOrder.give.getEnchantments()) + 
-                    " < " + EnchantQuery.nameEnchs(oldOrder.want.getEnchantments()));
-                continue;
+            // Does the item have at least the enchantments and levels that are wanted? (Enchantments)
+            if (ItemQuery.isEnchantable(newOrder.give.getType())) {
+                if (!EnchantQuery.equalOrBetter(newOrder.give, oldOrder.want)) {
+                    log.info("Not matched, insufficient magic new " + EnchantQuery.nameEnchs(newOrder.give.getEnchantments()) + 
+                        " < " + EnchantQuery.nameEnchs(oldOrder.want.getEnchantments()));
+                    continue;
+                }
+            } else {
+                // Not legitimately enchantmentable, means enchant is used as a 'subtype', just like
+                // damage is if !isDurable, so match exactly.
+                if (!EnchantQuery.nameEnchs(newOrder.give.getEnchantments()).equals(
+                     EnchantQuery.nameEnchs(oldOrder.want.getEnchantments()))) {
+                     log.info("Not matched, non-identical enchantments new " + EnchantQuery.nameEnchs(newOrder.give.getEnchantments()) +
+                     " != " + EnchantQuery.nameEnchs(oldOrder.want.getEnchantments()));
+                     continue;
+                }
             }
-            if (!EnchantQuery.equalOrBetter(oldOrder.give, newOrder.want)) {
-                log.info("Not matched, insufficient magic old " + EnchantQuery.nameEnchs(oldOrder.give.getEnchantments()) + 
-                    " < " + EnchantQuery.nameEnchs(newOrder.want.getEnchantments()));
-                continue;
-            }
-            
-        
-            // TODO: Generalize to "betterness"
 
+            if (ItemQuery.isEnchantable(oldOrder.give.getType())) {
+                if (!EnchantQuery.equalOrBetter(oldOrder.give, newOrder.want)) {
+                    log.info("Not matched, insufficient magic old " + EnchantQuery.nameEnchs(oldOrder.give.getEnchantments()) + 
+                        " < " + EnchantQuery.nameEnchs(newOrder.want.getEnchantments()));
+                    continue;
+                }
+            } else { 
+                if (!EnchantQuery.nameEnchs(oldOrder.give.getEnchantments()).equals(
+                     EnchantQuery.nameEnchs(newOrder.want.getEnchantments()))) {
+                     log.info("Not matched, non-identical enchantments old " + EnchantQuery.nameEnchs(oldOrder.give.getEnchantments()) +
+                     " != " + EnchantQuery.nameEnchs(newOrder.want.getEnchantments()));
+                     continue;
+                }
+            }        
 
         
             // Determine how much of the order can be fulfilled
