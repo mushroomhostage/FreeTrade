@@ -1515,15 +1515,20 @@ class Market
 }
 
 // Watch trader for things they might to do invalidate their orders
-class TraderListener extends PlayerListener
+class TraderListener implements Listener
 {
     Logger log = Logger.getLogger("Minecraft");
     Market market;
+    FreeTrade plugin;
 
-    public TraderListener(Market m) {
+    public TraderListener(FreeTrade pl, Market m) {
+        plugin = pl;
         market = m;
+        
+        Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerDropItem(PlayerDropItemEvent event)
     {
         // Re-validate order, see if they dropped an item they were going to give
@@ -1556,9 +1561,7 @@ public class FreeTrade extends JavaPlugin {
         loadConfig();
         market.load();
 
-        listener = new TraderListener(market);
-
-        Bukkit.getServer().getPluginManager().registerEvent(Event.Type.PLAYER_DROP_ITEM, listener, Event.Priority.Lowest, this);
+        listener = new TraderListener(this, market);
 
         log.info(getDescription().getName() + " enabled");
     }
