@@ -146,34 +146,43 @@ class ItemQuery
         // Damage value aka durability
         // User specifies how much they want left, 100% = unused tool
         short maxDamage = itemStack.getType().getMaxDurability();
+        
         if (usesString != null && !usesString.equals("")) {
             short damage;
             short value;
 
-            if (usesString.endsWith("%")) {
-                String percentageString = usesString.substring(0, usesString.length() - 1);
-                double percentage = Double.parseDouble(percentageString);
-
-                value = (short)(percentage / 100.0 * maxDamage);
+            if (isCountable(itemStack.getType())) {
+                // Countable items specify damage directly
+                damage = Short.parseShort(usesString);
+                // TODO: clamp? for maps at least, if request beyond last + 2, will give last + 1
+                // but, if request last + 1, then will create a new map in that slot
             } else {
-                value = Short.parseShort(usesString);
-            }
+                // Tools - uses, percentages
+                if (usesString.endsWith("%")) {
+                    String percentageString = usesString.substring(0, usesString.length() - 1);
+                    double percentage = Double.parseDouble(percentageString);
 
-            // Normally, convenient for user to specify percent or times left (inverse of damage), /
-            // Allow \ separator to specify damage itself
-            if (dmgOrUsesString.equals("\\")) {
-                damage = value;
-            } else {
-                damage = (short)(maxDamage - value);
-            }
+                    value = (short)(percentage / 100.0 * maxDamage);
+                } else {
+                    value = Short.parseShort(usesString);
+                }
+
+                // Normally, convenient for user to specify percent or times left (inverse of damage), /
+                // Allow \ separator to specify damage itself
+                if (dmgOrUsesString.equals("\\")) {
+                    damage = value;
+                } else {
+                    damage = (short)(maxDamage - value);
+                }
 
 
-            if (damage > maxDamage) {
-                damage = maxDamage;     // Breaks right after one use
-            }
+                if (damage > maxDamage) {
+                    damage = maxDamage;     // Breaks right after one use
+                }
 
-            if (damage < 0) {
-                damage = 0;             // Completely unused
+                if (damage < 0) {
+                    damage = 0;             // Completely unused
+                }
             }
 
             itemStack.setDurability(damage);
@@ -274,9 +283,9 @@ class ItemQuery
             name = "unknown="+codeName;
         }
 
-        // Countable items are numbered (map0, map1...)
+        // Countable items are numbered (map/0, map/1...)
         if (isCountable(itemStack.getType())) {
-            name += "" + itemStack.getDurability();
+            name += "/" + itemStack.getDurability();
         }
 
         // Enchantments
