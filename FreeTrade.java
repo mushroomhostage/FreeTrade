@@ -812,6 +812,28 @@ class Order implements Comparable
         return cmd;
     }
 
+    public static Order deserialize(String s) {
+        String[] parts = s.split(" ");
+        if (parts.length != 4) {
+            throw new UsageException("Invalid serialized order parts: " + s);
+        }
+        if (!parts[0].equals("want")) {
+            throw new UsageException("Invalid serialized order command: " + s);
+        }
+        String playerString = parts[1];
+        String wantString = parts[2];
+        String giveString = parts[3];
+
+        Player player = Bukkit.getPlayer(playerString);
+        if (player == null) {
+            // Critical TODO: getOfflinePlayer, support offline trades!!!
+            // TODO: ignore until then?
+            throw new UsageException("Sorry, player "+playerString+" is offline, cannot resurrect order");
+        }
+
+        return new Order(player, wantString, giveString);
+    }
+
     // Required for ConcurrentSkipListSet - Comparable interface
     public int compareTo(Object obj) {
         if (!(obj instanceof Order)) {
@@ -904,10 +926,13 @@ class Market
     Material tradeTerminalMaterial;
     ItemStack tradeTerminalBlock;
 
-    public Market() {
-        // TODO: load from file, save to file
-        //orders = new ArrayList<Order>();
+    FreeTrade plugin;
+
+    public Market(FreeTrade pl) {
         orders = new ConcurrentSkipListSet<Order>();
+
+        plugin = pl;
+        // Note: will also want to load()
     }
 
     public void loadConfig(YamlConfiguration config) {
@@ -953,11 +978,54 @@ class Market
         return false;
     }
 
-    // TODO: save to disk
-    public void serialize() {
-        for (Order order: orders) {
-            log.info(order.serialize());
+    // Save open orders to disk
+    public void save() {
+        String filename = getOutstandingSaveFilename();
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
+
+            for (Order order: orders) {
+                writer.write(order.serialize());
+                writer.newLine();
+            }
+
+            writer.close();
+        } catch (IOException e) {
+            log.info("Failed to save orders! " + e.getMessage());
         }
+    }
+
+    // Load open orders from disk
+    public void load() {
+        String filename = getOutstandingSaveFilename();
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
+
+            orders.clear();
+
+            String line;
+            do {
+                line = reader.readLine();
+                if (line != null) {
+                    try {
+                        Order order = Order.deserialize(line);
+                        orders.add(order);
+                    } catch (Exception e) {
+                        log.info("Bad order: " + line + " (" + e.getMessage() + "), ignored");
+                    }
+                }
+            } while (line != null);
+
+            reader.close();
+        } catch (IOException e) {
+            log.info("Failed to load orders! " + e.getMessage());
+        }
+    }
+
+    private String getOutstandingSaveFilename() {
+        return plugin.getDataFolder() + System.getProperty("file.separator") + "outstanding.txt"; 
     }
 
 
@@ -1000,6 +1068,8 @@ class Market
             throw new UsageException("Failed to find order to cancel: " + order);
         }
         Bukkit.getServer().broadcastMessage("Closed order " + order);
+        
+        save();
     }
 
     public void placeOrder(Order order) {
@@ -1088,6 +1158,9 @@ class Market
         // Broadcast to all players so they know someone wants something, then add
         Bukkit.getServer().broadcastMessage("Wanted: " + order);
         orders.add(order);
+
+        // Save to disk on every order
+        save();
     }
 
     // Transfer items from one player to another
@@ -1405,13 +1478,12 @@ public class FreeTrade extends JavaPlugin {
     TraderListener listener;
 
     public void onEnable() {
-        market = new Market();
 
+        market = new Market(this);
         loadConfig();
+        market.load();
 
         listener = new TraderListener(market);
-
-        // TODO: reload orders from disk
 
         Bukkit.getServer().getPluginManager().registerEvent(Event.Type.PLAYER_DROP_ITEM, listener, Event.Priority.Lowest, this);
 
@@ -1419,8 +1491,7 @@ public class FreeTrade extends JavaPlugin {
     }
 
     public void onDisable() {
-        // TODO: save to disk
-        market.serialize();
+        market.save();
 
         log.info(getDescription().getName() + " disabled");
     }
