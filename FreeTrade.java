@@ -14,6 +14,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.Date;
+import java.sql.Timestamp;
 import java.io.*;
 
 import org.bukkit.plugin.java.JavaPlugin;
@@ -870,22 +872,47 @@ class Transaction
 {
     Player playerA, playerB;
     ItemStack itemsA, itemsB;   // received by corresponding player
+    Timestamp whenExecuted;
 
-    public Transaction(Player pa, ItemStack a, Player pb, ItemStack b) {
+    FreeTrade plugin;
+
+
+    public Transaction(FreeTrade pl, Player pa, ItemStack a, Player pb, ItemStack b) {
+        plugin = pl;
         playerA = pa; 
         playerB = pb;
         itemsA = a;
         itemsB = b;
-        // TODO: timestamp
+    
+        // Timestamp
+        whenExecuted = new Timestamp((new Date()).getTime());
     }
 
     public String toString() {
         // CSV
-        // TODO: items more easily parseable?
-        return playerA.getName() + "," + ItemQuery.nameStack(itemsA) + "," + playerB.getName() + "," + ItemQuery.nameStack(itemsB);
+        // TODO: items more easily parseable? for 3rd parties
+        return whenExecuted + "," +
+            playerA.getName() + "," + 
+            ItemQuery.nameStack(itemsA) + "," + 
+            playerB.getName() + "," + 
+            ItemQuery.nameStack(itemsB);
     }
     
-    // TODO: log to file
+    // Log to file
+    public void log() {
+        String filename = plugin.getDataFolder() + System.getProperty("file.separator") + "transactions.csv"; 
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true));
+
+            writer.write(toString());
+            writer.newLine();
+            writer.close();
+        } catch (IOException e) {
+            plugin.log.info("Failed to save transaction! " + e.getMessage());
+        }
+
+    }
 }
 
 // TODO: ought to be a built-in class for this (or in WorldGuard?)
@@ -1398,8 +1425,9 @@ class Market
             transferItems(newOrder.player, oldOrder.player, exchWant);
             transferItems(oldOrder.player, newOrder.player, exchGive);
 
-            Transaction t = new Transaction(oldOrder.player, exchWant, newOrder.player, exchGive);
-            log.info("t="+t);
+            Transaction t = new Transaction(plugin, oldOrder.player, exchWant, newOrder.player, exchGive);
+
+            t.log();
 
             /*
             oldOrder.player.getInventory().addItem(exchWant);
