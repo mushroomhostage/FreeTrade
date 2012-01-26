@@ -184,6 +184,11 @@ class ItemQuery
 
         // Enchantments
         if (enchString != null && !enchString.equals("")) {
+            if (!isEnchantable(itemStack.getType())) {
+                throw new UsageException("Not enchantable");
+                // TODO: allow permission to override, if want e.g. enchanted shears for testing
+            }
+
             EnchantQuery enchs = new EnchantQuery(enchString);
 
             itemStack.addUnsafeEnchantments(enchs.all);
