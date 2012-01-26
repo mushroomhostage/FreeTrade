@@ -53,6 +53,7 @@ class ItemQuery
     static ConcurrentHashMap<String,Boolean> isTradableMap;
     static ConcurrentHashMap<Material,Boolean> isDurableMap;
     static ConcurrentHashMap<Material,Boolean> isEnchantableMap;
+    static ConcurrentHashMap<Material,Boolean> isCountableMap;
 
     public ItemQuery(String s) {
         //Pattern onp = Pattern.compile( "^(\\d+)"
@@ -214,6 +215,11 @@ class ItemQuery
         return isEnchantableMap.containsKey(m);
     }
 
+    // Return whether an item is numbered, like maps in vanilla (map0, map1..)
+    public static boolean isCountable(Material m) {
+        return isCountableMap.containsKey(m);
+    }
+
 
     public static String nameStack(ItemStack itemStack) {
         if (isNothing(itemStack)) {
@@ -262,9 +268,10 @@ class ItemQuery
         if (name == null) {
             name = "unknown="+codeName;
         }
-        // Special case: 
-        if (itemStack.getType() == Material.MAP) {
-            name += "/" + itemStack.getDurability();
+
+        // Countable items are numbered (map0, map1...)
+        if (isCountable(itemStack.getType())) {
+            name += "" + itemStack.getDurability();
         }
 
         // Enchantments
@@ -350,6 +357,7 @@ class ItemQuery
         
         isDurableMap = new ConcurrentHashMap<Material, Boolean>();
         isEnchantableMap = new ConcurrentHashMap<Material, Boolean>();
+        isCountableMap = new ConcurrentHashMap<Material, Boolean>();
         ConcurrentHashMap<String,Boolean> isTradableMapUnfiltered = new ConcurrentHashMap<String, Boolean>();
 
         HashSet<Obtainability> tradableCategories = new HashSet<Obtainability>();
@@ -406,6 +414,10 @@ class ItemQuery
             if (enchantable) {
                 isEnchantableMap.put(material, new Boolean(true));
             }
+   
+            if (config.getBoolean("items." + codeName + ".count", false)) {
+                isCountableMap.put(material, new Boolean(true));
+            }
         }
         log.info("Loaded " + i + " item aliases");
 
@@ -432,10 +444,6 @@ class ItemQuery
             // No, add to real list
             isTradableMap.put(tradableCodeName, true);
         }
-
-        // XXX
-        ItemStack item = codeName2ItemStack("52;1+33@50+2@1");
-        log.info("XXX="+nameStack(item));
     }
 
     // Parse a material code string with optional damage value (ex: 35;11)

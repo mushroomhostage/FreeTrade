@@ -1759,7 +1759,8 @@ items:
     '358':
         name: Map
         aliases: 
-        # TODO: some way to tag this as a numerical item, map#1, map#2, etc. in vanilla
+        # Maps are counted/numbered (map0, map1..)
+        count: true
         # TODO: support special maps used by other plugins, like enchantment durability in Courier: http://dev.bukkit.org/server-mods/courier/
     '359':
         name: Shears
