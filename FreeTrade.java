@@ -189,9 +189,12 @@ class ItemQuery
         }
     }
 
-    public ItemQuery(String s, Player p) {
+    public ItemQuery(String s, OfflinePlayer p) {
         if (s.equals("this")) {
-            itemStack = p.getItemInHand().clone();
+            if (p.getPlayer() == null) {
+                throw new UsageException("Cannot specify 'this' on offline player");
+            }
+            itemStack = p.getPlayer().getItemInHand().clone();
             if (itemStack == null) {
                 throw new UsageException("No item in hand");
             }
@@ -762,15 +765,15 @@ class EnchantQuery
 
 class Order implements Comparable
 {
-    Player player;
+    OfflinePlayer player;
     ItemStack want, give;
     boolean free;
 
-    public Order(Player p, String wantString, String giveString) {
+    public Order(OfflinePlayer p, String wantString, String giveString) {
         player = p;
 
         if (wantString.startsWith("!")) {
-            if (!player.hasPermission("freetrade.rawitems")) {
+            if (player.getPlayer() == null || !player.getPlayer().hasPermission("freetrade.rawitems")) {
                 throw new UsageException("You do not have permission to request raw items");
             }
             want = ItemQuery.codeName2ItemStack(wantString.replace("!", ""));
@@ -779,7 +782,7 @@ class Order implements Comparable
         }
 
         if (giveString.startsWith("!")) {
-            if (!player.hasPermission("freetrade.rawitems")) {
+            if (player.getPlayer() == null || !player.getPlayer().hasPermission("freetrade.rawitems")) {
                 throw new UsageException("You do not have permission to request raw items");
             }
             give = ItemQuery.codeName2ItemStack(giveString.replace("!", ""));
@@ -792,7 +795,7 @@ class Order implements Comparable
         }
     }
 
-    public Order(Player p, ItemStack w, ItemStack g) {
+    public Order(OfflinePlayer p, ItemStack w, ItemStack g) {
         player = p;
         want = w;
         give = g;
@@ -800,7 +803,7 @@ class Order implements Comparable
 
     public String toString() {
         // TODO: pregenerate in initialization as description, no need to relookup
-        return player.getDisplayName() + " wants " + ItemQuery.nameStack(want) + " for " + ItemQuery.nameStack(give);
+        return player.getName() + " wants " + ItemQuery.nameStack(want) + " for " + ItemQuery.nameStack(give);
     }
 
     // Convert to a command that can be executed to recreate the order
@@ -826,11 +829,9 @@ class Order implements Comparable
         String wantString = parts[2];
         String giveString = parts[3];
 
-        Player player = Bukkit.getPlayer(playerString);
+        OfflinePlayer player = Bukkit.getOfflinePlayer(playerString);
         if (player == null) {
-            // Critical TODO: getOfflinePlayer, support offline trades!!!
-            // TODO: ignore until then?
-            throw new UsageException("Sorry, player "+playerString+" is offline, cannot resurrect order");
+            throw new UsageException("Sorry, player "+playerString+" not found, cannot resurrect order");
         }
 
         return new Order(player, wantString, giveString);
@@ -870,14 +871,14 @@ class UsageException extends RuntimeException
 // Completed order record
 class Transaction
 {
-    Player playerA, playerB;
+    OfflinePlayer playerA, playerB;
     ItemStack itemsA, itemsB;   // received by corresponding player
     Timestamp whenExecuted;
 
     FreeTrade plugin;
 
 
-    public Transaction(FreeTrade pl, Player pa, ItemStack a, Player pb, ItemStack b) {
+    public Transaction(FreeTrade pl, OfflinePlayer pa, ItemStack a, OfflinePlayer pb, ItemStack b) {
         plugin = pl;
         playerA = pa; 
         playerB = pb;
@@ -1056,7 +1057,7 @@ class Market
     }
 
 
-    public void cancelOrder(Player player, String s) {
+    public void cancelOrder(OfflinePlayer player, String s) {
         if (s == null || s.equals("-")) {
             cancelOrders(player);
             return;
@@ -1071,11 +1072,14 @@ class Market
                 i += 1;
             }
         }
-        player.sendMessage("Canceled " + i + " orders");
+
+        if (player.getPlayer() != null) {
+            player.getPlayer().sendMessage("Canceled " + i + " orders");
+        }
     }
 
     // Cancel all orders for a player
-    public void cancelOrders(Player player) {
+    public void cancelOrders(OfflinePlayer player) {
         int i = 0;
         for (Order order: orders) {
             if (order.player.equals(player)) {
@@ -1083,7 +1087,9 @@ class Market
                 i += 1;
             }
         }
-        player.sendMessage("Canceled all your " + i + " orders");
+        if (player.getPlayer() != null) {
+            player.getPlayer().sendMessage("Canceled all your " + i + " orders");
+        }
     }
 
     public void cancelOrder(Order order) {
@@ -1100,9 +1106,15 @@ class Market
     }
 
     public void placeOrder(Order order) {
+        Player onlinePlayer = order.player.getPlayer();
+
+        if (onlinePlayer == null) {
+            throw new UsageException("Offline player tried to place order");
+        }
+
         // Admin conjuring permission
         if (ItemQuery.isNothing(order.give)) {
-            if (!order.player.hasPermission("freetrade.conjure")) {
+            if (!onlinePlayer.hasPermission("freetrade.conjure")) {
                 throw new UsageException("You must specify or select what you want to trade for");
             }
 
@@ -1112,7 +1124,7 @@ class Market
 
         // Item obliteration destruction permission
         if (ItemQuery.isNothing(order.want)) {
-            if (!order.player.hasPermission("freetrade.obliterate")) {
+            if (!onlinePlayer.hasPermission("freetrade.obliterate")) {
                 throw new UsageException("You do not have permission to trade items for nothing");
                 // tip: throw in lava or cacti instead
             }
@@ -1121,19 +1133,19 @@ class Market
         }
 
         // Trade restrictions
-        if (!order.player.hasPermission("freetrade.trade")) {
+        if (!onlinePlayer.hasPermission("freetrade.trade")) {
             throw new UsageException("You are not allowed to trade");
         }
 
-        if (tradeZone != null && !tradeZone.within(order.player.getLocation())) {
+        if (tradeZone != null && !tradeZone.within(onlinePlayer.getLocation())) {
             throw new UsageException("You must be within the trade zone " + tradeZone + " to trade");
         }
 
         
         // TODO: Trade machine nearby? (if enabled)
         if (tradeTerminalRadius != 0) {
-            Location location = order.player.getLocation();
-            World world = order.player.getWorld();
+            Location location = onlinePlayer.getLocation();
+            World world = onlinePlayer.getWorld();
            
             int r = tradeTerminalRadius;
             int ox = location.getBlockX(), oy = location.getBlockY(), oz = location.getBlockZ();
@@ -1191,7 +1203,23 @@ class Market
     }
 
     // Transfer items from one player to another
-    public static void transferItems(Player fromPlayer, Player toPlayer, ItemStack items) {
+    public static void transferItems(OfflinePlayer fromPlayerOffline, OfflinePlayer toPlayerOffline, ItemStack items) {
+        Player fromPlayer = fromPlayerOffline.getPlayer();
+        if (fromPlayer == null) {
+            // TODO: open up player's .dat, edit. Offline transfers!
+            throw new UsageException("Sorry, from player "+fromPlayer.getDisplayName()+" is offline, cannot transfer items");
+        }
+
+        Player toPlayer = toPlayerOffline.getPlayer();
+        if (toPlayer == null) {
+            // TODO: offline player support
+            throw new UsageException("Sorry, to player "+fromPlayer.getDisplayName()+" is offline, cannot transfer items");
+        }
+
+
+
+        // Online player transfer
+
         if (!hasItems(fromPlayer, items)) {
             throw new UsageException("Player " + fromPlayer.getDisplayName() + " doesn't have " + ItemQuery.nameStack(items));
         }
@@ -1220,7 +1248,12 @@ class Market
 
     // Remove items from player's inventory, return # of items player had < amount (insufficient items)
     // Based on OddItem
-    public static int takeItems(Player player, ItemStack goners) {
+    public static int takeItems(OfflinePlayer offlinePlayer, ItemStack goners) {
+        Player player = offlinePlayer.getPlayer();
+        if (player == null) {
+            // TODO
+            throw new UsageException("Sorry, cannot take items from offline player");
+        }
 
         player.saveData();
 
@@ -1259,7 +1292,12 @@ class Market
     }
 
     // Return whether player has at least the items in the stack
-    public static boolean hasItems(Player player, ItemStack items) {
+    public static boolean hasItems(OfflinePlayer offlinePlayer, ItemStack items) {
+        Player player = offlinePlayer.getPlayer();
+        if (player == null) {
+            throw new UsageException("Sorry, cannot check if offline player has items");
+        }
+
         ItemStack[] inventory = player.getInventory().getContents();
 
         int remaining = items.getAmount();
@@ -1274,7 +1312,12 @@ class Market
     }
 
     // Have a player receive items in their inventory
-    public static void recvItems(Player player, ItemStack items) {
+    public static void recvItems(OfflinePlayer offlinePlayer, ItemStack items) {
+        Player player = offlinePlayer.getPlayer();
+        if (player == null) {
+            throw new UsageException("Sorry, cannot receive items to offline player");
+        }
+
         int remaining = items.getAmount();
 
         // Get maximum size per stack, then add individually
@@ -1487,7 +1530,9 @@ class TraderListener extends PlayerListener
         for (Order order: market.orders) {      // TODO: hash lookup of player? Performance
             if (order.player.equals(event.getPlayer())) {
                 if (!Market.hasItems(order.player, order.give)) {
-                    order.player.sendMessage("Order invalidated by item drop");
+                    if (order.player.getPlayer() != null) {
+                        order.player.getPlayer().sendMessage("Order invalidated by item drop");
+                    }
                     market.cancelOrder(order);
                 }
             }
