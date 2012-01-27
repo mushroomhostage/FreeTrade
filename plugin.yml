@@ -1,5 +1,5 @@
 name: FreeTrade
-main: com.exphc.FreeTrade.FreeTrade
+main: me.exphc.FreeTrade.FreeTrade
 version: 1
 commands:
     want:

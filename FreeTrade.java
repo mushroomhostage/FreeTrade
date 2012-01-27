@@ -1,5 +1,5 @@
 
-package com.exphc.FreeTrade;
+package me.exphc.FreeTrade;
 
 import java.util.logging.Logger;
 import java.util.regex.*;
