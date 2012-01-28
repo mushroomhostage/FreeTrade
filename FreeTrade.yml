@@ -1109,7 +1109,8 @@ items:
     '259':
         name: Flint and Steel
         purpose: tool
-        enchant: false
+        #enchant: false
+        enchant: true
         aliases: 
         - fands
         - firestarter

@@ -193,10 +193,14 @@ class ItemQuery
 
         // Enchantments
         if (enchString != null && !enchString.equals("")) {
+            // TODO: rethink enchantable and other item subtype permissions
+            // Should always be expressible as new ItemQuery(), but may want to restrict
+            // based on player permissions what they can trade
+            /*
             if (!isEnchantable(itemStack.getType())) {
                 throw new UsageException("Not enchantable");
                 // TODO: allow permission to override, if want e.g. enchanted shears for testing
-            }
+            }*/
 
             EnchantQuery enchs = new EnchantQuery(enchString);
 
