@@ -608,9 +608,13 @@ class EnchantQuery
             //EnchantmentWrapper enchWrapper = new EnchantmentWrapper(ench.getId());
             EnchantmentWrapper enchWrapper = wrapEnch(ench);
 
+            // TODO: restrict max level? need to figure out permissions here
+            // sometimes (often), exceeding the "max" is useful
+            /*
             if (level > enchWrapper.getMaxLevel()) {
                 level = ench.getMaxLevel();
             }
+            */
 
             log.info("Enchantment: " + ench + ", level="+level);
 
