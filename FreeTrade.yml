@@ -42,7 +42,6 @@ enchants:
         - falling
         - fall
         - ff
-        - fp
     '3':
         name: Blast Protection
         aliases:
