@@ -610,11 +610,10 @@ class EnchantQuery
 
             // TODO: restrict max level? need to figure out permissions here
             // sometimes (often), exceeding the "max" is useful
-            /*
             if (level > enchWrapper.getMaxLevel()) {
-                level = ench.getMaxLevel();
+                log.info("Warning: exceeding max level enchantment "+ench+" "+level+" > " + enchWrapper.getMaxLevel());
+                //level = ench.getMaxLevel();
             }
-            */
 
             log.info("Enchantment: " + ench + ", level="+level);
 
