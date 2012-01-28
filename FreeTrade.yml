@@ -1109,12 +1109,14 @@ items:
     '259':
         name: Flint and Steel
         purpose: tool
-        #enchant: false
-        enchant: true
+        enchant: false
         aliases: 
         - fands
         - firestarter
         - lighter
+        - fas
+        - fns
+        - flintandtender
     '260':
         name: Red Apple
         aliases: 
