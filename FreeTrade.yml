@@ -778,6 +778,8 @@ items:
         aliases: 
         - mud
         - slowsand
+        - ssand
+        - soul
     '89':
         name: Glowstone Block
         aliases: 
@@ -1059,6 +1061,7 @@ items:
     '115':
         name: Nether Wart Block
         aliases: 
+        - nwblock
         obtain: hacking
     '116':
         name: Enchantment Table
@@ -1220,6 +1223,7 @@ items:
         purpose: tool
         aliases: 
         - dshovel
+        - dsh
     '278':
         name: Diamond Pickaxe
         purpose: tool
@@ -1737,6 +1741,8 @@ items:
         - bonemeal
         - white
         - bleach
+        - bmeal
+        - meal
     '352':
         name: Bone
         aliases: 
@@ -1811,6 +1817,7 @@ items:
         aliases: 
         - pearl
         - e
+        - ep
     '369':
         name: Blaze Rod
         aliases: 
@@ -1878,6 +1885,7 @@ items:
         - swiftness
         - swiftpot
         - swift
+        - speed
     373;8195:
         name: Fire Resistance Potion
         aliases: 
@@ -1997,6 +2005,7 @@ items:
         - spswiftness
         - spswiftpot
         - spswift
+        - spspeed
     373;16387:
         name: Splash Fire Resistance Potion
         aliases: 
@@ -2102,6 +2111,8 @@ items:
         - swiftnesspot2
         - swiftnessII
         - swiftness2
+        - swift2
+        - speed2
         obtain: hacking
     373;8297:
         name: Strength Potion II

@@ -151,8 +151,15 @@ class ItemQuery
             short damage;
             short value;
 
-            if (isCountable(itemStack.getType())) {
+            if (isCountable(itemStack.getType()) || !isDurable(itemStack.getType())) {
                 // Countable items specify damage directly
+                // -or- non-durable items
+
+                // TODO: restrict setting durability on non-durable items?? admin function
+                if (!isDurable(itemStack.getType())) {
+                    log.info("Warning: setting durability on non-durable item "+nameStack(itemStack));
+                }
+
                 damage = Short.parseShort(usesString);
                 // TODO: clamp? for maps at least, if request beyond last + 2, will give last + 1
                 // but, if request last + 1, then will create a new map in that slot
