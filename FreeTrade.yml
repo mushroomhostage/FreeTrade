@@ -484,8 +484,8 @@ items:
         aliases: 
         - dsandslab
         - dsandstep
-        - dsslab
-        - dsstep
+        - dssslab
+        - dssstep
         obtain: hacking
         # TOOD: update wiki
     43;2:
@@ -508,6 +508,24 @@ items:
         - dcstep
         obtain: hacking
         # TOOD: update wiki
+    43;4:
+        name: Double Brick Slab
+        aliases:
+        - dbrickslab
+        - dbslab
+        - dbstep
+    43;5:
+        name: Double Stone Brick Slab
+        aliases:
+        - dstonebrickslab
+        - dsbslab
+        - dsbstep
+    43;6:
+        name: Double Stone Slab
+        aliases:
+        - dstoneslab
+        - dsslab
+        - dsstep
     44;0:
         name: Stone Slab
         aliases: 
@@ -518,8 +536,8 @@ items:
         aliases: 
         - sandslab
         - sandstep
-        - sslab
-        - sstep
+        - ssslab
+        - ssstep
     44;2:
         name: Wooden Slab
         aliases: 
@@ -534,6 +552,22 @@ items:
         - cobblestep
         - cslab
         - cstep
+    44;4:
+        name: Brick Slab
+        aliases:
+        - bslab
+        - bstep
+    44;5:
+        name: Stone Brick Slab
+        aliases:
+        - sbrickslab
+        - sbslab
+        - sbstep
+    44;6:
+        name: Stone Slab
+        aliases:
+        - sslab
+        - sstep
     '45':
         name: Brick Block
         aliases: 
