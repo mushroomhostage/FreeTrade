@@ -232,16 +232,22 @@ class ItemQuery
 
     // Return whether an item degrades when used
     public static boolean isDurable(Material m) {
+        if (m == null) return false;    // TODO: non-standard items
+
         return isDurableMap.containsKey(m);
     }
    
     // Return whether an item can be legitimately enchanted
     public static boolean isEnchantable(Material m) {
+        if (m == null) return false;    // TODO: non-standard items
+
         return isEnchantableMap.containsKey(m);
     }
 
     // Return whether an item is numbered, like maps in vanilla (map0, map1..)
     public static boolean isCountable(Material m) {
+        if (m == null) return false;    // TODO: non-standard items
+
         return isCountableMap.containsKey(m);
     }
 
@@ -254,9 +260,6 @@ class ItemQuery
         String name, usesString, enchString;
         Material m = itemStack.getType();
        
-        // If all else fails, use generic name from Bukkit
-        name = itemStack.getType().toString();
-
         if (isDurable(m)) {
             // Percentage remaining
             
@@ -1387,7 +1390,7 @@ class Market
             // ItemStack cannot clone all items, uses addEnchantment instead of addUnsafeEnchantment
             //ItemStack oneStack = items.clone();
             // Workaround: clone ourselves
-            ItemStack oneStack = new ItemStack(items.getType(), amount, items.getDurability());
+            ItemStack oneStack = new ItemStack(items.getTypeId(), amount, items.getDurability());
             oneStack.addUnsafeEnchantments(items.getEnchantments());
 
        
