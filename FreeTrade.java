@@ -1314,12 +1314,19 @@ class Market
     // Based on OddItem
     public static int takeItems(OfflinePlayer offlinePlayer, ItemStack goners) {
         Player player = offlinePlayer.getPlayer();
-        if (player == null) {
-            // TODO
-            throw new UsageException("Sorry, cannot take items from offline player");
-        } else {
-            return takeItemsOnline(player, goners);
+        boolean offline = player == null;
+
+        if (offline) {
+            player = loadOfflinePlayer(offlinePlayer);
         }
+
+        int remaining = takeItemsOnline(player, goners);
+
+        if (offline) {
+            saveOfflinePlayer(player);
+        }
+
+        return remaining;
     }
 
     private static int takeItemsOnline(Player player, ItemStack goners) {
@@ -1362,11 +1369,13 @@ class Market
     // Return whether player has at least the items in the stack
     public static boolean hasItems(OfflinePlayer offlinePlayer, ItemStack items) {
         Player player = offlinePlayer.getPlayer();
+
         if (player == null) {
-            throw new UsageException("Sorry, cannot check if offline player has items");
-        } else {
-            return hasItemsOnline(player, items);
+            player = loadOfflinePlayer(player);
         }
+
+        return hasItemsOnline(player, items);
+        // not saved - no changes
     }
 
     private static boolean hasItemsOnline(Player player, ItemStack items) {
@@ -1386,16 +1395,27 @@ class Market
     // Have a player receive items in their inventory
     public static void recvItems(OfflinePlayer offlinePlayer, ItemStack items) {
         Player player = offlinePlayer.getPlayer();
-        if (player == null) {
-            getOfflineInventory(offlinePlayer);
+        boolean offline = player == null;
 
-            throw new UsageException("Sorry, cannot receive items to offline player");
-        } else {
-            recvItemsOnline(player, items);
+        if (offline) {
+            player = loadOfflinePlayer(offlinePlayer);
+        }
+
+        recvItemsOnline(player, items);
+
+        if (offline) {
+            saveOfflinePlayer(player);
         }
     }
 
-    private static void getOfflineInventory(OfflinePlayer player) {
+    // Save a temporary online player object created by loadOfflinePlayer()
+    private static void saveOfflinePlayer(Player player) {
+        player.saveData();
+        // TODO: need to destroy entity?
+    }
+
+    // Load an offline player into a temporary online Player
+    private static Player loadOfflinePlayer(OfflinePlayer player) {
         List<File> files = getOfflinePlayerDataFiles(player);
 
         for (File file: files) {
@@ -1426,13 +1446,19 @@ class Market
             // read .dat
             onlinePlayer.loadData();
 
+            return onlinePlayer;
+
+            /*
             PlayerInventory inv = onlinePlayer.getInventory();
             for (ItemStack slot: inv.getContents()) {
                 log.info("slot "+slot);
-            }
+            }*/
 
             // TODO: multiple players? destroy other entities?
+            //break;
         }
+
+        throw new UsageException("Could not find offline player "+player.getName());
     }
 
     // Get all player .dat files for an offline player
