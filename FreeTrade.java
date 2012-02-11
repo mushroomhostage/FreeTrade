@@ -1242,25 +1242,27 @@ class Market
     }
 
     // Transfer items from one player to another
-    public static void transferItems(OfflinePlayer fromPlayerOffline, OfflinePlayer toPlayerOffline, ItemStack items) {
+    public static void transferItems(OfflinePlayer fromPlayer, OfflinePlayer toPlayer, ItemStack items) {
+        /*
         Player fromPlayer = fromPlayerOffline.getPlayer();
+        Player toPlayer = toPlayerOffline.getPlayer();
+
         if (fromPlayer == null) {
             // TODO: open up player's .dat, edit. Offline transfers!
             throw new UsageException("Sorry, from player "+fromPlayer.getDisplayName()+" is offline, cannot transfer items");
         }
 
-        Player toPlayer = toPlayerOffline.getPlayer();
+
         if (toPlayer == null) {
             // TODO: offline player support
             throw new UsageException("Sorry, to player "+fromPlayer.getDisplayName()+" is offline, cannot transfer items");
-        }
-
+        }*/
 
 
         // Online player transfer
 
         if (!hasItems(fromPlayer, items)) {
-            throw new UsageException("Player " + fromPlayer.getDisplayName() + " doesn't have " + ItemQuery.nameStack(items));
+            throw new UsageException("Player " + fromPlayer.getName() + " doesn't have " + ItemQuery.nameStack(items));
         }
 
         int missing = takeItems(fromPlayer, items);
@@ -1272,17 +1274,14 @@ class Market
             recvItems(fromPlayer, items);
 
             // TODO: try to prevent this from happening, by watching inventory changes, player death, etc
-            throw new UsageException("Player " + fromPlayer.getDisplayName() + " doesn't have enough " + ItemQuery.nameStack(items) + ", missing " + missing + ", reverted");
+            throw new UsageException("Player " + fromPlayer.getName() + " doesn't have enough " + ItemQuery.nameStack(items) + ", missing " + missing + ", reverted");
             // TODO: also, detect earlier and cancel order
         }
 
         recvItems(toPlayer, items);
 
-        // How did the items transport themselves between the players? Magic, as indicated by smoke.
-        toPlayer.playEffect(toPlayer.getLocation(), Effect.SMOKE, 0);
-
-        Bukkit.getServer().broadcastMessage(toPlayer.getDisplayName() + " received " + 
-            ItemQuery.nameStack(items) + " from " + fromPlayer.getDisplayName());
+        Bukkit.getServer().broadcastMessage(toPlayer.getName() + " received " + 
+            ItemQuery.nameStack(items) + " from " + fromPlayer.getName());
     }
 
     // Remove items from player's inventory, return # of items player had < amount (insufficient items)
@@ -1292,8 +1291,12 @@ class Market
         if (player == null) {
             // TODO
             throw new UsageException("Sorry, cannot take items from offline player");
+        } else {
+            return takeItemsOnline(player, goners);
         }
+    }
 
+    private static int takeItemsOnline(Player player, ItemStack goners) {
         player.saveData();
 
         ItemStack[] inventory = player.getInventory().getContents();
@@ -1335,8 +1338,12 @@ class Market
         Player player = offlinePlayer.getPlayer();
         if (player == null) {
             throw new UsageException("Sorry, cannot check if offline player has items");
+        } else {
+            return hasItemsOnline(player, items);
         }
+    }
 
+    private static boolean hasItemsOnline(Player player, ItemStack items) {
         ItemStack[] inventory = player.getInventory().getContents();
 
         int remaining = items.getAmount();
@@ -1355,8 +1362,12 @@ class Market
         Player player = offlinePlayer.getPlayer();
         if (player == null) {
             throw new UsageException("Sorry, cannot receive items to offline player");
+        } else {
+            recvItemsOnline(player, items);
         }
+    }
 
+    private static void recvItemsOnline(Player player, ItemStack items) {
         int remaining = items.getAmount();
 
         // Get maximum size per stack, then add individually
@@ -1412,6 +1423,10 @@ class Market
                 player.getWorld().dropItemNaturally(player.getLocation(), excessItems);
             }
         } while (remaining > 0);
+
+        // How did the items transport themselves between the players? Magic, as indicated by smoke.
+        // (Note only smoke on receiving end, and only if receiving player is online)
+        player.playEffect(player.getLocation(), Effect.SMOKE, 0);
     }
 
 
