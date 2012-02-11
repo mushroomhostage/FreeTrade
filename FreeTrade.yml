@@ -14,8 +14,8 @@ tradableBlacklist: []
 
 # If non-zero, require a 'trade terminal' to be within X blocks of
 # player before they can trade
-tradeTerminalRadius: 5
-#tradeTerminalRadius: 0     # trade anywhere
+#tradeTerminalRadius: 5
+tradeTerminalRadius: 0     # trade anywhere
 
 # Material for the 'trade terminal'
 tradeTerminalBlock: sponge
