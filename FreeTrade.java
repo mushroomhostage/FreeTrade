@@ -815,7 +815,9 @@ class Order implements Comparable
             if (player.getPlayer() == null || !player.getPlayer().hasPermission("freetrade.rawitems")) {
                 throw new UsageException("You do not have permission to request raw items");
             }
+            // TODO: merge into ItemQuery! and better permissions (allow raw if is item they can trade, already exists)
             want = ItemQuery.codeName2ItemStack(wantString.replace("!", ""));
+            // TODO: allow !-less raw items, but need quantity separator (.?)
         } else {
             want = (new ItemQuery(wantString, p)).itemStack;
         }
@@ -1243,7 +1245,7 @@ class Market
 
     // Transfer items from one player to another
     public static void transferItems(OfflinePlayer fromPlayer, OfflinePlayer toPlayer, ItemStack items) {
-        /*
+        /* // XXX: This is very important to prevent offline failures until have exception rollback
         Player fromPlayer = fromPlayerOffline.getPlayer();
         Player toPlayer = toPlayerOffline.getPlayer();
 
@@ -1265,20 +1267,38 @@ class Market
             throw new UsageException("Player " + fromPlayer.getName() + " doesn't have " + ItemQuery.nameStack(items));
         }
 
-        int missing = takeItems(fromPlayer, items);
+        int missing = -1;
+        Exception takeException = null;
+        try {
+            missing = takeItems(fromPlayer, items);
+        } catch (Exception e) {
+            missing = -1;
+            takeException = e;
+        }
 
-        if (missing > 0) {
+        if (missing == -1 || missing > 0) {
             // Rollback order
             // TODO: verify
             items.setAmount(items.getAmount() - missing);
             recvItems(fromPlayer, items);
 
             // TODO: try to prevent this from happening, by watching inventory changes, player death, etc
-            throw new UsageException("Player " + fromPlayer.getName() + " doesn't have enough " + ItemQuery.nameStack(items) + ", missing " + missing + ", reverted");
-            // TODO: also, detect earlier and cancel order
+            if (missing > 0) {
+                throw new UsageException("Player " + fromPlayer.getName() + " doesn't have enough " + ItemQuery.nameStack(items) + ", missing " + missing + ", reverted");
+            } else {
+                throw new UsageException("Player " + fromPlayer.getName() + "  could not have items taken ("+takeException.getMessage()+"), reverted");
+            }
         }
 
-        recvItems(toPlayer, items);
+        try {
+            recvItems(toPlayer, items);
+        } catch (Exception recvException) {
+            // Give back
+            // TODO: this needs to be BULLETPROOF to avoid item duping
+            recvItems(fromPlayer, items);
+
+            throw new UsageException("Player " + toPlayer.getName() + " could not receive items ("+recvException.getMessage()+"), reverted");
+        }
 
         Bukkit.getServer().broadcastMessage(toPlayer.getName() + " received " + 
             ItemQuery.nameStack(items) + " from " + fromPlayer.getName());
@@ -1361,9 +1381,29 @@ class Market
     public static void recvItems(OfflinePlayer offlinePlayer, ItemStack items) {
         Player player = offlinePlayer.getPlayer();
         if (player == null) {
+            getOfflineInventory(offlinePlayer);
+
             throw new UsageException("Sorry, cannot receive items to offline player");
         } else {
             recvItemsOnline(player, items);
+        }
+    }
+
+    private static void getOfflineInventory(OfflinePlayer player) {
+        String thisPlayerName = player.getName();
+
+        // see also https://github.com/lishd/OpenInv/blob/master/src/lishid/openinv/commands/OpenInvPluginCommand.java#L81
+        List<World> worlds = Bukkit.getWorlds();
+        for (World world: worlds) {
+            File players = new File(world.getWorldFolder(), "players");
+
+            for (File playerFile: players.listFiles()) {
+                String playerName = playerFile.getName().replaceFirst("\\.dat$", "");
+
+                if (playerName.trim().equalsIgnoreCase(thisPlayerName)) {
+                    log.info("FOUND "+playerFile);
+                }
+            }
         }
     }
 
