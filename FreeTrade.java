@@ -33,6 +33,12 @@ import org.bukkit.*;
 
 import info.somethingodd.bukkit.OddItem.OddItem;
 
+import org.bukkit.craftbukkit.CraftServer;
+
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.EntityPlayer;
+import net.minecraft.server.ItemInWorldManager;
+
 enum Obtainability 
 { 
     NORMAL, SILKTOUCH, CREATIVE, HACKING, NEVER
@@ -1392,7 +1398,41 @@ class Market
     private static void getOfflineInventory(OfflinePlayer player) {
         List<File> files = getOfflinePlayerDataFiles(player);
 
-        log.info("FILES="+files);
+        for (File file: files) {
+            // Load offline player .dat
+            // see also https://github.com/lishd/OpenInv/blob/master/src/lishid/openinv/commands/OpenInvPluginCommand.java#L81
+            net.minecraft.server.MinecraftServer console = ((CraftServer)Bukkit.getServer()).getServer();
+
+            net.minecraft.server.ItemInWorldManager manager = new net.minecraft.server.ItemInWorldManager(console.getWorldServer(0));
+
+            net.minecraft.server.EntityPlayer entity = new net.minecraft.server.EntityPlayer(
+                console,
+                console.getWorldServer(0),
+                player.getName(),
+                manager);
+
+            if (entity == null) {
+                throw new UsageException("Failed to load offline player entity " + player.getName());
+            }
+            
+            Player onlinePlayer = (Player)entity.getBukkitEntity();
+
+            if (onlinePlayer == null) {
+                throw new UsageException("Failed to load offline player " + player.getName());
+            }
+
+            log.info("Found! " + onlinePlayer);
+
+            // read .dat
+            onlinePlayer.loadData();
+
+            PlayerInventory inv = onlinePlayer.getInventory();
+            for (ItemStack slot: inv.getContents()) {
+                log.info("slot "+slot);
+            }
+
+            // TODO: multiple players? destroy other entities?
+        }
     }
 
     // Get all player .dat files for an offline player
@@ -1403,7 +1443,6 @@ class Market
 
         String thisPlayerName = player.getName();
 
-        // see also https://github.com/lishd/OpenInv/blob/master/src/lishid/openinv/commands/OpenInvPluginCommand.java#L81
         List<World> worlds = Bukkit.getWorlds();
         for (World world: worlds) {
             File players = new File(world.getWorldFolder(), "players");
