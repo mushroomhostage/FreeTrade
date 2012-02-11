@@ -1390,6 +1390,17 @@ class Market
     }
 
     private static void getOfflineInventory(OfflinePlayer player) {
+        List<File> files = getOfflinePlayerDataFiles(player);
+
+        log.info("FILES="+files);
+    }
+
+    // Get all player .dat files for an offline player
+    // Searches through all worlds, so could conceivably find >1
+    // (with multiworld plugin? but I haven't seen any in world_nether or world_the_end)
+    private static List<File> getOfflinePlayerDataFiles(OfflinePlayer player) {
+        List<File> playerFiles = new ArrayList<File>(1);
+
         String thisPlayerName = player.getName();
 
         // see also https://github.com/lishd/OpenInv/blob/master/src/lishid/openinv/commands/OpenInvPluginCommand.java#L81
@@ -1401,10 +1412,12 @@ class Market
                 String playerName = playerFile.getName().replaceFirst("\\.dat$", "");
 
                 if (playerName.trim().equalsIgnoreCase(thisPlayerName)) {
-                    log.info("FOUND "+playerFile);
+                    playerFiles.add(playerFile);
                 }
             }
         }
+
+        return playerFiles;
     }
 
     private static void recvItemsOnline(Player player, ItemStack items) {
