@@ -908,7 +908,9 @@ items:
         obtain: silktouch
     # TODO: are mush pieces really obtainable? It is contested:
     # http://www.reddit.com/r/Minecraft/comments/pjzzk/giant_mushrooms_in_creative/
-    # Bukkit bug over vanilla?
+    # is it a Bukkit bug over vanilla?
+    # Can silk touch harvest mushroom blocks retaining their data values? #
+    # http://www.reddit.com/r/Minecraft/comments/pfwm8/detail_fancy_floors/
     99;1:
         name: Huge Brown Mushroom Top West North
         aliases: 
