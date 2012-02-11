@@ -1371,7 +1371,7 @@ class Market
         Player player = offlinePlayer.getPlayer();
 
         if (player == null) {
-            player = loadOfflinePlayer(player);
+            player = loadOfflinePlayer(offlinePlayer);
         }
 
         return hasItemsOnline(player, items);
