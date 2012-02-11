@@ -904,57 +904,72 @@ items:
         - brownmushroomcap
         - hugebrownmushroom
         - hugebrownmushroomflesh
+        - bmushcap
         obtain: silktouch
+    # TODO: are mush pieces really obtainable? It is contested:
+    # http://www.reddit.com/r/Minecraft/comments/pjzzk/giant_mushrooms_in_creative/
+    # Bukkit bug over vanilla?
     99;1:
         name: Huge Brown Mushroom Top West North
         aliases: 
         - bshroomcaptopwestnorth
+        - bmushtwn
         obtain: silktouch
     99;2:
         name: Huge Brown Mushroom Top North
         aliases: 
         - bshroomcaptopnorth
+        - bmushtn
         obtain: silktouch
     99;3:
         name: Huge Brown Mushroom Top North East
         aliases: 
         - bshroomcaptopnortheast
+        - bmushtne
         obtain: silktouch
     99;4:
         name: Huge Brown Mushroom Top West
         aliases: 
         - bshroomcaptopwest
+        - bmushtw
         obtain: silktouch
     99;5:
         name: Huge Brown Mushroom Top
         aliases: 
         - bshroomcaptop
+        - bmushtop
+        - bmusht
         obtain: silktouch
     99;6:
         name: Huge Brown Mushroom Top East
         aliases: 
         - bshroomcaptopeast
+        - bmushte
         obtain: silktouch
     99;7:
         name: Huge Brown Mushroom Top South West
         aliases: 
         - bshroomcaptopsouthwest
+        - bmushtsw
         obtain: silktouch
     99;8:
         name: Huge Brown Mushroom Top South
         aliases: 
         - bshroomcaptopsouth
+        - bmushts
         obtain: silktouch
     99;9:
         name: Huge Brown Mushroom Top East South
         aliases: 
         - bshroomcaptopeastsouth
+        - bmushtes
         obtain: silktouch
     99;10:
         name: Huge Brown Mushroom Pores
         aliases: 
         - bshroomstem
         - hugebrownmushroomstem
+        - bmushpores
         obtain: silktouch
     100;0:
         name: Huge Red Mushroom Pores
@@ -963,57 +978,69 @@ items:
         - rshroomcap
         - hugeredmushroomp
         - hugeredmushroomflesh
+        - rmushpores
         obtain: silktouch
     100;1:
         name: Huge Red Mushroom Top West North
         aliases: 
         - rshroomcaptopwestnorth
+        - rmushtwn
         obtain: silktouch
     100;2:
         name: Huge Red Mushroom Top North
         aliases: 
         - rshroomcaptopnorth
+        - rmushtn
         obtain: silktouch
     100;3:
         name: Huge Red Mushroom Top North East
         aliases: 
         - rshroomcaptopnortheast
+        - rmushtne
         obtain: silktouch
     100;4:
         name: Huge Red Mushroom Top West
         aliases: 
         - rshroomcaptopwest
+        - rmushtw
         obtain: silktouch
     100;5:
         name: Huge Red Mushroom Top
         aliases: 
         - rshroomcaptop
+        - rmushtop
+        - rmusht
         obtain: silktouch
     100;6:
         name: Huge Red Mushroom Top East
         aliases: 
         - rshroomcaptopeast
+        - rmushte
         obtain: silktouch
     100;7:
         name: Huge Red Mushroom Top South West
         aliases: 
         - rshroomcaptopsouthwest
+        - rmushtsw
         obtain: silktouch
     100;8:
         name: Huge Red Mushroom Top South
         aliases: 
         - rshroomcaptopsouth
+        - rmushts
         obtain: silktouch
     100;9:
-        name: Huge red Mushroom Top East South
+        name: Huge Red Mushroom Top East South
         aliases: 
         - rshroomcaptopeastsouth
+        - rmushtes
         obtain: silktouch
     100;10:
         name: Huge Red Mushroom Stem
         aliases: 
         - rshroomstem
         - hugeredmushroomstem
+        - rmushstem
         obtain: silktouch
     '101':
         name: Iron Bars

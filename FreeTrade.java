@@ -1393,7 +1393,12 @@ class Market
             ItemStack oneStack = new ItemStack(items.getTypeId(), amount, items.getDurability());
             oneStack.addUnsafeEnchantments(items.getEnchantments());
 
-       
+            // This fails with NPE on invalid items (/w !123) (TODO: bug report, null check)
+            //    public void setData(int i) {
+            //        this.damage = (this.id > 0) && (this.id < 256) ? Item.byId[this.id].filterData(i) : i; // CraftBukkit
+            //    }
+            // Item.byId isn't defined for invalid items..
+            // -but- it does work for new items (CB modded with IC2, try /w !233
             HashMap<Integer,ItemStack> excess = player.getInventory().addItem(oneStack);
 
             // If player's inventory if full, drop excess items on the floor
