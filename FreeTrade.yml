@@ -2669,6 +2669,22 @@ items:
         - endercrystalspawneregg
         - endercrystalegg
         obtain: hacking
+    # TODO: Spawn Ocelot in 1.2
+
+    # TODO: enable in 1.2
+#    '384':
+#        name: Bottle o Enchanting
+#        obtain: creative
+#        aliases:
+#        - bottleofenchanting
+#        - boenchanting
+#        - enchantbottle
+#        - ebottle
+#    '385':
+#        name: Fire Charge
+#        aliases:
+#        - fcharge
+#        - charge
     '2256':
         name: Gold Disc
         aliases: 
