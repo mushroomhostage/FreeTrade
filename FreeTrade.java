@@ -42,6 +42,7 @@ import net.minecraft.server.ItemInWorldManager;
 
 // Native item names
 import net.minecraft.server.Item;
+//import net.minecraft.server.ItemStack; // not imported, but used below
 
 enum Obtainability 
 { 
@@ -534,26 +535,9 @@ class ItemQuery
             if (name == null || name.equals("null.name")) {
                 continue;
             }
-            // l() tries to localize name (item.foo.name) to human-readable string, but
-            // doesn't always succeed for new items. TODO: why not? displays on client just fine
-            name = name.replaceFirst("^item\\.", "");
-            name = name.replaceFirst("\\.name$", "");
-            // or for built-in items not meant to be displayed in-game
-            name = name.replaceFirst("^tile\\.", "");
-            // note: do not replace 'block' prefix, since some mods use to distinguish vs items
-
-            // another level of prefixing used in IC2
-            name = name.replaceFirst("^item", "");
-            // and suffixing in BC
-            name = name.replaceFirst("Item$", "");
-
-            // Initial case for mods that don't (most do)
-            if (Character.isLowerCase(name.charAt(0))) {
-                name = Character.toTitleCase(name.charAt(0)) + name.substring(1);
-            }
             // TODO: also get aliases, ModLoaderMP loads them
             
-            String properName = getSmushedName(name);
+            String properName = getNormalizedNativeName(name);
 
             /*
             TODO: if has subtypes, we should add those as separate items!!
@@ -564,12 +548,19 @@ class ItemQuery
             // Is damage used for subtypes?
             // item.g() // isDamageable() = maxDamage > 0 && !hasSubtypes
             if (item.e()) {    // getHasSubTypes(), accesses hasSubtypes (obfuscated bR)
+                // TODO: why doesn't this ever get called??
+
                 for (int damage = 0; damage < item.getMaxDurability(); damage += 1) {
                     String codeName = id + ";" + damage;
 
                     log.info("id "+codeName+" = "+name);
+
+                    // To get subtype name we have to create a native ItemStack
+                    net.minecraft.server.ItemStack is = new net.minecraft.server.ItemStack(id, 1, damage);
+                    // getItemNameIS(ItemStack)
+                    properName = getNormalizedNativeName(item.a(is));
+
                     name2CodeName.put(properName.toLowerCase(), codeName);
-                    // TODO: getItemNameIS(ItemStack) (obfuscated a)! REQUIRED TO GET SUBTYPE NAMES XXX
                     codeName2Name.put(codeName, properName + damage);
                 }
             } else {
@@ -580,6 +571,29 @@ class ItemQuery
                 codeName2Name.put(codeName, properName);
             }
         }
+    }
+
+    // Get a semi-human-readable name from localized nms Item name
+    private static String getNormalizedNativeName(String name) {
+        // l() tries to localize name (item.foo.name) to human-readable string, but
+        // doesn't always succeed for new items. TODO: why not? displays on client just fine
+        name = name.replaceFirst("^item\\.", "");
+        name = name.replaceFirst("\\.name$", "");
+        // or for built-in items not meant to be displayed in-game
+        name = name.replaceFirst("^tile\\.", "");
+        // note: do not replace 'block' prefix, since some mods use to distinguish vs items
+
+        // another level of prefixing used in IC2
+        name = name.replaceFirst("^item", "");
+        // and suffixing in BC
+        name = name.replaceFirst("Item$", "");
+
+        // Initial case for mods that don't (most do)
+        if (Character.isLowerCase(name.charAt(0))) {
+            name = Character.toTitleCase(name.charAt(0)) + name.substring(1);
+        }
+
+        return getSmushedName(name);
     }
 
     // Parse a material code string with optional damage value (ex: 35;11)
