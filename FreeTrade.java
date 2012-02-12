@@ -65,7 +65,7 @@ class ItemQuery
         Pattern p = Pattern.compile(
             "^(\\d*)" +             // quantity
             "([# :;.-]?)" +         // separator / stack flag
-            "([^/\\\\]+)" +         // name
+            "([^/\\\\]*)" +         // name
             "([/\\\\]?)" +          // separator / damage flag
             "([\\d%]*)" +           // use / damage
             "/?([^/]*)$");          // enchant

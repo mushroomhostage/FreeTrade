@@ -233,6 +233,7 @@ items:
         - oak
         - oaklog
         - oakwood
+        - applewood
     17;1:
         name: Pine Wood
         aliases: 
@@ -247,27 +248,39 @@ items:
         - birchlog
         - birchwood
         - b
+    17;3:
+        name: Jungle Wood
+        aliases:
+        - jungle
+        - junglelog
+        - jwood
     18;0:
         name: Oak Leaves
         aliases: 
         - leaf
         - leaves
+        - appleleaves
     18;1:
         name: Pine Leaves
         aliases: 
         - darkleaf
         - darkleaves
         - pineleaf
+        - spruceleaf
+        - spruceleave
+        - pleaf
     18;2:
         name: Birch Leaves
         aliases: 
         - birchleaf
         - whiteleaf
         - whiteleaves
+        - bleaf
     18;3:
-        name: Spruce Leaves
+        name: Jungle Leaves
         aliases:
-        - spruceleaf
+        - jungleleaf
+        - jleaf
     '19':
         name: Sponge
         aliases: 
