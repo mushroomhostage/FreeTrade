@@ -64,7 +64,7 @@ class ItemQuery
     public ItemQuery(String s) {
         Pattern p = Pattern.compile(
             "^(\\d*)" +             // quantity
-            "([# :;.-]?)" +         // separator / stack flag
+            "([# :.-]?)" +         // separator / stack flag
             "([^/\\\\]*)" +         // name
             "([/\\\\]?)" +          // separator / damage flag
             "([\\d%]*)" +           // use / damage
@@ -82,6 +82,13 @@ class ItemQuery
         String dmgOrUsesString = m.group(4);
         String usesString = m.group(5);
         String enchString = m.group(6);
+
+        // Bare "quantity", no name, like "52"
+        // Use this as the raw name instead (but for most power, prefix with "." for empty quantity)
+        if (nameString.equals("")) {
+            nameString = quantityString;
+            quantityString = "";
+        }
 
         if (quantityString.equals("")) {
             quantity = 1;
@@ -114,13 +121,23 @@ class ItemQuery
             }
             // Exactly one hit, use it
             nameString = results.first().toLowerCase();
-        } 
+        }
         // First try built-in name lookup
         itemStack = directLookupName(nameString);
 
         if (itemStack == null) {
-            // "raw item" name, code name
-            itemStack = ItemQuery.codeName2ItemStack(nameString);
+            // try "raw item" name, code name (like 52 = monster spawner)
+            try {
+                itemStack = ItemQuery.codeName2ItemStack(nameString);
+            } catch (UsageException e) {
+                // try augumented raw item name, like 17;2
+                try {
+                    itemStack = ItemQuery.codeName2ItemStack(quantityString + nameString);
+                    quantity = 1;
+                } catch (UsageException e2) {
+                    // fall through
+                }
+            }
         }
         
         if (itemStack == null) {
