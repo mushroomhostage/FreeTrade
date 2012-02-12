@@ -62,11 +62,9 @@ class ItemQuery
     static ConcurrentHashMap<Material,Boolean> isCountableMap;
 
     public ItemQuery(String s) {
-        //Pattern onp = Pattern.compile( "^(\\d+)"
-
-        Pattern p  = Pattern.compile(
+        Pattern p = Pattern.compile(
             "^(\\d*)" +             // quantity
-            "([# :;-]?)" +          // separator / stack flag
+            "([# :;.-]?)" +         // separator / stack flag
             "([^/\\\\]+)" +         // name
             "([/\\\\]?)" +          // separator / damage flag
             "([\\d%]*)" +           // use / damage
@@ -120,6 +118,11 @@ class ItemQuery
         // First try built-in name lookup
         itemStack = directLookupName(nameString);
 
+        if (itemStack == null) {
+            // "raw item" name, code name
+            itemStack = ItemQuery.codeName2ItemStack(nameString);
+        }
+        
         if (itemStack == null) {
             // If available, try OddItem for better names or clever suggestions
             if (Bukkit.getServer().getPluginManager().getPlugin("OddItem") != null) {
@@ -817,25 +820,9 @@ class Order implements Comparable
     public Order(OfflinePlayer p, String wantString, String giveString) {
         player = p;
 
-        if (wantString.startsWith("!")) {
-            if (player.getPlayer() == null || !player.getPlayer().hasPermission("freetrade.rawitems")) {
-                throw new UsageException("You do not have permission to request raw items");
-            }
-            // TODO: merge into ItemQuery! and better permissions (allow raw if is item they can trade, already exists)
-            want = ItemQuery.codeName2ItemStack(wantString.replace("!", ""));
-            // TODO: allow !-less raw items, but need quantity separator (.?)
-        } else {
-            want = (new ItemQuery(wantString, p)).itemStack;
-        }
+        want = (new ItemQuery(wantString, p)).itemStack;
 
-        if (giveString.startsWith("!")) {
-            if (player.getPlayer() == null || !player.getPlayer().hasPermission("freetrade.rawitems")) {
-                throw new UsageException("You do not have permission to request raw items");
-            }
-            give = ItemQuery.codeName2ItemStack(giveString.replace("!", ""));
-        } else {
-            give = (new ItemQuery(giveString, p)).itemStack;
-        }
+        give = (new ItemQuery(giveString, p)).itemStack;
 
         if (ItemQuery.isIdenticalItem(want, give)) {
             throw new UsageException("You can't trade items for themselves");
@@ -1649,20 +1636,6 @@ class Market
 
             t.log();
 
-            /*
-            oldOrder.player.getInventory().addItem(exchWant);
-            newOrder.player.getInventory().remove(exchWant);
-            Bukkit.getServer().broadcastMessage(oldOrder.player.getDisplayName() + " received " + 
-                ItemQuery.nameStack(exchWant) + " from " + newOrder.player.getDisplayName());
-
-            newOrder.player.getInventory().addItem(exchGive);
-            oldOrder.player.getInventory().remove(exchGive);
-            Bukkit.getServer().broadcastMessage(newOrder.player.getDisplayName() + " received " + 
-                ItemQuery.nameStack(exchGive) + " from " + oldOrder.player.getDisplayName());
-            */
-
-   
-    
             // Remove oldOrder from orders, if complete, or add partial if incomplete
             if (remainingWant == 0) {
                 // This order is finished, old player got everything they wanted
@@ -1678,11 +1651,12 @@ class Market
                 return true;
             } else if (remainingWant < 0) {
                 // TODO: test better
+                // TODO: there is a bug here, where a new order is placed for 0! XXX
                 cancelOrder(oldOrder);
 
                 newOrder.want.setAmount(-remainingGive);
                 newOrder.give.setAmount(-remainingWant);
-                log.info("Adding new partial order");
+                log.info("Adding new partial order (remainingWant="+remainingWant+")");
                 return false;
             }
 

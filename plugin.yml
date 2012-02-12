@@ -14,7 +14,6 @@ permissions:
             freetrade.obliterate: true
             freetrade.conjure: true
             freetrade.bigstacks: true
-            freetrade.rawitems: true
         default: false
     freetrade.trade:
         description: Allows you to trade with other players
@@ -27,7 +26,4 @@ permissions:
         default: op
     freetrade.bigstacks:
         description: Allows you to stack items in any amount
-        default: op
-    freetrade.rawitems:
-        description: Allows you to specify arbitrary items using a raw code format
         default: op
