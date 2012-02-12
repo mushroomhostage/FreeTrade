@@ -446,7 +446,7 @@ class ItemQuery
             }
 
             // Generate 'proper name' alias, preprocessed for lookup
-            String smushedProperName = properName.replaceAll(" ","");
+            String smushedProperName = getSmushedName(properName);
             String aliasProperName = smushedProperName.toLowerCase();
             name2CodeName.put(aliasProperName, codeName);
             i += 1;
@@ -509,6 +509,12 @@ class ItemQuery
         }
     }
 
+    // Return normalized name smushed together, i.e. Nether Wart => NetherWart
+    // You need to lowercase it yourself if you want to
+    public static String getSmushedName(String name) {
+        return name.replaceAll("[ _-]", "");
+    }
+
     // Load native item names from net.minecraft.server
     // Useful for mods that add new items
     private static void addNativeItemNames() {
@@ -529,9 +535,23 @@ class ItemQuery
             // l() tries to localize name (item.foo.name) to human-readable string, but
             // doesn't always succeed for new items.
             if (name.startsWith("item.")) {
-                name = name.replaceAll("^item\\.", "");
-                name = name.replaceAll("\\.name$", "");
+                name = name.replaceFirst("^item\\.", "");
+                name = name.replaceFirst("\\.name$", "");
             }
+            // another level of prefixing used in IC2
+            if (name.startsWith("item")) {
+                name = name.replaceFirst("^item", "");
+            }
+            // and suffixing in BC
+            if (name.endsWith("Item")) {
+                name = name.replaceFirst("Item$", "");
+            }
+            // Initial case for mods that don't (most do)
+            if (Character.isUpperCase(name.charAt(0))) {
+                name = Character.toTitleCase(name.charAt(0)) + name.substring(1);
+            }
+            
+            name = getSmushedName(name);
 
             log.info("id "+id+" = "+name);
         }
@@ -856,7 +876,7 @@ class EnchantQuery
             }
 
             // Generate 'proper name' alias, preprocessed for lookup
-            String smushedProperName = properName.replaceAll(" ","");
+            String smushedProperName = ItemQuery.getSmushedName(properName);
             String aliasProperName = smushedProperName.toLowerCase();
             name2Code.put(aliasProperName, ench);
             i += 1;
