@@ -1656,25 +1656,48 @@ class Market
             // Remove oldOrder from orders, if complete, or add partial if incomplete
             if (remainingWant == 0) {
                 // This order is finished, old player got everything they wanted
-                // Note: remainingWant can be negative if they got more than they bargained for
-                // (other player offered a better deal than expected). Either way, done deal.
+                log.info("remainingWant=0, this order is finished");
                 cancelOrder(oldOrder);
                 return true;
             } else if (remainingWant > 0) {
+                // They still want more. Update the partial order.
                 oldOrder.want.setAmount(remainingWant);
                 oldOrder.give.setAmount(remainingGive);
 
                 Bukkit.getServer().broadcastMessage("Updated order: " + oldOrder);
+                log.info("remainingWant>0, still want more");
                 return true;
-            } else if (remainingWant < 0) {
-                // TODO: test better
-                // TODO: there is a bug here, where a new order is placed for 0! XXX
-                cancelOrder(oldOrder);
+            }
+            // remainingWant can be negative if they got more than they bargained for
+            // (other player offered a better deal than expected). Either way, done deal.
 
-                newOrder.want.setAmount(-remainingGive);
-                newOrder.give.setAmount(-remainingWant);
-                log.info("Adding new partial order (remainingWant="+remainingWant+")");
-                return false;
+            else if (remainingWant < 0) {
+                if (remainingGive < 0) {
+                    // test case:
+                    //       w foo 10d 10cobble
+                    //       w bar 6cobble 10d
+                    // ->
+                    // close w foo 6d 6cobble
+                    // new   w foo 4d 4cobble
+                    // (and reverse)
+                    cancelOrder(oldOrder);
+
+                    newOrder.want.setAmount(-remainingGive);
+                    newOrder.give.setAmount(-remainingWant);
+                    log.info("remainingWant<0, Adding new partial order (remainingWant="+remainingWant+")");
+                    log.info("remainingGive<0 ="+remainingGive);
+                    return false;
+                } else {
+                    // test case:
+                    // w foo 1d 64cobble
+                    // w bar 1cobble 64diamond
+                    // Offered 64cob, but got it for 1cob. Better deal than expected. But everyone got what they want.
+                    cancelOrder(oldOrder);
+
+                    log.info("remainingWant<0, but remainingGive="+remainingGive+", got better deal than expected, closing");
+                    return true;
+
+                }
             }
 
         }

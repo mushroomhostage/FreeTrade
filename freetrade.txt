@@ -158,18 +158,47 @@ want agnitfom 10diamond 10#cobblestone
 13:56:02 [INFO] Wanted: agnitfom wants 4-diamond for 256-cobblestone
 (Works in reverse; it is symmetric)
 
+(simple equal)
+want agnitfom 1diamond 64cobblestone
+want player 64cobblestone 1diamond
+21:45:42 [INFO] agnitfom received 1:Diamond from Player
+21:45:42 [INFO] Player received 64:Cobblestone from agnitfom
+21:45:42 [INFO] remainingWant=0, this order is finished
+21:45:42 [INFO] Closed order agnitfom wants 1:Diamond for 64:Cobblestone
+
+(remainingGive<0, this is the real test)
+want agnitfom 1diamond 64cobblestone
+want player 1cobblestone 64diamond
+21:47:48 [INFO] ratio 64.0 >= 0.015625
+21:47:48 [INFO] remaining want=-63, give=63
+21:47:48 [INFO] exchWant=1:Diamond
+21:47:48 [INFO] exchGive=1:Cobblestone
+21:47:48 [INFO] agnitfom received 1:Diamond from Player
+Got what he wanted
+Was willing to pay up to 64cob for 1d
+21:47:48 [INFO] Player received 1:Cobblestone from agnitfom
+But other player was willing to for only 1cob
+Better price than expected!
+21:47:48 [INFO] Closed order agnitfom wants 1:Diamond for 64:Cobblestone
+21:47:48 [INFO] remainingWant<0
+remainingGive=63. Since remainingGive is non-negative, 
+NOT: 21:47:48 [INFO] Wanted: Player wants -63:Cobblestone for 63:Diamond
+instead:
+21:56:56 [INFO] Closed order agnitfom wants 1:Diamond for 64:Cobblestone
+21:56:56 [INFO] remainingWant<0, but remainingGive=63, got better deal than expected, closing
+
 
 want agnitfom 10diamond 10#cobblestone
-want mudpots 10#cobblestone 100diamond
-20:46:37 [INFO] mudpots wants ItemStack{COBBLESTONE x 640} for ItemStack{DIAMOND x 100}
+want player 10#cobblestone 100diamond
+20:46:37 [INFO] player wants ItemStack{COBBLESTONE x 640} for ItemStack{DIAMOND x 100}
 20:46:37 [INFO] ratio 0.15625 >= 0.015625
-20:46:37 [INFO] mudpots received ItemStack{COBBLESTONE x 640} from agnitfom
-20:46:37 [INFO] agnitfom received ItemStack{DIAMOND x 100} from mudpots
+20:46:37 [INFO] player received ItemStack{COBBLESTONE x 640} from agnitfom
+20:46:37 [INFO] agnitfom received ItemStack{DIAMOND x 100} from player
 20:46:37 [INFO] Closed order agnitfom wants ItemStack{DIAMOND x 10} for ItemStack{COBBLESTONE x 640}
 (Higher value: a very generous player, offered more diamonds than the first player wanted, so he took it)
 
 want agnitfom 10diamond 10#cobblestone
-want mudpots 10#cobblestone 1diamond  
+want player 10#cobblestone 1diamond  
 20:47:50 [INFO] ratio 0.0015625 >= 0.015625
 (Lower value: new player wants to pay less than older player, no match, both offers remain open)
 
