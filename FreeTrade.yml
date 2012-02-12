@@ -176,9 +176,20 @@ items:
     6;1:
         name: Pine Sapling
         aliases: 
+        - psapling
     6;2:
         name: Birch Sapling
         aliases: 
+        - bsapling
+    6;3:
+        name: Jungle Sapling
+        aliases:
+        - jsapling
+    6;4:
+        # "Same as 3 [jungle sapling], but never dropped"
+        # http://www.minecraftwiki.net/wiki/Data_value#Saplings
+        name: Never Sapling
+        obtain: hacking
     '7':
         name: Bedrock
         aliases: 
