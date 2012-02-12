@@ -424,6 +424,11 @@ class ItemQuery
             tradableCategories.add(Obtainability.valueOf(obtainString.toUpperCase()));
         }
 
+        // Load native items first so can be overridden by custom config
+        if (config.getBoolean("addNativeItems", true)) {
+            addNativeItemNames();    
+        }
+ 
         for (String codeName: itemsSection.getKeys(false)) {
             String properName = config.getString("items." + codeName + ".name");
 
@@ -478,10 +483,7 @@ class ItemQuery
             }
         }
 
-        if (config.getBoolean("addNativeItems", true)) {
-            addNativeItemNames();    
-        }
-        
+       
         log.info("Loaded " + i + " item aliases");
 
         // Whitelist tradable items
@@ -533,27 +535,50 @@ class ItemQuery
                 continue;
             }
             // l() tries to localize name (item.foo.name) to human-readable string, but
-            // doesn't always succeed for new items.
-            if (name.startsWith("item.")) {
-                name = name.replaceFirst("^item\\.", "");
-                name = name.replaceFirst("\\.name$", "");
-            }
+            // doesn't always succeed for new items. TODO: why not? displays on client just fine
+            name = name.replaceFirst("^item\\.", "");
+            name = name.replaceFirst("\\.name$", "");
+            // or for built-in items not meant to be displayed in-game
+            name = name.replaceFirst("^tile\\.", "");
+            // note: do not replace 'block' prefix, since some mods use to distinguish vs items
+
             // another level of prefixing used in IC2
-            if (name.startsWith("item")) {
-                name = name.replaceFirst("^item", "");
-            }
+            name = name.replaceFirst("^item", "");
             // and suffixing in BC
-            if (name.endsWith("Item")) {
-                name = name.replaceFirst("Item$", "");
-            }
+            name = name.replaceFirst("Item$", "");
+
             // Initial case for mods that don't (most do)
-            if (Character.isUpperCase(name.charAt(0))) {
+            if (Character.isLowerCase(name.charAt(0))) {
                 name = Character.toTitleCase(name.charAt(0)) + name.substring(1);
             }
+            // TODO: also get aliases, ModLoaderMP loads them
             
-            name = getSmushedName(name);
+            String properName = getSmushedName(name);
 
-            log.info("id "+id+" = "+name);
+            /*
+            TODO: if has subtypes, we should add those as separate items!!
+            problem is, Item only knows about top-level items (like INK_SACK aka dyePowder)
+            each subclass (ItemDye, etc.) defines its subtype damage values
+            */
+
+            // Is damage used for subtypes?
+            // item.g() // isDamageable() = maxDamage > 0 && !hasSubtypes
+            if (item.e()) {    // getHasSubTypes(), accesses hasSubtypes (obfuscated bR)
+                for (int damage = 0; damage < item.getMaxDurability(); damage += 1) {
+                    String codeName = id + ";" + damage;
+
+                    log.info("id "+codeName+" = "+name);
+                    name2CodeName.put(properName.toLowerCase(), codeName);
+                    // TODO: getItemNameIS(ItemStack) (obfuscated a)! REQUIRED TO GET SUBTYPE NAMES XXX
+                    codeName2Name.put(codeName, properName + damage);
+                }
+            } else {
+                String codeName = String.valueOf(id);
+
+                log.info("id "+codeName+" = "+name);
+                name2CodeName.put(properName.toLowerCase(), codeName);
+                codeName2Name.put(codeName, properName);
+            }
         }
     }
 
