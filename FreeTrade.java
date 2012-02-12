@@ -35,9 +35,13 @@ import info.somethingodd.bukkit.OddItem.OddItem;
 
 import org.bukkit.craftbukkit.CraftServer;
 
+// Offline player loading
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.ItemInWorldManager;
+
+// Native item names
+import net.minecraft.server.Item;
 
 enum Obtainability 
 { 
@@ -473,6 +477,11 @@ class ItemQuery
                 isCountableMap.put(material, new Boolean(true));
             }
         }
+
+        if (config.getBoolean("addNativeItems", true)) {
+            addNativeItemNames();    
+        }
+        
         log.info("Loaded " + i + " item aliases");
 
         // Whitelist tradable items
@@ -500,7 +509,36 @@ class ItemQuery
         }
     }
 
+    // Load native item names from net.minecraft.server
+    // Useful for mods that add new items
+    private static void addNativeItemNames() {
+        // MCP calls this "itemsList"
+        net.minecraft.server.Item[] byId = net.minecraft.server.Item.byId;
+
+        for (int id = 0; id < byId.length; id += 1) {
+            net.minecraft.server.Item item = byId[id];
+            if (item == null) {
+                continue;
+            }
+
+            String name = item.l(); // getStatName()
+
+            if (name == null || name.equals("null.name")) {
+                continue;
+            }
+            // l() tries to localize name (item.foo.name) to human-readable string, but
+            // doesn't always succeed for new items.
+            if (name.startsWith("item.")) {
+                name = name.replaceAll("^item\\.", "");
+                name = name.replaceAll("\\.name$", "");
+            }
+
+            log.info("id "+id+" = "+name);
+        }
+    }
+
     // Parse a material code string with optional damage value (ex: 35;11)
+    // This can create arbitrary item stacks -- it doesn't lookup known items
     public static ItemStack codeName2ItemStack(String codeName) {
         Pattern p = Pattern.compile("^(\\d+)[;:/]?(\\d*)([+]?.*)$");
         Matcher m = p.matcher(codeName);
