@@ -176,6 +176,7 @@ class ItemQuery
 
         // Damage value aka durability
         // User specifies how much they want left, 100% = unused tool
+        // TODO: if getType() Material null (for custom items, 1006) use nms ItemStack
         short maxDamage = itemStack.getType().getMaxDurability();
         
         if (usesString != null && !usesString.equals("")) {
@@ -398,9 +399,22 @@ class ItemQuery
     }
 
     // Return whether item is configured to be allowed to be traded
+    // TODO: I really don't like this
     public static boolean isTradable(ItemStack items) {
         // Durability always stored, but 0 for durable items
-        return isTradableMap.containsKey(items.getTypeId() + ";" + (isDurable(items.getType()) ? 0 : items.getDurability()));
+        String codeName = items.getTypeId() + ";" + (isDurable(items.getType()) ? 0 : items.getDurability());
+
+        return isTradable(codeName);
+
+    }
+    public static boolean isTradable(String codeName) {
+        Object obj = isTradableMap.get(codeName);
+        if (obj == null) {
+            return false;
+        }
+
+        Boolean bool = (Boolean)obj;
+        return bool.booleanValue();
     }
 
 
@@ -417,6 +431,7 @@ class ItemQuery
         isDurableMap = new ConcurrentHashMap<Material, Boolean>();
         isEnchantableMap = new ConcurrentHashMap<Material, Boolean>();
         isCountableMap = new ConcurrentHashMap<Material, Boolean>();
+        isTradableMap = new ConcurrentHashMap<String, Boolean>();
         ConcurrentHashMap<String,Boolean> isTradableMapUnfiltered = new ConcurrentHashMap<String, Boolean>();
 
         HashSet<Obtainability> tradableCategories = new HashSet<Obtainability>();
@@ -446,22 +461,14 @@ class ItemQuery
             List<String> aliases = config.getStringList("items." + codeName + ".aliases");
             if (aliases != null) {
                 for (String alias: aliases) {
-                    name2CodeName.put(alias, codeName);
+                    putItemAlias(alias, codeName);
                     i += 1;
                 } 
             }
 
             // Generate 'proper name' alias, preprocessed for lookup
-            String smushedProperName = getSmushedName(properName);
-            String aliasProperName = smushedProperName.toLowerCase();
-            name2CodeName.put(aliasProperName, codeName);
             i += 1;
-            codeName2Name.put(codeName, smushedProperName);
-
-            // Generate numeric alias
-            name2CodeName.put(codeName, codeName);
-            i += 1;
-
+            putItem(getSmushedName(properName), codeName);
 
             // Whether loses durability when used or not (include in trades)
             String purpose = config.getString("items." + codeName + ".purpose");
@@ -496,13 +503,13 @@ class ItemQuery
 
 
         // Filter through blacklist
-        isTradableMap = new ConcurrentHashMap<String, Boolean>();
         SKIP: for (String tradableCodeName: isTradableMapUnfiltered.keySet()) {
             // Is this blacklisted?
             for (String blackString: config.getStringList("tradableBlacklist")) {
                 ItemStack itemStack = directLookupName(blackString);
 
                 if (tradableCodeName.equals(itemStack.getTypeId() + ";" + itemStack.getDurability())) {
+                    isTradableMap.put(tradableCodeName, false);
                     continue SKIP;
                 }
             }
@@ -553,24 +560,43 @@ class ItemQuery
                 for (int damage = 0; damage < item.getMaxDurability(); damage += 1) {
                     String codeName = id + ";" + damage;
 
-                    log.info("id "+codeName+" = "+name);
-
                     // To get subtype name we have to create a native ItemStack
                     net.minecraft.server.ItemStack is = new net.minecraft.server.ItemStack(id, 1, damage);
                     // getItemNameIS(ItemStack)
                     properName = getNormalizedNativeName(item.a(is));
 
-                    name2CodeName.put(properName.toLowerCase(), codeName);
-                    codeName2Name.put(codeName, properName + damage);
+                    putItem(properName, codeName);
+                    // TODO: restrict native items from mods?
+                    isTradableMap.put(codeName, true);
                 }
             } else {
                 String codeName = String.valueOf(id);
 
-                log.info("id "+codeName+" = "+name);
-                name2CodeName.put(properName.toLowerCase(), codeName);
-                codeName2Name.put(codeName, properName);
+                putItem(properName, codeName);
+                isTradableMap.put(codeName + ";0", true);   // always stores durability
             }
         }
+    }
+
+    // Make us aware of an item name/code mapping
+    // @param properName    Properly capitalized and spaced human-readable name
+    // @param codeName      Code string recognizable by codeName2ItemStack
+    private static boolean putItem(String properName, String codeName) {
+        log.info("id "+codeName+" = "+properName);
+
+        // TODO: detect conflicts!
+        name2CodeName.put(properName.toLowerCase(), codeName);
+        codeName2Name.put(codeName, properName);
+
+        return true;
+    }
+
+    // Add another name for an existing item (putItem)
+    private static boolean putItemAlias(String aliasName, String codeName) {
+        // TODO: detect conflicts!
+        name2CodeName.put(aliasName.toLowerCase(), codeName);
+
+        return true;
     }
 
     // Get a semi-human-readable name from localized nms Item name
@@ -673,8 +699,12 @@ class ItemQuery
             String name = (String)pair.getKey();
             String codeName = (String)pair.getValue();
 
-            if (matchesWildcard(pattern, name) && isTradableMap.containsKey(codeName)) {
-                results.add(codeName2Name.get(codeName).replace(" ",""));
+            if (matchesWildcard(pattern, name)) {
+                if (isTradable(codeName) || isTradable(codeName + ";0")) {   // sorry
+                    results.add(codeName2Name.get(codeName).replace(" ",""));
+                } else {
+                    log.info("matched but not tradable: " + pattern + " = " + name);
+                }
             }
         }
 
