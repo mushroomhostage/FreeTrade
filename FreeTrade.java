@@ -579,12 +579,14 @@ class ItemQuery
                 continue;
             }
 
+            /*
             if (itemsById[id] != null && !itemsById[id].l().equals("null.name")) {
                 log.info("already an item "+id+" "+block);
                 continue;
-            }
+            }*/
 
-            log.info("block "+id+" = "+block);
+            log.info("block "+id+" = "+block+", getName="+block.getName()+", n="+block.n());
+            // TODO: We need subtypes.
         }
 
         //System.exit(-1);
