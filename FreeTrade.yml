@@ -22,7 +22,7 @@ tradeTerminalBlock: sponge
 #tradeTerminalBlock: lapisblock
 tradeTerminalCraftable: true
 
-addNativeItems: true
+scanNativeItems: true
 
 enchants:
     # Armor

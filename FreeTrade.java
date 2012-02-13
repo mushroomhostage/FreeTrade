@@ -434,8 +434,8 @@ class ItemQuery
         }
 
         // Load native items first so can be overridden by custom config
-        if (config.getBoolean("addNativeItems", true)) {
-            addNativeItemNames();    
+        if (config.getBoolean("scanNativeItems", true)) {
+            scanNativeItems();    
         }
  
         for (String codeName: itemsSection.getKeys(false)) {
@@ -520,7 +520,7 @@ class ItemQuery
 
     // Load native item names from net.minecraft.server
     // Useful for mods that add new items
-    private static void addNativeItemNames() {
+    private static void scanNativeItems() {
         // MCP calls this "itemsList"
         net.minecraft.server.Item[] itemsById = net.minecraft.server.Item.byId;
 
@@ -550,11 +550,13 @@ class ItemQuery
 
             if (item instanceof net.minecraft.server.ItemBlock) {
                 net.minecraft.server.ItemBlock itemBlock = (net.minecraft.server.ItemBlock)item;
-                //log.info("item block! " + id);
+                log.info("scanning item block: " + id);
 
                 // Block metadata is 4 bits
+                // TODO: but item data is 16 bits. block 136 = elorram.base.BlockMicro, thousands! scan all??
                 String priorNativeName = null;
-                for (int data = 0; data < 16; data += 1) {
+                //for (int data = 0; data < 16; data += 1) {
+                for (int data = 0; data < 0x10000; data += 1) {
                     net.minecraft.server.ItemStack is = new net.minecraft.server.ItemStack(id, 1, data);
 
                     String nativeName;
@@ -582,6 +584,7 @@ class ItemQuery
                     String codeName = id + ";" + data;
 
                     putItem(properName, codeName);
+                    isTradableMap.put(codeName, true);  // TODO: control tradeability of custom items?
                 }
             }
 
@@ -605,6 +608,7 @@ class ItemQuery
                 String codeName = String.valueOf(id);
 
                 putItem(properName, codeName);
+                // TODO: control tradeability?
                 isTradableMap.put(codeName + ";0", true);   // always stores durability
             }
         }
