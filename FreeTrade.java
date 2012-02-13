@@ -550,22 +550,42 @@ class ItemQuery
 
             if (item instanceof net.minecraft.server.ItemBlock) {
                 net.minecraft.server.ItemBlock itemBlock = (net.minecraft.server.ItemBlock)item;
-                log.info("item block! " + id);
+                //log.info("item block! " + id);
 
                 // Block metadata is 4 bits
+                String priorNativeName = null;
                 for (int data = 0; data < 16; data += 1) {
                     net.minecraft.server.ItemStack is = new net.minecraft.server.ItemStack(id, 1, data);
 
+                    String nativeName;
                     try {
-                        log.info("\t"+data+" = "+itemBlock.a(is));
+                        nativeName = itemBlock.a(is);
                     } catch (IndexOutOfBoundsException e) {
-                        log.info("\t\t(none)");
+                        // RP2, for example, throws this on 144 with data >4
+                        // Wish more mods did this
                         continue;
                     }
+                    if (nativeName == null) {
+                        // null name likely means no block
+                        continue;
+                    }
+                    if (priorNativeName != null && nativeName.equals(priorNativeName)) {
+                        // we're likely at the tail end of the block metadata
+                        // and further metadata will probably return the same values
+                        // (most likely)
+                        break;
+                    }
+
+                    properName = getNormalizedNativeName(nativeName, id, data);
+                    //log.info("\t"+data+" = "+properName);
+
+                    String codeName = id + ";" + data;
+
+                    putItem(properName, codeName);
                 }
             }
 
-            if (item.e()) {    // getHasSubTypes(), accesses hasSubtypes (obfuscated bR)
+            else if (item.e()) {    // getHasSubTypes(), accesses hasSubtypes (obfuscated bR)
                 // TODO: why doesn't this ever get called??
 
                 for (int damage = 0; damage < item.getMaxDurability(); damage += 1) {
@@ -587,37 +607,6 @@ class ItemQuery
                 putItem(properName, codeName);
                 isTradableMap.put(codeName + ";0", true);   // always stores durability
             }
-        }
-
-        // Find ALL the blocks!
-        net.minecraft.server.Block[] blocksById = net.minecraft.server.Block.byId;
-
-        for (int id = 0; id < blocksById.length; id += 1) {
-            net.minecraft.server.Block block = blocksById[id];
-            if (block == null) {
-                continue;
-            }
-
-            /*
-            if (itemsById[id] != null && !itemsById[id].l().equals("null.name")) {
-                log.info("already an item "+id+" "+block);
-                continue;
-            }*/
-
-            log.info("block "+id+" = "+block+", getName="+block.getName()+", n="+block.n());
-            for (int metadata = 0; metadata < 16; metadata += 1) {
-                try {
-                    net.minecraft.server.ItemStack is = new net.minecraft.server.ItemStack(id, 1, metadata);
-                    log.info("\t"+"data"+metadata+" = "+is);
-                } catch (Exception e) {
-                    log.info("\tnope: " + e + " from "+metadata);
-                }
-            }
-            // we really want ItemStack.getItemNameAndInformation, but it is on the client only
-            // net.minecraft.src
-
-            // TODO: We need subtypes.
-
         }
 
         //System.exit(-1);
@@ -646,7 +635,7 @@ class ItemQuery
 
     // Get a semi-human-readable name from localized nms Item name
     private static String getNormalizedNativeName(String name, int id, int damage) {
-        if (name.equals("null.name")) {
+        if (name == null || name.equals("null.name")) {
             // some blocks like 97 'silverfish block' don't have names
             if (damage == -1) {
                 return "id"+id;
@@ -673,6 +662,7 @@ class ItemQuery
             name = Character.toTitleCase(name.charAt(0)) + name.substring(1);
         }
 
+        // TODO: marbleBrick => Marble Brick (autospacing, un-camel-case)
 
 
         return getSmushedName(name);
