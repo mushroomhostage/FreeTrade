@@ -547,6 +547,24 @@ class ItemQuery
 
             // Is damage used for subtypes?
             // item.g() // isDamageable() = maxDamage > 0 && !hasSubtypes
+
+            if (item instanceof net.minecraft.server.ItemBlock) {
+                net.minecraft.server.ItemBlock itemBlock = (net.minecraft.server.ItemBlock)item;
+                log.info("item block! " + id);
+
+                // Block metadata is 4 bits
+                for (int data = 0; data < 16; data += 1) {
+                    net.minecraft.server.ItemStack is = new net.minecraft.server.ItemStack(id, 1, data);
+
+                    try {
+                        log.info("\t"+data+" = "+itemBlock.a(is));
+                    } catch (IndexOutOfBoundsException e) {
+                        log.info("\t\t(none)");
+                        continue;
+                    }
+                }
+            }
+
             if (item.e()) {    // getHasSubTypes(), accesses hasSubtypes (obfuscated bR)
                 // TODO: why doesn't this ever get called??
 
@@ -556,7 +574,8 @@ class ItemQuery
                     // To get subtype name we have to create a native ItemStack
                     net.minecraft.server.ItemStack is = new net.minecraft.server.ItemStack(id, 1, damage);
                     // getItemNameIS(ItemStack)
-                    properName = getNormalizedNativeName(item.a(is), id, damage);
+                    String nativeName = item.a(is);
+                    properName = getNormalizedNativeName(nativeName, id, damage);
 
                     putItem(properName, codeName);
                     // TODO: restrict native items from mods?
@@ -586,7 +605,19 @@ class ItemQuery
             }*/
 
             log.info("block "+id+" = "+block+", getName="+block.getName()+", n="+block.n());
+            for (int metadata = 0; metadata < 16; metadata += 1) {
+                try {
+                    net.minecraft.server.ItemStack is = new net.minecraft.server.ItemStack(id, 1, metadata);
+                    log.info("\t"+"data"+metadata+" = "+is);
+                } catch (Exception e) {
+                    log.info("\tnope: " + e + " from "+metadata);
+                }
+            }
+            // we really want ItemStack.getItemNameAndInformation, but it is on the client only
+            // net.minecraft.src
+
             // TODO: We need subtypes.
+
         }
 
         //System.exit(-1);
