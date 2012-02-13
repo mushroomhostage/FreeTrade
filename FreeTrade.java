@@ -111,21 +111,9 @@ class ItemQuery
         nameString = nameString.replaceAll("[ _-]", "").toLowerCase();
 
         if (nameString.contains("*")) {
-            // Wildcard expressions
-            SortedSet<String> results = wildcardLookupName(nameString);
-            if (results.size() == 0) {
-                throw new UsageException("No items match pattern " + nameString);
-            }
-            if (results.size() > 1) {
-                StringBuffer nameMatches = new StringBuffer();
-                for (String resultName: results) {
-                    nameMatches.append(resultName + ", ");
-                }
-
-                throw new UsageException("Found " + results.size() + " matching items: " + nameMatches);
-            }
-            // Exactly one hit, use it
-            nameString = results.first().toLowerCase();
+            // Wildcard expressions 
+            // This will either return 1 match, or raise usage exception if 0 or >1
+            nameString = wildcardMatchOne(nameString);
         }
         // First try built-in name lookup
         itemStack = directLookupName(nameString);
@@ -158,9 +146,14 @@ class ItemQuery
                 // Not very good because doesn't include damage value subtypes
                 Material material = Material.matchMaterial(nameString);
                 if (material == null) {
-                    throw new UsageException("Unrecognized item name: " + nameString + " (no suggestions available)");
+                    // Last ditch effort, try wildcard - this will raise exception if 0 or >1 match
+                    nameString = wildcardMatchOne("*" + nameString + "*");
+                    itemStack = directLookupName(wildcardMatchOne(nameString));
+
+                    //throw new UsageException("Unrecognized item name: " + nameString + " (no suggestions available)");
+                } else {
+                    itemStack = new ItemStack(material);
                 }
-                itemStack = new ItemStack(material);
             }
         }
 
@@ -529,10 +522,10 @@ class ItemQuery
     // Useful for mods that add new items
     private static void addNativeItemNames() {
         // MCP calls this "itemsList"
-        net.minecraft.server.Item[] byId = net.minecraft.server.Item.byId;
+        net.minecraft.server.Item[] itemsById = net.minecraft.server.Item.byId;
 
-        for (int id = 0; id < byId.length; id += 1) {
-            net.minecraft.server.Item item = byId[id];
+        for (int id = 0; id < itemsById.length; id += 1) {
+            net.minecraft.server.Item item = itemsById[id];
             if (item == null) {
                 continue;
             }
@@ -576,6 +569,25 @@ class ItemQuery
                 isTradableMap.put(codeName + ";0", true);   // always stores durability
             }
         }
+
+        // Find ALL the blocks!
+        net.minecraft.server.Block[] blocksById = net.minecraft.server.Block.byId;
+
+        for (int id = 0; id < blocksById.length; id += 1) {
+            net.minecraft.server.Block block = blocksById[id];
+            if (block == null) {
+                continue;
+            }
+
+            if (itemsById[id] != null && !itemsById[id].l().equals("null.name")) {
+                log.info("already an item "+id+" "+block);
+                continue;
+            }
+
+            log.info("block "+id+" = "+block);
+        }
+
+        //System.exit(-1);
     }
 
     // Make us aware of an item name/code mapping
@@ -709,6 +721,27 @@ class ItemQuery
         }
 
         return results;
+    }
+
+    // Lookup exactly one item name using a wildcard expression
+    // Returns the name string if 1 matched
+    // Otherwise throws an exception, 0 or >1 matched
+    private static String wildcardMatchOne(String nameString) {
+        SortedSet<String> results = wildcardLookupName(nameString);
+
+        if (results.size() == 0) {
+            throw new UsageException("No items match pattern " + nameString);
+        }
+        if (results.size() > 1) {
+            StringBuffer nameMatches = new StringBuffer();
+            for (String resultName: results) {
+                nameMatches.append(resultName + ", ");
+            }
+
+            throw new UsageException("Found " + results.size() + " matching items: " + nameMatches);
+        }
+        // Exactly one hit, use it
+        return results.first().toLowerCase();
     }
 
     // Return whether a wildcard pattern (with asterisks = anything) matches
