@@ -556,7 +556,7 @@ class ItemQuery
                 // TODO: but item data is 16 bits. block 136 = elorram.base.BlockMicro, thousands! scan all??
                 String priorNativeName = null;
                 //for (int data = 0; data < 16; data += 1) {
-                for (int data = 0; data < 0x10000; data += 1) {
+                for (int data = Short.MIN_VALUE; data < Short.MAX_VALUE; data += 1) {
                     net.minecraft.server.ItemStack is = new net.minecraft.server.ItemStack(id, 1, data);
 
                     String nativeName;
@@ -688,7 +688,8 @@ class ItemQuery
         // typeid
         typeCode = Integer.parseInt(m.group(1));
         // ;damagevalue 
-        if (m.group(2) != null && !m.group(2).equals("")) {
+        if (m.group(2) != null && !m.group(2).equals("")) { 
+            // TODO: is this signed? or unsigned? cloth.black vs blackwool
             dmgCode = Short.parseShort(m.group(2));
         } else {
             dmgCode = 0;
