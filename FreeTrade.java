@@ -532,12 +532,12 @@ class ItemQuery
 
             String name = item.l(); // getStatName()
 
-            if (name == null || name.equals("null.name")) {
+            if (name == null) {
                 continue;
             }
             // TODO: also get aliases, ModLoaderMP loads them
             
-            String properName = getNormalizedNativeName(name);
+            String properName = getNormalizedNativeName(name, id, -1);
 
             /*
             TODO: if has subtypes, we should add those as separate items!!
@@ -556,7 +556,7 @@ class ItemQuery
                     // To get subtype name we have to create a native ItemStack
                     net.minecraft.server.ItemStack is = new net.minecraft.server.ItemStack(id, 1, damage);
                     // getItemNameIS(ItemStack)
-                    properName = getNormalizedNativeName(item.a(is));
+                    properName = getNormalizedNativeName(item.a(is), id, damage);
 
                     putItem(properName, codeName);
                     // TODO: restrict native items from mods?
@@ -594,7 +594,7 @@ class ItemQuery
     // @param properName    Properly capitalized and spaced human-readable name
     // @param codeName      Code string recognizable by codeName2ItemStack
     private static boolean putItem(String properName, String codeName) {
-        log.info("id "+codeName+" = "+properName);
+        //log.info("id "+codeName+" = "+properName);
 
         // TODO: detect conflicts!
         name2CodeName.put(properName.toLowerCase(), codeName);
@@ -612,7 +612,16 @@ class ItemQuery
     }
 
     // Get a semi-human-readable name from localized nms Item name
-    private static String getNormalizedNativeName(String name) {
+    private static String getNormalizedNativeName(String name, int id, int damage) {
+        if (name.equals("null.name")) {
+            // some blocks like 97 'silverfish block' don't have names
+            if (damage == -1) {
+                return "id"+id;
+            } else {
+                return "id"+id+"x"+damage;
+            }
+        }
+
         // l() tries to localize name (item.foo.name) to human-readable string, but
         // doesn't always succeed for new items. TODO: why not? displays on client just fine
         name = name.replaceFirst("^item\\.", "");
@@ -630,6 +639,8 @@ class ItemQuery
         if (Character.isLowerCase(name.charAt(0))) {
             name = Character.toTitleCase(name.charAt(0)) + name.substring(1);
         }
+
+
 
         return getSmushedName(name);
     }
