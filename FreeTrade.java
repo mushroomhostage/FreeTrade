@@ -15,6 +15,8 @@ import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.Date;
+import java.util.Properties;
+import java.lang.reflect.Field;
 import java.sql.Timestamp;
 import java.io.*;
 
@@ -43,6 +45,7 @@ import net.minecraft.server.ItemInWorldManager;
 // Native item names
 import net.minecraft.server.Item;
 //import net.minecraft.server.ItemStack; // not imported, but used below
+import net.minecraft.server.LocaleLanguage;
 
 enum Obtainability 
 { 
@@ -413,31 +416,8 @@ class ItemQuery
 
     // Configuration
 
-    public static void loadConfig(YamlConfiguration config) {
-        Map<String,Object> configValues = config.getValues(true);
-        MemorySection itemsSection = (MemorySection)configValues.get("items");
+    public static int loadItems(YamlConfiguration config, MemorySection itemsSection, ConcurrentHashMap<String,Boolean> isTradableMapUnfiltered, HashSet<Obtainability> tradableCategories) {
         int i = 0;
-    
-        name2CodeName = new ConcurrentHashMap<String, String>();
-        codeName2Name = new ConcurrentHashMap<String, String>();
-        
-        isDurableMap = new ConcurrentHashMap<Material, Boolean>();
-        isEnchantableMap = new ConcurrentHashMap<Material, Boolean>();
-        isCountableMap = new ConcurrentHashMap<Material, Boolean>();
-        isTradableMap = new ConcurrentHashMap<String, Boolean>();
-        ConcurrentHashMap<String,Boolean> isTradableMapUnfiltered = new ConcurrentHashMap<String, Boolean>();
-
-        HashSet<Obtainability> tradableCategories = new HashSet<Obtainability>();
-
-        for (String obtainString: config.getStringList("tradableCategories")) {
-            tradableCategories.add(Obtainability.valueOf(obtainString.toUpperCase()));
-        }
-
-        // Load native items first so can be overridden by custom config
-        if (config.getBoolean("scanNativeItems", true)) {
-            scanNativeItems();    
-        }
- 
         for (String codeName: itemsSection.getKeys(false)) {
             String properName = config.getString("items." + codeName + ".name");
 
@@ -484,6 +464,36 @@ class ItemQuery
             }
         }
 
+        return i;
+    }
+
+    public static void loadConfig(YamlConfiguration config) {
+        Map<String,Object> configValues = config.getValues(true);
+        MemorySection itemsSection = (MemorySection)configValues.get("items");
+        int i = 0;
+    
+        name2CodeName = new ConcurrentHashMap<String, String>();
+        codeName2Name = new ConcurrentHashMap<String, String>();
+        
+        isDurableMap = new ConcurrentHashMap<Material, Boolean>();
+        isEnchantableMap = new ConcurrentHashMap<Material, Boolean>();
+        isCountableMap = new ConcurrentHashMap<Material, Boolean>();
+        isTradableMap = new ConcurrentHashMap<String, Boolean>();
+        ConcurrentHashMap<String,Boolean> isTradableMapUnfiltered = new ConcurrentHashMap<String, Boolean>();
+
+        HashSet<Obtainability> tradableCategories = new HashSet<Obtainability>();
+
+        for (String obtainString: config.getStringList("tradableCategories")) {
+            tradableCategories.add(Obtainability.valueOf(obtainString.toUpperCase()));
+        }
+
+        // Load native items first so can be overridden by custom config
+        if (config.getBoolean("scanNativeItems", true)) {
+            scanNativeItems(config);    
+        }
+ 
+        i += loadItems(config, itemsSection, isTradableMapUnfiltered, tradableCategories);
+
        
         log.info("Loaded " + i + " item aliases");
 
@@ -520,11 +530,34 @@ class ItemQuery
 
     // Load native item names from net.minecraft.server
     // Useful for mods that add new items
-    private static void scanNativeItems() {
+    private static void scanNativeItems(YamlConfiguration config) {
+
+        // Language translation file for native item names
+        Properties translateTable = null;
+        try {
+            // MCP "StringTranslate"
+            net.minecraft.server.LocaleLanguage localeLanguage = net.minecraft.server.LocaleLanguage.a(); // singleton instance
+
+            Field translateTableField = net.minecraft.server.LocaleLanguage.class.getDeclaredField("b");
+            translateTableField.setAccessible(true);
+
+            translateTable = (Properties)translateTableField.get(localeLanguage);
+        } catch (Exception e) {
+            log.info("Failed to get translateTable: " + e);
+            e.printStackTrace();
+            return;
+        }
+        //log.info("translateTable = "+translateTable);
+        //System.exit(0);
+
+
         // MCP calls this "itemsList"
         net.minecraft.server.Item[] itemsById = net.minecraft.server.Item.byId;
 
-        for (int id = 0; id < itemsById.length; id += 1) {
+        int start = config.getInt("scanNativeItemsStart", 123);  // first after dragon egg
+        log.info("Starting scan at id "+start);
+
+        for (int id = start; id < itemsById.length; id += 1) {
             net.minecraft.server.Item item = itemsById[id];
             if (item == null) {
                 continue;
@@ -537,7 +570,7 @@ class ItemQuery
             }
             // TODO: also get aliases, ModLoaderMP loads them
             
-            String properName = getNormalizedNativeName(name, id, -1);
+            String properName = getNormalizedNativeName(name, id, -1, translateTable);
 
             /*
             TODO: if has subtypes, we should add those as separate items!!
@@ -550,7 +583,7 @@ class ItemQuery
 
             if (item instanceof net.minecraft.server.ItemBlock) {
                 net.minecraft.server.ItemBlock itemBlock = (net.minecraft.server.ItemBlock)item;
-                log.info("scanning item block: " + id);
+                log.info("scanning item block: " + id + " (max="+item.getMaxDurability());
 
                 // Block metadata is 4 bits
                 // TODO: but item data is 16 bits. block 136 = elorram.base.BlockMicro, thousands! scan all??
@@ -578,7 +611,7 @@ class ItemQuery
                         break;
                     }
 
-                    properName = getNormalizedNativeName(nativeName, id, data);
+                    properName = getNormalizedNativeName(nativeName, id, data, translateTable);
                     //log.info("\t"+data+" = "+properName);
 
                     String codeName = id + ";" + data;
@@ -598,7 +631,7 @@ class ItemQuery
                     net.minecraft.server.ItemStack is = new net.minecraft.server.ItemStack(id, 1, damage);
                     // getItemNameIS(ItemStack)
                     String nativeName = item.a(is);
-                    properName = getNormalizedNativeName(nativeName, id, damage);
+                    properName = getNormalizedNativeName(nativeName, id, damage, translateTable);
 
                     putItem(properName, codeName);
                     // TODO: restrict native items from mods?
@@ -638,7 +671,7 @@ class ItemQuery
     }
 
     // Get a semi-human-readable name from localized nms Item name
-    private static String getNormalizedNativeName(String name, int id, int damage) {
+    private static String getNormalizedNativeName(String name, int id, int damage, Properties translateTable) {
         if (name == null || name.equals("null.name")) {
             // some blocks like 97 'silverfish block' don't have names
             if (damage == -1) {
@@ -647,6 +680,14 @@ class ItemQuery
                 return "id"+id+"x"+damage;
             }
         }
+
+        String key = name + ".name";
+        if (translateTable.containsKey(key)) {
+            // RedPower awesomely provides human-readable names for us, via redpower.lang
+            return getSmushedName(translateTable.getProperty(key));
+        }
+        // IC2/BC2 isn't so nice (TODO: why not? bug?)
+        //log.info("no translated name for "+name);
 
         // l() tries to localize name (item.foo.name) to human-readable string, but
         // doesn't always succeed for new items. TODO: why not? displays on client just fine
