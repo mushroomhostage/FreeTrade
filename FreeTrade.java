@@ -458,7 +458,6 @@ class ItemQuery
         MemorySection itemsSection = (MemorySection)configValues.get("items");
 
         if (itemsSection == null) {
-            log.info("No items in config");
             return 0;
         }
 
@@ -622,7 +621,7 @@ class ItemQuery
                 id = config.getInt("scanNativeItemsItemStart", 383 + 1);   // spawn egg TODO: 1.2 update for past Fire Charge
                 log.info("skipped to "+id);
             }
-            if (id == config.getInt("scanNativeItemsSkipDisc", 2258)) {
+            if (id == config.getInt("scanNativeItemsSkipDisc", 2256)) {
                 log.info("skipped to "+id);
                 id = config.getInt("scanNativeItemsSkipDiscEnd", 2266 + 1);
             }
