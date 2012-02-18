@@ -537,6 +537,8 @@ class ItemQuery
         File extraFile = new File(plugin.getDataFolder(), "extra.yml");
         FileConfiguration extraConfig = YamlConfiguration.loadConfiguration(extraFile);
 
+        HashMap<String,String> codeNames = new HashMap<String,String>();
+
         int count = 0;
 
 
@@ -597,7 +599,7 @@ class ItemQuery
 
             if (item instanceof net.minecraft.server.ItemBlock) {
                 net.minecraft.server.ItemBlock itemBlock = (net.minecraft.server.ItemBlock)item;
-                log.info("scanning item block: " + id + " (max="+item.getMaxDurability());
+                log.info("scanning item block: " + id); // + " (max="+item.getMaxDurability());
 
                 // Block metadata is 4 bits
                 // TODO: but item data is 16 bits. block 136 = elorram.base.BlockMicro, thousands! scan all??
@@ -631,7 +633,8 @@ class ItemQuery
                     String codeName = id + ";" + data;
 
                     // Add to config
-                    extraConfig.set("items." + codeName + ".name", properName);
+                    codeNames.put(codeName, properName);
+                    //extraConfig.set("items." + codeName + ".name", properName);
                     count += 1;
                     //extraItems.set(codeName + ".source", );   // TODO: get from mod?
 
@@ -659,13 +662,16 @@ class ItemQuery
             } else {
                 String codeName = String.valueOf(id);
 
-                extraConfig.set("items." + codeName + ".name", properName);
+                //extraConfig.set("items." + codeName + ".name", properName);
+                codeNames.put(codeName, properName);
                 count += 1;
                 putItem(properName, codeName);
                 // TODO: control tradeability?
                 isTradableMap.put(codeName + ";0", true);   // always stores durability
             }
         }
+
+        count = codeNames.size();
 
         plugin.log.info("saving "+count+" items");
         try {
