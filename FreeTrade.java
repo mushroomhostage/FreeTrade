@@ -537,7 +537,7 @@ class ItemQuery
         File extraFile = new File(plugin.getDataFolder(), "extra.yml");
         FileConfiguration extraConfig = YamlConfiguration.loadConfiguration(extraFile);
 
-        HashMap<String,String> codeNames = new HashMap<String,String>();
+        HashMap<String,String> properNames = new HashMap<String,String>();
 
         int count = 0;
 
@@ -633,7 +633,7 @@ class ItemQuery
                     String codeName = id + ";" + data;
 
                     // Add to config
-                    codeNames.put(codeName, properName);
+                    properNames.put(properName, codeName);
                     //extraConfig.set("items." + codeName + ".name", properName);
                     count += 1;
                     //extraItems.set(codeName + ".source", );   // TODO: get from mod?
@@ -663,7 +663,7 @@ class ItemQuery
                 String codeName = String.valueOf(id);
 
                 //extraConfig.set("items." + codeName + ".name", properName);
-                codeNames.put(codeName, properName);
+                properNames.put(properName, codeName);
                 count += 1;
                 putItem(properName, codeName);
                 // TODO: control tradeability?
@@ -671,11 +671,20 @@ class ItemQuery
             }
         }
 
-        count = codeNames.size();
+        // Items were stored by proper name to de-dupe
+        // Build config
+        for (Map.Entry<String, String> entry : properNames.entrySet()) {
+            String properName = entry.getKey();
+            String codeName = entry.getValue();
+
+            extraConfig.set("items." + codeName + ".name", properName);
+        }
+
+        count = properNames.size();
 
         plugin.log.info("saving "+count+" items");
         try {
-            // YamlConfiguration doesn't scale. hangs on 2820732 items
+            // Note: YamlConfiguration doesn't scale. hangs on 2820732 items
             extraConfig.save(extraFile);
         } catch (Exception e) {
             plugin.log.info("Failed to save extra items file: " + e);
