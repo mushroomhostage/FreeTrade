@@ -65,7 +65,7 @@ class ItemQuery
 
     // TODO: switch to sets
     static ConcurrentHashMap<String,Boolean> isTradableMap;
-    static ConcurrentHashMap<Material,Boolean> isEnchantableMap;
+    static ConcurrentHashMap<Material,Boolean> isntEnchantableMap;  // if present, overrides isDurable
     static ConcurrentHashMap<Material,Boolean> isCountableMap;
 
     static FreeTrade plugin;
@@ -233,6 +233,7 @@ class ItemQuery
             }
 
             itemStack.setDurability(damage);
+            log.info("set damage = "+itemStack.getDurability());
         } else {
             // If they didn't specify a durability, but they want a durable item, assume no damage (0)
             // TODO: only assume 0 for wants. For gives, need to use value from inventory! Underspecified
@@ -310,11 +311,10 @@ class ItemQuery
    
     // Return whether an item can be legitimately enchanted
     public static boolean isEnchantable(Material m) {
-        // TODO: return isDurable(m); // as a first approximation? not all (shears,fishingrods,flint&steel,hoes in vanilla)
-
-        if (m == null) return false;    // TODO: non-standard items
-
-        return isEnchantableMap.containsKey(m);
+        // Usually, durable implies enchantability
+        // exceptions in vanilla: shears, fishing rods, flint & steel, and hoes 
+        // but also see EnchantMore
+        return isDurable(m) && !isntEnchantableMap.containsKey(m);
     }
 
     // Return whether an item is numbered, like maps in vanilla (map0, map1..)
@@ -344,7 +344,8 @@ class ItemQuery
             if (itemStack.getDurability() == 0) {
                 percentage = 100;
             } else {
-                percentage = (int)((m.getMaxDurability() - itemStack.getDurability()) * 100.0 / m.getMaxDurability());
+                int maxDamage = getMaxDamage(itemStack.getTypeId());
+                percentage = (int)((maxDamage - itemStack.getDurability()) * 100.0 / maxDamage);
                 if (percentage == 100) {
                     percentage = 99;
                 }
@@ -501,10 +502,8 @@ class ItemQuery
             */
 
             // Items are enchantable if durable, unless overridden (for shears, etc.)
-            boolean enchantable = config.getBoolean("items." + codeName + ".enchant", true); //XXX durable);
-
-            if (enchantable) {
-                isEnchantableMap.put(material, new Boolean(true));
+            if (!config.getBoolean("items." + codeName + ".enchant", true)) {
+                isntEnchantableMap.put(material, new Boolean(false));
             }
    
             if (config.getBoolean("items." + codeName + ".count", false)) {
@@ -523,7 +522,7 @@ class ItemQuery
         name2CodeName = new ConcurrentHashMap<String, String>();
         codeName2Name = new ConcurrentHashMap<String, String>();
         
-        isEnchantableMap = new ConcurrentHashMap<Material, Boolean>();
+        isntEnchantableMap = new ConcurrentHashMap<Material, Boolean>();
         isCountableMap = new ConcurrentHashMap<Material, Boolean>();
         isTradableMap = new ConcurrentHashMap<String, Boolean>();
         ConcurrentHashMap<String,Boolean> isTradableMapUnfiltered = new ConcurrentHashMap<String, Boolean>();
