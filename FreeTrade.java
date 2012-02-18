@@ -27,7 +27,7 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.bukkit.enchantments.*;
 import org.bukkit.configuration.*;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.configuration.file.*;
 import org.bukkit.event.player.*;
 import org.bukkit.event.*;
 import org.bukkit.block.*;
@@ -68,6 +68,8 @@ class ItemQuery
     static ConcurrentHashMap<Material,Boolean> isDurableMap;
     static ConcurrentHashMap<Material,Boolean> isEnchantableMap;
     static ConcurrentHashMap<Material,Boolean> isCountableMap;
+
+    static FreeTrade plugin;
 
     public ItemQuery(String s) {
         Pattern p = Pattern.compile(
@@ -531,6 +533,11 @@ class ItemQuery
     // Load native item names from net.minecraft.server
     // Useful for mods that add new items
     private static void scanNativeItems(YamlConfiguration config) {
+        // Write new custom 'extra items' config file
+        File extraFile = new File(plugin.getDataFolder(), "extra.yml");
+        FileConfiguration extraConfig = YamlConfiguration.loadConfiguration(extraFile);
+        ConfigurationSection extraItems = extraConfig.createSection("items");
+
 
         // Language translation file for native item names
         Properties translateTable = null;
@@ -557,6 +564,12 @@ class ItemQuery
         int start = config.getInt("scanNativeItemsStart", 123);  // first after dragon egg
         log.info("Starting scan at id "+start);
 
+        // TODO: ModLoaderMP mods org.bukkit.Material, lookupId (was byId) and lookupName (was BY_NAME)!
+        // See http://forums.bukkit.org/threads/give-and-material-java.59789/#post-965633
+        // This is the source of the "Adding Material" and "Aliasing material" messages!
+        // We should try to use it!  see .patch at http://minecraft.maeyanie.com/
+        // addMaterial(int id) adds id with name "X" + id, not much use,
+        // addMaterial(id,name), setMaterialName() are more usefue
         for (int id = start; id < itemsById.length; id += 1) {
             net.minecraft.server.Item item = itemsById[id];
             if (item == null) {
@@ -616,6 +629,10 @@ class ItemQuery
 
                     String codeName = id + ";" + data;
 
+                    // Add to config
+                    extraItems.set(codeName + ".name", properName);
+                    //extraItems.set(codeName + ".source", );   // TODO: get from mod?
+
                     putItem(properName, codeName);
                     isTradableMap.put(codeName, true);  // TODO: control tradeability of custom items?
                 }
@@ -640,13 +657,22 @@ class ItemQuery
             } else {
                 String codeName = String.valueOf(id);
 
+                extraItems.set(codeName + ".name", properName);
                 putItem(properName, codeName);
                 // TODO: control tradeability?
                 isTradableMap.put(codeName + ";0", true);   // always stores durability
             }
         }
 
-        //System.exit(-1);
+        plugin.log.info("saving");
+        try {
+            extraConfig.save(extraFile);
+        } catch (Exception e) {
+            plugin.log.info("Failed to save extra items file: " + e);
+        }
+        plugin.log.info("saved");
+
+        System.exit(-1);
     }
 
     // Make us aware of an item name/code mapping
@@ -671,7 +697,7 @@ class ItemQuery
     }
 
     // Get a semi-human-readable name from localized nms Item name
-    private static String getNormalizedNativeName(String name, int id, int damage, Properties translateTable) {
+    private static String getNormalizedNativeName(String name, int id, int damage, Properties nativeTranslateTable) {
         if (name == null || name.equals("null.name")) {
             // some blocks like 97 'silverfish block' don't have names
             if (damage == -1) {
@@ -682,9 +708,9 @@ class ItemQuery
         }
 
         String key = name + ".name";
-        if (translateTable.containsKey(key)) {
+        if (nativeTranslateTable.containsKey(key)) {
             // RedPower awesomely provides human-readable names for us, via redpower.lang
-            return getSmushedName(translateTable.getProperty(key));
+            return getSmushedName(nativeTranslateTable.getProperty(key));
         }
         // IC2/BC2 isn't so nice (TODO: why not? bug?)
         //log.info("no translated name for "+name);
@@ -2020,6 +2046,8 @@ public class FreeTrade extends JavaPlugin {
         if (config.getInt("version") < 1) {
             throw new UsageException("Configuration file version is outdated");
         }
+
+        ItemQuery.plugin = this;
 
         EnchantQuery.loadConfig(config);
         ItemQuery.loadConfig(config);
