@@ -668,6 +668,15 @@ class ItemQuery
                 putItem(properName, codeName);
                 // TODO: control tradeability?
                 isTradableMap.put(codeName + ";0", true);   // always stores durability
+
+                // Durable custom items
+                // see also http://forums.bukkit.org/threads/suggestion-org-bukkit-material-isdurable.57910/ for if Bukkit adds this
+                // Test with ArmorBronzeHelmet. For some reason, "300%" durable.. porting bug?
+                boolean durable = item.g();  // MCP isDamageable() = maxDamage > 0 && !hasSubtypes [durability > 0 && !bR]
+                if (durable) {
+                    Material m = Material.getMaterial(id);    // require's ModLoaderMP's modded Material enum to not crash
+                    isDurableMap.put(m, true);
+                }
             }
         }
 
@@ -691,7 +700,7 @@ class ItemQuery
         }
         plugin.log.info("saved");
 
-        System.exit(-1);
+        //System.exit(-1);
     }
 
     // Make us aware of an item name/code mapping
