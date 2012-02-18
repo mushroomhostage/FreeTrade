@@ -536,7 +536,8 @@ class ItemQuery
         // Write new custom 'extra items' config file
         File extraFile = new File(plugin.getDataFolder(), "extra.yml");
         FileConfiguration extraConfig = YamlConfiguration.loadConfiguration(extraFile);
-        ConfigurationSection extraItems = extraConfig.createSection("items");
+
+        int count = 0;
 
 
         // Language translation file for native item names
@@ -630,7 +631,8 @@ class ItemQuery
                     String codeName = id + ";" + data;
 
                     // Add to config
-                    extraItems.set(codeName + ".name", properName);
+                    extraConfig.set("items." + codeName + ".name", properName);
+                    count += 1;
                     //extraItems.set(codeName + ".source", );   // TODO: get from mod?
 
                     putItem(properName, codeName);
@@ -657,15 +659,17 @@ class ItemQuery
             } else {
                 String codeName = String.valueOf(id);
 
-                extraItems.set(codeName + ".name", properName);
+                extraConfig.set("items." + codeName + ".name", properName);
+                count += 1;
                 putItem(properName, codeName);
                 // TODO: control tradeability?
                 isTradableMap.put(codeName + ";0", true);   // always stores durability
             }
         }
 
-        plugin.log.info("saving");
+        plugin.log.info("saving "+count+" items");
         try {
+            // YamlConfiguration doesn't scale. hangs on 2820732 items
             extraConfig.save(extraFile);
         } catch (Exception e) {
             plugin.log.info("Failed to save extra items file: " + e);
