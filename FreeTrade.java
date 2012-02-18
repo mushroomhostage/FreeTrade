@@ -173,19 +173,8 @@ class ItemQuery
 
         // Damage value aka durability
         // User specifies how much they want left, 100% = unused tool
-        // TODO: if getType() Material null (for custom items, 1006) use nms ItemStack
-        // TODO: just drop down to nms ItemStack
-        // -1 means "not durable", but need to use nms not Bukkit.
-        //short maxDamage = itemStack.getType().getMaxDurability();
+        // Note, we call native max damage method, not trusting Bukkit
         short maxDamage = (short)getMaxDamage(itemStack.getTypeId());
-        log.info("maxDamage of "+itemStack+" of "+itemStack.getTypeId()+" = "+maxDamage);
-
-        /*
-        log.info("type ="+itemStack.getType());
-        log.info("type id="+itemStack.getTypeId());
-        int nmsMaxDamage = net.minecraft.server.Item.byId[itemStack.getTypeId()].getMaxDurability();
-        log.info("damage "+maxDamage+" vs "+nmsMaxDamage);
-        */
         
         if (usesString != null && !usesString.equals("")) {
             short damage;
@@ -462,8 +451,17 @@ class ItemQuery
 
     // Configuration
 
-    public static int loadItems(YamlConfiguration config, MemorySection itemsSection, ConcurrentHashMap<String,Boolean> isTradableMapUnfiltered, HashSet<Obtainability> tradableCategories) {
+    public static int loadItems(FileConfiguration config, ConcurrentHashMap<String,Boolean> isTradableMapUnfiltered, HashSet<Obtainability> tradableCategories) {
         int i = 0;
+        
+        Map<String,Object> configValues = config.getValues(true);
+        MemorySection itemsSection = (MemorySection)configValues.get("items");
+
+        if (itemsSection == null) {
+            log.info("No items in config");
+            return 0;
+        }
+
         for (String codeName: itemsSection.getKeys(false)) {
             String properName = config.getString("items." + codeName + ".name");
 
@@ -508,8 +506,6 @@ class ItemQuery
     }
 
     public static void loadConfig(YamlConfiguration config) {
-        Map<String,Object> configValues = config.getValues(true);
-        MemorySection itemsSection = (MemorySection)configValues.get("items");
         int i = 0;
     
         name2CodeName = new ConcurrentHashMap<String, String>();
@@ -526,15 +522,25 @@ class ItemQuery
             tradableCategories.add(Obtainability.valueOf(obtainString.toUpperCase()));
         }
 
-        // Load native items first so can be overridden by custom config
-        if (config.getBoolean("scanNativeItems", true)) {
+        // Vanilla items
+        i += loadItems(config, isTradableMapUnfiltered, tradableCategories);
+        log.info("Loaded " + i + " vanilla item aliases");
+
+        // Extra items
+        File extraFile = new File(plugin.getDataFolder(), "extra.yml");
+        if (config.getBoolean("scanNativeItems", true) && !extraFile.exists()) {
             scanNativeItems(config);    
         }
- 
-        i += loadItems(config, itemsSection, isTradableMapUnfiltered, tradableCategories);
-
+        if (extraFile.exists()) {
+            FileConfiguration extraConfig = YamlConfiguration.loadConfiguration(extraFile);
+            if (extraConfig == null) {
+                log.info("Failed to load extra.yml");
+            } else {
+                i += loadItems(extraConfig, isTradableMapUnfiltered, tradableCategories);
+            }
+        } 
        
-        log.info("Loaded " + i + " item aliases");
+        log.info("Loaded total " + i + " item aliases");
 
         // Whitelist tradable items
         for (String whiteString: config.getStringList("tradableWhitelist")) {
@@ -601,7 +607,7 @@ class ItemQuery
         // MCP calls this "itemsList"
         net.minecraft.server.Item[] itemsById = net.minecraft.server.Item.byId;
 
-        int start = config.getInt("scanNativeItemsStart", 123);  // first after dragon egg
+        int start = config.getInt("scanNativeItemsBlockStart", Material.DRAGON_EGG.getId() + 1);  // first after dragon egg TODO: 1.2: redstone lamp 124
         log.info("Starting scan at id "+start);
 
         // TODO: ModLoaderMP mods org.bukkit.Material, lookupId (was byId) and lookupName (was BY_NAME)!
@@ -611,6 +617,16 @@ class ItemQuery
         // addMaterial(int id) adds id with name "X" + id, not much use,
         // addMaterial(id,name), setMaterialName() are more usefue
         for (int id = start; id < itemsById.length; id += 1) {
+            // skip vanilla items
+            if (id == config.getInt("scanNativeItemsLastBlock", 255)) {
+                id = config.getInt("scanNativeItemsItemStart", 383 + 1);   // spawn egg TODO: 1.2 update for past Fire Charge
+                log.info("skipped to "+id);
+            }
+            if (id == config.getInt("scanNativeItemsSkipDisc", 2258)) {
+                log.info("skipped to "+id);
+                id = config.getInt("scanNativeItemsSkipDiscEnd", 2266 + 1);
+            }
+
             net.minecraft.server.Item item = itemsById[id];
             if (item == null) {
                 continue;
@@ -669,6 +685,10 @@ class ItemQuery
 
                     String codeName = id + ";" + data;
 
+                    if (codeName2Name.containsKey(codeName)) {
+                        log.info("alias " + codeName + " = " + properName + " (" + codeName2Name.get(codeName));
+                    }
+
                     // Add to config
                     properNames.put(properName, codeName);
                     //extraConfig.set("items." + codeName + ".name", properName);
@@ -726,7 +746,7 @@ class ItemQuery
         } catch (Exception e) {
             plugin.log.info("Failed to save extra items file: " + e);
         }
-        plugin.log.info("saved");
+        plugin.log.info("saved extra items");
 
         //System.exit(-1);
     }
