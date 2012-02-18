@@ -175,6 +175,8 @@ class ItemQuery
         // Damage value aka durability
         // User specifies how much they want left, 100% = unused tool
         // TODO: if getType() Material null (for custom items, 1006) use nms ItemStack
+        // TODO: just drop down to nms ItemStack
+        // -1 means "not durable", but need to use nms not Bukkit.
         short maxDamage = itemStack.getType().getMaxDurability();
         
         if (usesString != null && !usesString.equals("")) {
@@ -675,6 +677,7 @@ class ItemQuery
                 boolean durable = item.g();  // MCP isDamageable() = maxDamage > 0 && !hasSubtypes [durability > 0 && !bR]
                 if (durable) {
                     Material m = Material.getMaterial(id);    // require's ModLoaderMP's modded Material enum to not crash
+                    plugin.log.info("durable "+id+" ("+properName+") ="+m.getMaxDurability());
                     isDurableMap.put(m, true);
                 }
             }
