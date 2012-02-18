@@ -489,19 +489,12 @@ class ItemQuery
             i += 1;
             putItem(getSmushedName(properName), codeName);
 
-            // Whether loses durability when used or not (include in trades)
+            // TODO: store somewhere? used to be used for durability, no longer
+            // might be cool for plugins to ask "isSword()", and work with custom items
             String purpose = config.getString("items." + codeName + ".purpose");
-            Material material = codeName2ItemStack(codeName).getType();
-
-            /* we can get this info in-game now
-            boolean durable = purpose != null && (purpose.equals("armor") || purpose.equals("tool") || purpose.equals("weapon"));
-
-            if (durable) {
-                isDurableMap.put(material, new Boolean(true));
-            }
-            */
 
             // Items are enchantable if durable, unless overridden (for shears, etc.)
+            Material material = codeName2ItemStack(codeName).getType();
             if (!config.getBoolean("items." + codeName + ".enchant", true)) {
                 isntEnchantableMap.put(material, new Boolean(false));
             }
@@ -712,15 +705,6 @@ class ItemQuery
                 putItem(properName, codeName);
                 // TODO: control tradeability?
                 isTradableMap.put(codeName + ";0", true);   // always stores durability
-
-                /* retrieved on-demand
-                boolean durable = item.g();  // MCP isDamageable() = maxDamage > 0 && !hasSubtypes [durability > 0 && !bR]
-                if (durable) {
-                    Material m = Material.getMaterial(id);    // require's ModLoaderMP's modded Material enum to not crash
-                    plugin.log.info("durable "+id+" ("+properName+") ="+m.getMaxDurability());
-                    isDurableMap.put(m, true);
-                }
-                */
             }
         }
 
