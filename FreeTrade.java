@@ -65,7 +65,6 @@ class ItemQuery
 
     // TODO: switch to sets
     static ConcurrentHashMap<String,Boolean> isTradableMap;
-    static ConcurrentHashMap<Material,Boolean> isDurableMap;
     static ConcurrentHashMap<Material,Boolean> isEnchantableMap;
     static ConcurrentHashMap<Material,Boolean> isCountableMap;
 
@@ -177,7 +176,16 @@ class ItemQuery
         // TODO: if getType() Material null (for custom items, 1006) use nms ItemStack
         // TODO: just drop down to nms ItemStack
         // -1 means "not durable", but need to use nms not Bukkit.
-        short maxDamage = itemStack.getType().getMaxDurability();
+        //short maxDamage = itemStack.getType().getMaxDurability();
+        short maxDamage = (short)getMaxDamage(itemStack.getTypeId());
+        log.info("maxDamage of "+itemStack+" of "+itemStack.getTypeId()+" = "+maxDamage);
+
+        /*
+        log.info("type ="+itemStack.getType());
+        log.info("type id="+itemStack.getTypeId());
+        int nmsMaxDamage = net.minecraft.server.Item.byId[itemStack.getTypeId()].getMaxDurability();
+        log.info("damage "+maxDamage+" vs "+nmsMaxDamage);
+        */
         
         if (usesString != null && !usesString.equals("")) {
             short damage;
@@ -266,11 +274,44 @@ class ItemQuery
     public static boolean isDurable(Material m) {
         if (m == null) return false;    // TODO: non-standard items
 
-        return isDurableMap.containsKey(m);
+        int id = m.getId();
+
+        if (id == 0) {
+            return false;   // air doesn't have an item
+        }
+
+        // Native methods support durable custom items, unlike Bukkit
+        // see also http://forums.bukkit.org/threads/suggestion-org-bukkit-material-isdurable.57910/ for if Bukkit adds this
+        // Test with ArmorBronzeHelmet
+        return getNativeItem(id).g();   // MCP isDamageable() = maxDamage > 0 && !hasSubtypes
+    }
+
+    // Get max durability for an item ID
+    public static int getMaxDamage(int id) {
+        if (id == 0) {
+            return -1;
+        }
+
+        // Bukkit doesn't know about custom items, will get e.g. IC2 armorbronzehelmet wrong
+        //return m.getMaxDurability() 
+        return getNativeItem(id).getMaxDurability();
+    }
+
+    // Get the real deal, not fake wrappers that don't know anything
+    public static net.minecraft.server.Item getNativeItem(int id) {
+        net.minecraft.server.Item item = net.minecraft.server.Item.byId[id];
+
+        if (item == null) {
+            log.info("no item for id "+id);
+        }
+
+        return item;
     }
    
     // Return whether an item can be legitimately enchanted
     public static boolean isEnchantable(Material m) {
+        // TODO: return isDurable(m); // as a first approximation? not all (shears,fishingrods,flint&steel,hoes in vanilla)
+
         if (m == null) return false;    // TODO: non-standard items
 
         return isEnchantableMap.containsKey(m);
@@ -450,14 +491,17 @@ class ItemQuery
             // Whether loses durability when used or not (include in trades)
             String purpose = config.getString("items." + codeName + ".purpose");
             Material material = codeName2ItemStack(codeName).getType();
+
+            /* we can get this info in-game now
             boolean durable = purpose != null && (purpose.equals("armor") || purpose.equals("tool") || purpose.equals("weapon"));
 
             if (durable) {
                 isDurableMap.put(material, new Boolean(true));
             }
+            */
 
             // Items are enchantable if durable, unless overridden (for shears, etc.)
-            boolean enchantable = config.getBoolean("items." + codeName + ".enchant", durable);
+            boolean enchantable = config.getBoolean("items." + codeName + ".enchant", true); //XXX durable);
 
             if (enchantable) {
                 isEnchantableMap.put(material, new Boolean(true));
@@ -479,7 +523,6 @@ class ItemQuery
         name2CodeName = new ConcurrentHashMap<String, String>();
         codeName2Name = new ConcurrentHashMap<String, String>();
         
-        isDurableMap = new ConcurrentHashMap<Material, Boolean>();
         isEnchantableMap = new ConcurrentHashMap<Material, Boolean>();
         isCountableMap = new ConcurrentHashMap<Material, Boolean>();
         isTradableMap = new ConcurrentHashMap<String, Boolean>();
@@ -671,15 +714,14 @@ class ItemQuery
                 // TODO: control tradeability?
                 isTradableMap.put(codeName + ";0", true);   // always stores durability
 
-                // Durable custom items
-                // see also http://forums.bukkit.org/threads/suggestion-org-bukkit-material-isdurable.57910/ for if Bukkit adds this
-                // Test with ArmorBronzeHelmet. For some reason, "300%" durable.. porting bug?
+                /* retrieved on-demand
                 boolean durable = item.g();  // MCP isDamageable() = maxDamage > 0 && !hasSubtypes [durability > 0 && !bR]
                 if (durable) {
                     Material m = Material.getMaterial(id);    // require's ModLoaderMP's modded Material enum to not crash
                     plugin.log.info("durable "+id+" ("+properName+") ="+m.getMaxDurability());
                     isDurableMap.put(m, true);
                 }
+                */
             }
         }
 
