@@ -984,9 +984,13 @@ class EnchantQuery
     public EnchantQuery(String allString) {
         all = new HashMap<Enchantment,Integer>();
 
-        String[] enchStrings = allString.split("[, /-]+");
+        String[] enchStrings = allString.split("[, /]+");
         for (String enchString: enchStrings) {
-            Pattern p = Pattern.compile("^([A-Za-z-]*[a-z])([IV0-9]*)$");
+            // ench/lvl is a short, so support up to any level, either positive or negative
+            // TODO: also support level 0 (allowed in nms, not Bukkit API though)
+            // TODO: also support enchanted items but with no effect (ench tag, empty = glowing but no text)
+            // see http://dev.bukkit.org/server-mods/enchanter/forum/32858-suggestion-enchantment-levels-127/#p1
+            Pattern p = Pattern.compile("^([A-Za-z-]*[a-z])([IV0-9-]*)$");
             Matcher m = p.matcher(enchString);
 
             if (!m.find()) {
