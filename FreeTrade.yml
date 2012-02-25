@@ -896,6 +896,8 @@ items:
         obtain: hacking
         # TODO: update wiki
     97;1:
+        # Bukkit at least 1.1-R4 has problems placing 97;1 and 97;2, it doesn't get metadata from damage
+        # To place these you can instead use EnchantMore - Pickaxe + Silk Touch II, which uses ench tags
         name: Silverfish Cobblestone
         aliases: 
         obtain: hacking
