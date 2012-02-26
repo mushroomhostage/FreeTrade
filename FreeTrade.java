@@ -635,6 +635,7 @@ class ItemQuery
         int start = config.getInt("scanNativeItemsBlockStart", Material.DRAGON_EGG.getId() + 1);  // first after dragon egg TODO: 1.2: redstone lamp 124
         log.info("Starting scan at id "+start);
 
+
         // TODO: ModLoaderMP mods org.bukkit.Material, lookupId (was byId) and lookupName (was BY_NAME)!
         // See http://forums.bukkit.org/threads/give-and-material-java.59789/#post-965633
         // This is the source of the "Adding Material" and "Aliasing material" messages!
@@ -679,11 +680,27 @@ class ItemQuery
                 net.minecraft.server.ItemBlock itemBlock = (net.minecraft.server.ItemBlock)item;
                 log.info("scanning item block: " + id); // + " (max="+item.getMaxDurability());
 
-                // Block metadata is 4 bits
-                // TODO: but item data is 16 bits. block 136 = elorram.base.BlockMicro, thousands! scan all??
+                // Block metadata is 4 bits, but item data is 16 bits. block 136 = elorram.base.BlockMicro, thousands! scan (almost) all
                 String priorNativeName = null;
                 //for (int data = 0; data < 16; data += 1) {
-                for (int data = Short.MIN_VALUE; data < Short.MAX_VALUE; data += 1) {
+
+                // start damage value scanning here.. this technically should be the most negative number, but, 
+                // mods hardly (ever?) use negative damage values (do any?) - so cut scan time in half by starting at 0.
+                // (Curiously, negative damage values work in vanilla items.. negative damage wool, still colored, but different stacking)
+                int damageStart = config.getInt("scanNativeItemsDamageStart", 0); 
+                //int damageStart = config.getInt("scanNativeItemsDamageStart", Short.MIN_VALUE); 
+
+                // Scan until the end if we can
+                int damageEnd = config.getInt("scanNativeItemsDamageEnd", Short.MAX_VALUE);
+
+                // If we detect we're unhelpfully getting foo.1, foo.2, foo.3, names, infinitely, then stop scanning once we reach
+                // this number. BC-IC2 Crossover and Forestry have this problem - but the names show up fine on the client (and in NEI).
+                // TODO: report/fix bugs in those mods? would be nice to have automatic server-side human-readable names!
+                // meanwhile, the server admin has to edit the config and fix it themselves manually
+                int damageSequenceLimit = config.getInt("scanNativeItemsDamageSequenceLimit", 10);
+
+
+                for (int data = damageStart; data < damageEnd; data += 1) {
                     net.minecraft.server.ItemStack is = new net.minecraft.server.ItemStack(id, 1, data);
 
                     String nativeName;
@@ -703,6 +720,15 @@ class ItemQuery
                         // and further metadata will probably return the same values
                         // (most likely)
                         break;
+                    }
+
+                    if (damageSequenceLimit != -1 && data == damageSequenceLimit) {
+                        // we're getting unhelpful foo.1, foo.2... names, to infinite (BC-IC2 Crossover and Forestry)
+                        // they could go on forever, so stop here, if enabled
+                        if (nativeName.endsWith("." + damageSequenceLimit)) {
+                            log.info("Sequential item name detected - "+nativeName+" - limited");
+                            break;
+                        }
                     }
 
                     properName = getNormalizedNativeName(nativeName, id, data, translateTable);
