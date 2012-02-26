@@ -843,7 +843,7 @@ class ItemQuery
     // Parse a material code string with optional damage value (ex: 35;11)
     // This can create arbitrary item stacks -- it doesn't lookup known items
     public static ItemStack codeName2ItemStack(String codeName) {
-        Pattern p = Pattern.compile("^(\\d+)[;:/]?(\\d*)([+]?.*)$");
+        Pattern p = Pattern.compile("^(\\d+)[;:/]?([\\d-]*)([+]?.*)$");
         Matcher m = p.matcher(codeName);
         int typeCode;
         short dmgCode;
