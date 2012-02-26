@@ -722,23 +722,37 @@ class ItemQuery
                         break;
                     }
 
+                    properName = getNormalizedNativeName(nativeName, id, data, translateTable);
+                    //log.info("\t"+data+" = "+properName);
                     if (damageSequenceLimit != -1 && data == damageSequenceLimit) {
                         // we're getting unhelpful foo.1, foo.2... names, to infinite (BC-IC2 Crossover and Forestry)
                         // they could go on forever, so stop here, if enabled
-                        if (nativeName.endsWith("." + damageSequenceLimit)) {
-                            log.info("Sequential item name detected - "+nativeName+" - limited");
+                        if (properName.endsWith("x" + damageSequenceLimit)) {
+                            log.info("Sequential item name detected - "+properName+" ("+nativeName+") - limited scan, please review results");
                             break;
                         }
                     }
 
-                    properName = getNormalizedNativeName(nativeName, id, data, translateTable);
-                    //log.info("\t"+data+" = "+properName);
 
                     String codeName = id + ";" + data;
 
+                    if (properNames.containsKey(properName)) {
+                        // Only allow one of each name - although it may miss some items with identical names
+                        if (config.getBoolean("scanNativeItemsLogDupe", false)) {
+                            log.info("dupe "+properName+" is "+codeName+" and was "+properNames.get(properName));
+                        }
+                        if (config.getBoolean("scanNativeItemsContinueDupe", true)) {
+                            continue;
+                        } else {
+                            break;
+                        }
+                    }
+
+                    /* this never happens
                     if (codeName2Name.containsKey(codeName)) {
                         log.info("alias " + codeName + " = " + properName + " (" + codeName2Name.get(codeName));
                     }
+                    */
 
                     // Add to config
                     properNames.put(properName, codeName);
@@ -860,7 +874,11 @@ class ItemQuery
             name = Character.toTitleCase(name.charAt(0)) + name.substring(1);
         }
 
-        // TODO: marbleBrick => Marble Brick (autospacing, un-camel-case)
+        // To make names alphabetic (and consistency with id###x###), replace .foo with xfoo 
+        // Forestry - Machine.1 -> Machinex1, BC-IC2 no name id#x#
+        name = name.replaceFirst("\\.", "x");
+
+        // TODO: marbleBrick => Marble Brick (autospacing, un-camel-case) - note - not actually needed for RP2 since it has string tables!
 
 
         return getSmushedName(name);
