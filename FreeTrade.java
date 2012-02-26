@@ -799,7 +799,7 @@ class ItemQuery
 
     // Get a semi-human-readable name from localized nms Item name
     private static String getNormalizedNativeName(String name, int id, int damage, Properties nativeTranslateTable) {
-        if (name == null || name.equals("null.name")) {
+        if (name == null || name.equals("") || name.equals("null.name")) {
             // some blocks like 97 'silverfish block' don't have names
             if (damage == -1) {
                 return "id"+id;
