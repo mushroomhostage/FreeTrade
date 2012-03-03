@@ -1451,10 +1451,6 @@ class Market
             ShapelessRecipe recipe = new ShapelessRecipe(tradeTerminalBlock);
             recipe.addIngredient(2, Material.ENDER_PEARL);
             Bukkit.getServer().addRecipe(recipe);
-
-            recipe = new ShapelessRecipe(tradeTerminalBlock);
-            recipe.addIngredient(4, Material.LAPIS_ORE);
-            Bukkit.getServer().addRecipe(recipe);
         }
     }
 
