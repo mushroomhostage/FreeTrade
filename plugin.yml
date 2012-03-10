@@ -1,6 +1,7 @@
 name: FreeTrade
 main: me.exphc.FreeTrade.FreeTrade
 version: 1
+description: Trade freely
 commands:
     want:
         description: Place an order for an item you want
@@ -15,6 +16,7 @@ permissions:
             freetrade.conjure: true
             freetrade.bigstacks: true
         default: false
+        description: Allows you to do everything
     freetrade.trade:
         description: Allows you to trade with other players
         default: true
