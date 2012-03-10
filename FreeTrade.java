@@ -1269,7 +1269,11 @@ class Order implements Comparable
 
     public String toString() {
         // TODO: pregenerate in initialization as description, no need to relookup
-        return player.getName() + " wants " + ItemQuery.nameStack(want) + " for " + ItemQuery.nameStack(give);
+        String playerName = player.getName();
+        if (player.getPlayer() != null) {
+            playerName = player.getPlayer().getDisplayName();
+        }
+        return playerName + " wants " + ItemQuery.nameStack(want) + " for " + ItemQuery.nameStack(give);
     }
 
     // Convert to a command that can be executed to recreate the order
