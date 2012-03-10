@@ -1269,11 +1269,7 @@ class Order implements Comparable
 
     public String toString() {
         // TODO: pregenerate in initialization as description, no need to relookup
-        String playerName = player.getName();
-        if (player.getPlayer() != null) {
-            playerName = player.getPlayer().getDisplayName();
-        }
-        return playerName + " wants " + ItemQuery.nameStack(want) + " for " + ItemQuery.nameStack(give);
+        return Market.getPlayerDisplayName(player) + " wants " + ItemQuery.nameStack(want) + " for " + ItemQuery.nameStack(give);
     }
 
     // Convert to a command that can be executed to recreate the order
@@ -1689,7 +1685,7 @@ class Market
         // Online player transfer
 
         if (!hasItems(fromPlayer, items)) {
-            throw new UsageException("Player " + fromPlayer.getName() + " doesn't have " + ItemQuery.nameStack(items));
+            throw new UsageException("Player " + Market.getPlayerDisplayName(fromPlayer) + " doesn't have " + ItemQuery.nameStack(items));
         }
 
         int missing = -1;
@@ -1709,9 +1705,9 @@ class Market
 
             // TODO: try to prevent this from happening, by watching inventory changes, player death, etc
             if (missing > 0) {
-                throw new UsageException("Player " + fromPlayer.getName() + " doesn't have enough " + ItemQuery.nameStack(items) + ", missing " + missing + ", reverted");
+                throw new UsageException("Player " + Market.getPlayerDisplayName(fromPlayer) + " doesn't have enough " + ItemQuery.nameStack(items) + ", missing " + missing + ", reverted");
             } else {
-                throw new UsageException("Player " + fromPlayer.getName() + "  could not have items taken ("+takeException.getMessage()+"), reverted");
+                throw new UsageException("Player " + Market.getPlayerDisplayName(fromPlayer) + "  could not have items taken ("+takeException.getMessage()+"), reverted");
             }
         }
 
@@ -1722,11 +1718,20 @@ class Market
             // TODO: this needs to be BULLETPROOF to avoid item duping
             recvItems(fromPlayer, items);
 
-            throw new UsageException("Player " + toPlayer.getName() + " could not receive items ("+recvException.getMessage()+"), reverted");
+            throw new UsageException("Player " + Market.getPlayerDisplayName(toPlayer) + " could not receive items ("+recvException.getMessage()+"), reverted");
         }
 
-        Bukkit.getServer().broadcastMessage(toPlayer.getName() + " received " + 
-            ItemQuery.nameStack(items) + " from " + fromPlayer.getName());
+        Bukkit.getServer().broadcastMessage(Market.getPlayerDisplayName(toPlayer) + " received " + 
+            ItemQuery.nameStack(items) + " from " + Market.getPlayerDisplayName(fromPlayer));
+    }
+
+    // Get an offline player preferred name, their display name if they're online
+    public static String getPlayerDisplayName(OfflinePlayer player) {
+        if (player.getPlayer() != null) {
+            return player.getPlayer().getDisplayName();
+        } else {
+            return player.getName();
+        }
     }
 
     // Remove items from player's inventory, return # of items player had < amount (insufficient items)
@@ -2168,14 +2173,10 @@ public class FreeTrade extends JavaPlugin {
         market.load();
 
         listener = new TraderListener(this, market);
-
-        log.info(getDescription().getName() + " enabled");
     }
 
     public void onDisable() {
         market.save();
-
-        log.info(getDescription().getName() + " disabled");
     }
 
     public void loadConfig() {
