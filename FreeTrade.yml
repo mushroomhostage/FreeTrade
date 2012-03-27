@@ -2368,6 +2368,124 @@ items:
         - stinkypotionx
         - stinkypotion2
         obtain: hacking
+    # Unused potions (splash)
+    373;16390:
+        name: Splash Clear Potion
+        aliases: 
+        obtain: hacking
+    373;16391:
+        name: Splash Clear Potion II
+        aliases: 
+        - spclearpotionx
+        - spclearpotion2
+        obtain: hacking
+    373;16395:
+        name: Splash Diffuse Potion
+        aliases: 
+        obtain: hacking
+    373;16397:
+        name: Splash Artless Potion
+        aliases: 
+        obtain: hacking
+    373;16398:
+        name: Splash Thin Potion
+        aliases: 
+        obtain: hacking
+    373;16399:
+        name: Splash Thin Potion II
+        aliases: 
+        - spthinpotionx
+        - spthinpotion2
+        obtain: hacking
+    373;16406:
+        name: Splash Bungling Potion
+        aliases: 
+        obtain: hacking
+    373;16407:
+        name: Splash Bungling Potion II
+        aliases: 
+        - spbunglingpotionx
+        - spbunglintpotion2
+        obtain: hacking
+    373;16411:
+        name: Splash Smooth Potion
+        aliases: 
+        obtain: hacking
+    373;16413:
+        name: Splash Suave Potion
+        aliases: 
+        obtain: hacking
+    373;16414:
+        name: Splash Debonair Potion
+        aliases: 
+        obtain: hacking
+    373;16415:
+        name: Splash Debonair Potion II
+        aliases: 
+        - spdebonairpotionx
+        - spdebonairpotion2
+        obtain: hacking
+    373;16422:
+        name: Splash Charming Potion
+        aliases: 
+        obtain: hacking
+    373;16423:
+        name: Splash Charming Potion II
+        aliases: 
+        - spcharmingpotionx
+        - spcharmingpotion2
+        obtain: hacking
+    373;16427:
+        name: Splash Refined Potion
+        aliases: 
+        obtain: hacking
+    373;16429:
+        name: Splash Cordial Potion
+        aliases: 
+        obtain: hacking
+    373;16430:
+        name: Splash Sparkling Potion
+        aliases: 
+        obtain: hacking
+    373;16431:
+        name: Splash Sparkling Potion II
+        aliases: 
+        - spsparklingpotionx
+        - spsparklingpotion2
+        obtain: hacking
+    373;16432:
+        name: Splash Potent Potion
+        aliases: 
+        obtain: hacking
+    373;16438:
+        name: Splash Rank Potion
+        aliases: 
+        obtain: hacking
+    373;16439:
+        name: Splash Rank Potion II
+        aliases: 
+        - sprankpotionx
+        - sprankpotion2
+        obtain: hacking
+    373;16443:
+        name: Splash Acrid Potion
+        aliases: 
+        obtain: hacking
+    373;16445:
+        name: Splash Gross Potion
+        aliases: 
+        obtain: hacking
+    373;16446:
+        name: Splash Stinky Potion
+        aliases: 
+        obtain: hacking
+    373;16447:
+        name: Splash Stinky Potion II
+        aliases: 
+        - spstinkypotionx
+        - spstinkypotion2
+        obtain: hacking
+
     '374':
         name: Glass Bottle
         aliases: 
