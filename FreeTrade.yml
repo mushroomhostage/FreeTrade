@@ -924,6 +924,13 @@ items:
         aliases:
         - crackedstonebrick
         - crackedstone
+    98;3:
+        name: Circle Stone
+        aliases:
+        - circlestone
+        - circlestonebricks
+        - cstone
+        - circle
     99;0:
         name: Huge Brown Mushroom Pores
         aliases: 
@@ -2529,6 +2536,8 @@ items:
         - gmelon
     # Spawn Egg
     # Damage value corresponds to entity ID; see http://www.minecraftwiki.net/wiki/Data_values#Entity_IDs
+    # Many of these won't spawn in CraftBukkit (blocked), to bypass see
+    # http://dev.bukkit.org/server-mods/silkspawners/ spawnEggOverride
     383;1:
         name: Spawn Dropped Item
         aliases:
@@ -2776,6 +2785,20 @@ items:
         - golem
         #obtain: creative   # even though it works
         obtain: hacking
+    383;98:
+        name: Spawn Ocelot
+        aliases:
+        - ocelot
+        - cat
+        obtain: creative
+    383;99:
+        name: Spawn Iron Golem
+        aliases:
+        - igolem
+        - ig
+        - spawnig
+        - spawni
+        obtain: creative
     383;120:
         name: Spawn Villager
         aliases: 
@@ -2790,22 +2813,20 @@ items:
         - endercrystalspawneregg
         - endercrystalegg
         obtain: hacking
-    # TODO: Spawn Ocelot in 1.2
 
-    # TODO: enable in 1.2
-#    '384':
-#        name: Bottle o Enchanting
-#        obtain: creative
-#        aliases:
-#        - bottleofenchanting
-#        - boenchanting
-#        - enchantbottle
-#        - ebottle
-#    '385':
-#        name: Fire Charge
-#        aliases:
-#        - fcharge
-#        - charge
+    '384':
+        name: Bottle o Enchanting
+        obtain: creative
+        aliases:
+        - bottleofenchanting
+        - boenchanting
+        - enchantbottle
+        - ebottle
+    '385':
+        name: Fire Charge
+        aliases:
+        - fcharge
+        - charge
     '2256':
         name: Gold Disc
         aliases: 
