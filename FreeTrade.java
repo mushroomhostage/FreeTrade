@@ -710,7 +710,11 @@ class ItemQuery
                         // RP2, for example, throws this on 144 with data >4
                         // Wish more mods did this
                         continue;
+                    } catch (NullPointerException e) {
+                        // Railcraft for 1.2.5 throws NPE on block 253
+                        continue;
                     }
+
                     if (nativeName == null) {
                         // null name likely means no block
                         continue;
