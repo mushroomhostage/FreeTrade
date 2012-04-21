@@ -166,10 +166,30 @@ items:
         aliases: 
         - cob
         - cobble
-    '5':
-        name: Wooden Plank
+    5;0:
+        name: Oak Wood Plank
         aliases: 
         - plank
+        - woodenplank
+        - oakplank
+        - oplank
+    5;1:
+        name: Pine Wood Plank
+        aliases:
+        - sprucewoodplank
+        - pineplank
+        - spruceplank
+        - splank
+    5;2:
+        name: Birch Wood Plank
+        aliases:
+        - birchplank
+        - bplank
+    5;3:
+        name: Jungle Wood Plank
+        aliases:
+        - jungleplank
+        - jplank
     6;0:
         name: Oak Sapling
         aliases: 
