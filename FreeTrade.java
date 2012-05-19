@@ -310,7 +310,13 @@ class ItemQuery
 
         // Bukkit doesn't know about custom items, will get e.g. IC2 armorbronzehelmet wrong
         //return m.getMaxDurability() 
-        return getNativeItem(id).getMaxDurability();
+        net.minecraft.server.Item item = getNativeItem(id);
+        if (item == null) {
+            // Possibly not an item.. 4096 fix + Jammy Furniture Mod, arm chair 701, block not item
+            return -1;
+        } else {
+            return item.getMaxDurability();
+        }
     }
 
     // Get the real deal, not fake wrappers that don't know anything
