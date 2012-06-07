@@ -2081,8 +2081,8 @@ class Market
             log.info("exchWant="+ItemQuery.nameStack(exchWant));
             log.info("exchGive="+ItemQuery.nameStack(exchGive));
 
-            transferItems(newOrder.player, oldOrder.player, exchWant);
             transferItems(oldOrder.player, newOrder.player, exchGive);
+            transferItems(newOrder.player, oldOrder.player, exchWant);
 
             Transaction t = new Transaction(plugin, oldOrder.player, exchWant, newOrder.player, exchGive);
 
