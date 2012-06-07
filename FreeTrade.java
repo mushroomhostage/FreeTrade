@@ -1474,6 +1474,7 @@ class Market
         }
 
         sender.sendMessage("To add or fulfill an order:");
+        sender.sendMessage("(examples: 64coal, #coal, dpick, dpick/100%, dpick/st, etc.)");
 
         return false;
     }
@@ -1668,6 +1669,7 @@ class Market
         // Not fulfilled; add to outstanding to match with future order 
         // Broadcast to all players so they know someone wants something, then add
         Bukkit.getServer().broadcastMessage("Wanted: " + order);
+        Bukkit.getServer().broadcastMessage("Type /want to see all offers, or to accept: hold " + ItemQuery.nameStack(order.want) + " and type /want "+ItemQuery.nameStack(order.give));
         orders.add(order);
 
         // Save to disk on every order
