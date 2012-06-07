@@ -56,6 +56,7 @@ import org.bukkit.configuration.*;
 import org.bukkit.configuration.file.*;
 import org.bukkit.event.player.*;
 import org.bukkit.event.entity.*;
+import org.bukkit.event.inventory.*;
 import org.bukkit.event.*;
 import org.bukkit.block.*;
 import org.bukkit.*;
@@ -2186,7 +2187,21 @@ class TraderListener implements Listener
         });
     }
 
-    // TODO: player an item, changes damage, or uses up (either way invalidates order)
+    @EventHandler(priority = EventPriority.NORMAL) 
+    public void onInventoryClose(InventoryCloseEvent event) {
+        HumanEntity human = event.getPlayer();
+        if (!(human instanceof Player)) {
+            return;
+        }
+
+        Player player = (Player)human;
+
+        market.revalidateOrders(player, "Order invalidated inventory change");
+    }
+
+    // TODO: check when player uses an item, so damage changes, or uses it up and breaks it
+    // (either way invalidates order)
+    // unfortunately, not easy to detect, don't want to check on every item use either
 }
 
 public class FreeTrade extends JavaPlugin {
