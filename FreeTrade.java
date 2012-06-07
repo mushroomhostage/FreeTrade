@@ -55,6 +55,7 @@ import org.bukkit.enchantments.*;
 import org.bukkit.configuration.*;
 import org.bukkit.configuration.file.*;
 import org.bukkit.event.player.*;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.*;
 import org.bukkit.block.*;
 import org.bukkit.*;
@@ -2136,6 +2137,20 @@ class Market
         }
         return false;
     }
+
+    // Check player's orders for if they still have what they are offering
+    public void revalidateOrders(Player player, String reason) {
+        for (Order order: this.orders) {      // TODO: hash lookup of player? Performance
+            if (order.player.equals(player)) {
+                if (!Market.hasItems(order.player, order.give)) {
+                    if (order.player.getPlayer() != null) {
+                        order.player.getPlayer().sendMessage(reason + ": " + order);
+                    }
+                    this.cancelOrder(order);
+                }
+            }
+        }
+    }
 }
 
 // Watch trader for things they might to do invalidate their orders
@@ -2156,19 +2171,21 @@ class TraderListener implements Listener
     public void onPlayerDropItem(PlayerDropItemEvent event)
     {
         // Re-validate order, see if they dropped an item they were going to give
-        for (Order order: market.orders) {      // TODO: hash lookup of player? Performance
-            if (order.player.equals(event.getPlayer())) {
-                if (!Market.hasItems(order.player, order.give)) {
-                    if (order.player.getPlayer() != null) {
-                        order.player.getPlayer().sendMessage("Order invalidated by item drop");
-                    }
-                    market.cancelOrder(order);
-                }
-            }
-        }
+        market.revalidateOrders(event.getPlayer(), "Order invalidated by item drop");
     }
     
-    // TODO: player death, drop events
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onPlayerDeath(PlayerDeathEvent event) {
+        final Player player = event.getEntity();
+
+        // Run after event fires so player is dead and loses items
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+            public void run() {
+                market.revalidateOrders(player, "Order invalidated by death");
+            }
+        });
+    }
+
     // TODO: player an item, changes damage, or uses up (either way invalidates order)
 }
 
