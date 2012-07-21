@@ -1214,6 +1214,7 @@ items:
         - lampoff
     '124':
         name: Redstone Lamp On
+        aliases:
         - rlampon
         - lampon
     '256':
