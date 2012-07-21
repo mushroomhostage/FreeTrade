@@ -731,7 +731,9 @@ class ItemQuery
                         // we're likely at the tail end of the block metadata
                         // and further metadata will probably return the same values
                         // (most likely)
-                        break;
+                        //break;
+                        // .. or maybe we're not? there could be diamonds after this string of cobble..
+                        continue;
                     }
                     priorNativeName = nativeName;
 
