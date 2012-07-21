@@ -733,9 +733,10 @@ class ItemQuery
                         // (most likely)
                         break;
                     }
+                    priorNativeName = nativeName;
 
                     properName = getNormalizedNativeName(nativeName, id, data, translateTable);
-                    //log.info("\t"+data+" = "+properName);
+                    log.info("\t"+data+" = "+properName);
                     if (damageSequenceLimit != -1 && data == damageSequenceLimit) {
                         // we're getting unhelpful foo.1, foo.2... names, to infinite (BC-IC2 Crossover and Forestry)
                         // they could go on forever, so stop here, if enabled
