@@ -640,7 +640,7 @@ class ItemQuery
         // MCP calls this "itemsList"
         net.minecraft.server.Item[] itemsById = net.minecraft.server.Item.byId;
 
-        int start = config.getInt("scanNativeItemsBlockStart", Material.DRAGON_EGG.getId() + 1);  // first after dragon egg TODO: 1.2: redstone lamp 124
+        int start = config.getInt("scanNativeItemsBlockStart", Material.REDSTONE_LAMP_ON.getId() + 1);  // as of 1.2.5 - TODO: update for 1.3
         log.info("Starting scan at id "+start);
 
 
@@ -653,7 +653,7 @@ class ItemQuery
         for (int id = start; id < itemsById.length; id += 1) {
             // skip vanilla items
             if (id == config.getInt("scanNativeItemsLastBlock", 255)) {
-                id = config.getInt("scanNativeItemsItemStart", 383 + 1);   // spawn egg TODO: 1.2 update for past Fire Charge
+                id = config.getInt("scanNativeItemsItemStart", Material.FIREBALL.getId() + 1);   // sa of 1.2.5 - TODO: update for 1.3
                 log.info("skipped to "+id);
             }
             if (id == config.getInt("scanNativeItemsSkipDisc", 2256)) {

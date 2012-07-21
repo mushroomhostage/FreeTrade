@@ -1206,6 +1206,16 @@ items:
     '122':
         name: Dragon Egg
         aliases: 
+    '123':
+        name: Redstone Lamp
+        aliases:
+        - rlamp
+        - lamp
+        - lampoff
+    '124':
+        name: Redstone Lamp On
+        - rlampon
+        - lampon
     '256':
         name: Iron Shovel
         purpose: tool
