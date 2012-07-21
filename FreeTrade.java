@@ -889,7 +889,7 @@ class ItemQuery
 
         // To make names alphabetic (and consistency with id###x###), replace .foo with xfoo 
         // Forestry - Machine.1 -> Machinex1, BC-IC2 no name id#x#
-        name = name.replaceFirst("\\.", "x");
+        name = name.replace(".", "x");
 
         // TODO: marbleBrick => Marble Brick (autospacing, un-camel-case) - note - not actually needed for RP2 since it has string tables!
 
