@@ -721,6 +721,9 @@ class ItemQuery
                     } catch (NullPointerException e) {
                         // Railcraft for 1.2.5 throws NPE on block 253
                         continue;
+                    } catch (RuntimeException e) {
+                        // Railcraft 5.4.7 throws java.lang.RuntimeException: Unknown Track Spec = 28
+                        continue;
                     }
 
                     if (nativeName == null) {
